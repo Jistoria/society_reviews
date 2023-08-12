@@ -1,0 +1,12 @@
+.dark-background {
+    background-color:darkslategray; /* Color de fondo oscuro */
+    color:chocolate; /* Color de texto claro para que sea legible */
+}
+/* Estilo para los círculos de colores */
+.circle {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
