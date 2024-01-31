@@ -20,14 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamp('session_at')->nullable(); // Añadir session_at
-            $table->unsignedBigInteger('rol_id'); // Añadir rol_id
             $table->timestamps();
-
-            // Clave foránea
-            $table->foreign('rol_id')
-                ->references('rol_id')
-                ->on('roles')
-                ->onDelete('RESTRICT'); // Restricción para evitar eliminar roles con usuarios asociados
         });
     }
 

@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\User;
+use Illuminate\Console\Command;
+use Spatie\Permission\Models\Role;
+
+class RegisterSuperAdmin extends Command
+{
+    protected $signature = 'register:super-admin';
+    protected $description = 'Register a new user with the super_admin role';
+
+    public function handle()
+    {
+
+        // Verificar si el usuario ya existe
+
+
+        // Crear el usuario
+        $user = User::create([
+            'name' => 'Jistoria',
+            'email' => 'maestrojg@gmail.com',
+            'password' => bcrypt('johan07141234'),
+            'color' => 'azul'
+            // Ajusta la contraseña según tus necesidades
+        ]);
+
+        // Asignar el rol super_admin al usuario
+        $superAdminRole = Role::where('name', 'super_admin')->first();
+        if ($superAdminRole) {
+            $user->assignRole($superAdminRole);
+            $this->info("Usuario registrado como super_admin correctamente.");
+        } else {
+            $this->error('No se pudo encontrar el rol super_admin.');
+        }
+    }
+}
