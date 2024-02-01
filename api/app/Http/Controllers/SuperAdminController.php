@@ -22,7 +22,7 @@ class SuperAdminController extends Controller
         $new_user = $request->only('name', 'email', 'color', 'password');
         $user = new User;
 
-        $superAdminRole = Role::where('name', 'admin')->first();
+        $superAdminRole = Role::where('name', 'Admin')->first();
 
         if ($superAdminRole) {
             $user->fill($new_user);

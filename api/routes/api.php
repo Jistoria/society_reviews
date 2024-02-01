@@ -19,15 +19,15 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
-Route::post('register',[UserController::class,'userRegister']);
-Route::post('login',[UserController::class,'userLogin']);
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['guest'])->group(function () {
+    Route::post('register',[UserController::class,'userRegister']);
+    Route::post('login',[UserController::class,'userLogin']);
+});
+Route::middleware(['auth:sanctum'])->group(function () {
+    //detalles del usuario logeado
+    Route::get('/session-details', [UserController::class, 'getSessionDetails']);
     Route::post('/logout',[UserController::class, 'logout']);
 });
-Route::middleware(['auth:sanctum','role:super_admin'])->group(function () {
+Route::middleware(['auth:sanctum','role:SuperAdmin'])->group(function () {
     Route::post('/create_admin', [SuperAdminController::class, 'createAdmin']);
-
-    // Agrega otras rutas que deben ser accesibles solo para super_admin aquí
 });
