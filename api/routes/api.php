@@ -20,14 +20,18 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::middleware(['guest'])->group(function () {
+    //registrarse como civil
     Route::post('register',[UserController::class,'userRegister']);
+    //iniciar sesion (todos los roles deben iniciar sesion por esta ruta)
     Route::post('login',[UserController::class,'userLogin']);
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     //detalles del usuario logeado
     Route::get('/session-details', [UserController::class, 'getSessionDetails']);
+    //cerrar sesion
     Route::post('/logout',[UserController::class, 'logout']);
 });
 Route::middleware(['auth:sanctum','role:SuperAdmin'])->group(function () {
+    //crear un admin
     Route::post('/create_admin', [SuperAdminController::class, 'createAdmin']);
 });
