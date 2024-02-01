@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register',[UserController::class,'userRegister']);
 Route::post('login',[UserController::class,'userLogin']);
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout',[UserController::class, 'logout']);
 });

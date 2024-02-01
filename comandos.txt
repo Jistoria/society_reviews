@@ -1,0 +1,5 @@
+crear roles => php artisan create:role {Nombre del Rol} // Creen SuperAdmin, Admin 
+crear SuperAdmin => php artisan register:super-admin //se crea un SuperAdmin con las credenciales 
+                                                'name' => 'Societyr',
+                                                'email' => 'societyreviewers@gmail.com',
+                                                'password' => ('societyr1207'),

@@ -19,10 +19,10 @@ class RegisterSuperAdmin extends Command
 
         // Crear el usuario
         $user = User::create([
-            'name' => 'Jistoria',
-            'email' => 'maestrojg@gmail.com',
-            'password' => bcrypt('johan07141234'),
-            'color' => 'azul'
+            'name' => 'Societyr',
+            'email' => 'societyreviewers@gmail.com',
+            'password' => bcrypt('societyr1207'),
+            'color' => '#002266'
             // Ajusta la contraseña según tus necesidades
         ]);
 
