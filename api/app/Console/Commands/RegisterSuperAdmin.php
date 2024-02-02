@@ -30,7 +30,7 @@ class RegisterSuperAdmin extends Command
         $superAdminRole = Role::where('name', 'SuperAdmin')->first();
         if ($superAdminRole) {
             $user->assignRole($superAdminRole);
-            $this->info("Usuario registrado como super_admin correctamente.");
+            $this->info("Usuario registrado como SuperAdmin correctamente.");
         } else {
             $this->error('No se pudo encontrar el rol super_admin.');
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserVerified;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -111,5 +112,30 @@ class UserController extends Controller
         }
 
         return response()->json(['error' => 'Usuario no autenticado'], JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    public function verify($id, $hash)
+    {
+        // Buscar al usuario por ID
+        $user = User::find($id);
+
+        // Verificar si el usuario existe y si el hash es correcto
+        if (!$user || sha1($user->getEmailForVerification()) !== $hash) {
+            return response()->json(['success'=>false, 'message'=>'enlace no válido']);
+        }
+
+        // Verificar si el usuario ya ha sido verificado
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['success'=>true, 'message'=>'Este correo electrónico ya ha sido verificado previamente.']);
+        }
+
+        // Verificar el correo electrónico del usuario
+        $user->markEmailAsVerified();
+
+        // Generar un evento de verificación
+        event(new UserVerified($user));
+
+        // Redireccionar a donde desees después de la verificación
+        return response()->json(['success'=>true, 'message'=>'Se ha verificado el email']);
     }
 }
