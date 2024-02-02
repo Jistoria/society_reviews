@@ -47,4 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    public function getSessionDetails()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'color' => $this->color,
+            'countNotifications' => $this->unreadNotifications->count(),
+            'role' => $this->getRoleNames()->first(),
+        ];
+    }
+
 }
