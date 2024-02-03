@@ -3,3 +3,5 @@ crear SuperAdmin => php artisan register:super-admin //se crea un SuperAdmin con
                                                 'name' => 'Societyr',
                                                 'email' => 'societyreviewers@gmail.com',
                                                 'password' => ('societyr1207'),
+En caso de error 1045:
+https://github.com/bestmomo/laravel5-3-example/issues/18
