@@ -84,8 +84,7 @@ class UserController extends Controller
         // Obtener el número de notificaciones del usuario
 
         // Retornar una respuesta JSON con éxito y el usuario
-        // return response(['token'=>$token], Response::HTTP_OK)->withCookie(($cookie));
-        return response(['user'=> $user->getSessionDetails()], Response::HTTP_OK)->withCookie(($cookie));
+        return response()->json(['user'=> $user->getSessionDetails()],Response::HTTP_OK)->withCookie(($cookie));
         } else {
             // La autenticación ha fallado
             return response(['success'=>false, 'message'=>'Credenciales invalidas'], Response::HTTP_UNAUTHORIZED);

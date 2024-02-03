@@ -1,0 +1,33 @@
+1. Configuración de Laravel:
+
+En el archivo .env de Laravel, configura la variable SESSION_DOMAIN con el nombre de dominio de tu servidor. Por ejemplo, si tu servidor se llama example.com, la variable sería:
+SESSION_DOMAIN=example.com
+En el archivo config/session.php, configura la variable cookie_path con la ruta a la carpeta de Laravel. Por ejemplo, si Laravel está instalado en la carpeta /var/www/laravel, la variable sería:
+'cookie_path' => '/var/www/laravel',
+
+
+3. Configuración del servidor web:
+
+En la configuración de tu servidor web (Apache, Nginx, etc.), debes configurar la directiva SameSite para las cookies. Esta directiva indica al navegador que las cookies solo se deben enviar al mismo servidor que las generó.
+Ejemplo de configuración para Apache:
+
+<VirtualHost *:80>
+  ServerName example.com
+
+  <Directory /var/www/laravel>
+    Require all granted
+    AllowOverride All
+  </Directory>
+
+  <Directory /var/www/vue>
+    Require all granted
+    AllowOverride All
+  </Directory>
+
+  <FilesMatch "^\.env$">
+    Order deny,allow
+    Deny from all
+  </FilesMatch>
+
+  Header always set SameSite "Strict"
+</VirtualHost>
