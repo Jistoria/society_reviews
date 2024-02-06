@@ -44,7 +44,6 @@
           $swal.fire({
              title:'Error de credenciales',
              //aqui se debe hacer una lista de ifs para cada valor de error
-             text: errors.value.email + ' ' + errors.value.name,
              icon: 'error',
              confirmButtonText: 'Entendido'
           })
