@@ -2,7 +2,6 @@
 //variables
 const loginP = LoginStore();
 const loginForm = ref(null);
-const has_user = ref(false);
 const log_session = ref(false);
 let isClickEventAdded = false; 
 // Funciones
@@ -14,9 +13,10 @@ const submitLoginForm = async()=>{
     try {
         const data =await loginP.Login(credentials);
         if(data){
-            has_user.value = true;
+            loginP.session = true;
+            log_session.value = false;
         }else{
-            has_user.value = false;
+            loginP.session = true;
         }
     } catch (error) {
         console.log(error);
@@ -47,11 +47,9 @@ const Logout = async ()=>{
     try {
         const data = await loginP.Logout();
         if(data){
-            has_user.value = false;
+            loginP.session = false;
         }else{
-            //nota el has_user.value = true es el que deberia estar vigente solo lo dejo comentando una ves que se arreglen eso de las credenciales
-            //has_user.value = true;
-            has_user.value = false;
+            loginP.session = true;
 
         }
     } catch (error) {
@@ -61,8 +59,8 @@ const Logout = async ()=>{
 </script>
 
 <template>
-    <Button_g v-if="!has_user" v-on:click="show_log" class="btn-outline-dark log">Iniciar sesión</Button_g>
-    <div class="login_form" ref="loginForm" v-show="log_session" v-if="!has_user"  >
+    <Button_g v-if="!loginP.session" v-on:click="show_log" class="btn-outline-dark log">Iniciar sesión</Button_g>
+    <div class="login_form" ref="loginForm" v-show="log_session" v-if="!loginP.session"  >
         <form @submit.prevent="submitLoginForm">
             <h3 class="title">Inciar Sesion</h3>
             <TextInput class="mt-2" v-model="credentials.email" type="text" placeholder="Nombre de Usuario" />
@@ -70,8 +68,8 @@ const Logout = async ()=>{
             <Button_g class="botons" type="submit">Iniciar Sesion</Button_g>
         </form>
     </div>
-    <Button_g v-if="has_user"  class="btn-outline-dark log">hola {{ loginP.user.name }}</Button_g>
-    <Button_g v-if="has_user" @click="Logout"   class="btn-outline-dark log ms-2">Cerrar sesion</Button_g>
+    <Button_g v-if="loginP.session"  class="btn-outline-dark log">hola {{ loginP.user.name }}</Button_g>
+    <Button_g v-if="loginP.session" @click="Logout"   class="btn-outline-dark log ms-2">Cerrar sesion</Button_g>
 </template>
 <style scoped>
 .login_form{

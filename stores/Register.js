@@ -1,3 +1,4 @@
+import { LoginStore } from "./login"
 export const RegisterStore = defineStore('RegisterP',{
     state:()=>(
         {
@@ -10,7 +11,8 @@ export const RegisterStore = defineStore('RegisterP',{
     actions:{
         async Register(Formdata){
             try {
-                const data = await $fetch('http://127.0.0.1:8000/api/register',{
+                const loginP = LoginStore();
+                const response = await $fetch('http://127.0.0.1:8000/api/register',{
                     method: 'POST',
                     body: Formdata,
                     headers:{
@@ -19,8 +21,12 @@ export const RegisterStore = defineStore('RegisterP',{
                     },
                     credentials:'include'
                 })
+                if(response.success){
+                    loginP.set_data(response.user);
+                }
+                return true
             } catch (error) {
-                console.log(error);
+                return error.response._data.errors;
             }
         },
     },

@@ -8,6 +8,9 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     }
   },
+  plugins:[
+    '~/plugins/sweetalert2',
+  ],
   components:[
     {
      path:'~/components',

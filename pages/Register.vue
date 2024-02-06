@@ -1,5 +1,9 @@
-<script setup lang="ts">
+<script setup>
+    const { $swal } = useNuxtApp()
     const RegisterP= RegisterStore();
+    const loginP = LoginStore();
+    const router = useRouter();
+    const errors = ref([]);
     const form = reactive({
         name:'',
         email:'',
@@ -8,10 +12,46 @@
         color:'#000000',
     })
     const register = async()=>{
+        let swalInstance = null;
         try {
-          await RegisterP.Register(form);
+          swalInstance = $swal.fire({
+            title:'Procesando',
+            html: '<div class="spinner-border text-primary mt-2 mb-2"></div>',
+            showConfirmButton:false,
+          })
+         const register = await RegisterP.Register(form);
+         if(register === true ){
+          swalInstance.close();
+          const Toast = $swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = $swal.stopTimer;
+                toast.onmouseleave = $swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Reseñador en sesion " + loginP.user.name
+            });
+          router.push({path:'/'})
+         }else{
+          swalInstance.close();
+          errors.value = register;
+          $swal.fire({
+             title:'Error de credenciales',
+             //aqui se debe hacer una lista de ifs para cada valor de error
+             text: errors.value.email + ' ' + errors.value.name,
+             icon: 'error',
+             confirmButtonText: 'Entendido'
+          })
+          console.log('error');
+         }
         } catch (error) {
-          
+          console.log(error);
         }
     }
 

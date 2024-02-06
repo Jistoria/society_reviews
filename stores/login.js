@@ -11,7 +11,6 @@ export const LoginStore = defineStore('loginP',{
     },
     actions:{
         async Login(formData){
-            console.log(formData);
             try {
                 const data = await $fetch('http://127.0.0.1:8000/api/login',{
                     method:'POST',
@@ -33,7 +32,6 @@ export const LoginStore = defineStore('loginP',{
         },
         async Logout(){
             try {
-                console.log('cerrando sesion');
                 const data = await $fetch('http://127.0.0.1:8000/api/logout',{
                     method:'POST',
                     headers:{
@@ -43,13 +41,18 @@ export const LoginStore = defineStore('loginP',{
                     credentials:'include',
                 })
                 this.session = false;
+                this.user=[];
                 return true
             } catch (error) {
                 console.log(error);
-                this.session = false;
                 return false
 
             }
+        },
+        async set_data(data_set){
+            this.session = true;
+            this.user=data_set;
+    
         },
 
     }
