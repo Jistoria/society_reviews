@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'color' => 'required',
             'password' => 'required|string|min:8',
@@ -37,6 +37,7 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.unique' => 'Este nombre de usuario ya esta en uso.',
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto.',
             'name.max' => 'El nombre no debe exceder los 255 caracteres.',

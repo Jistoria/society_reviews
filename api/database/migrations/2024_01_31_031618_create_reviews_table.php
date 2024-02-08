@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id('review_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
             $table->unsignedBigInteger('franchise_id');
+            $table->string('slug')->unique();
             $table->unsignedBigInteger('content_type_id');
             $table->unsignedBigInteger('user_id');
             $table->string('title_alternative')->nullable();

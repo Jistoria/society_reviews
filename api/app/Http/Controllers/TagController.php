@@ -13,7 +13,7 @@ class TagController extends Controller
     //Obetener todos los Tags
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::pluck('name_tag','tag_id');
         return response(['success'=>true, 'tags'=>$tags]);
     }
     //Crear un Tag
@@ -24,6 +24,7 @@ class TagController extends Controller
             $request->validate([
                 'name_tag' => 'required|string|unique:tags',
             ],[
+                'name_tag.required' => 'Se necesita el nombre del Tag',
                 'name_tag.unique' => 'El nombre del tag ya está en uso.',
             ]);
 
@@ -66,6 +67,9 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         try {
+            if($tag->franchises()->exists()){
+                return response()->json(['success' => false, 'message' => 'No se puede eliminar un Tag que tiene Franquicia']);
+            }
             $tag->delete();
             return response()->json(['success' => true, 'message' => 'Se ha eliminado el tag']);
         } catch (QueryException $e) {

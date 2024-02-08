@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 // Para ver las rutas de resource utilice php artisan route:list
 
-
+//Verificar el Email
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
 
 //Rutas que requieren que no estes autenticado
@@ -29,7 +30,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('login',[UserController::class,'userLogin']);
 });
 
-//Rutas para cualquier Usuario
+//Rutas para cualquier Usuario Autenticado
 Route::middleware(['auth:sanctum'])->group(function () {
     //detalles del usuario logeado
     Route::get('/', [UserController::class, 'getSessionDetails']);
@@ -41,6 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     //Tags
     Route::resource('tag', TagController::class);
+    //Franquicias
+    Route::resource('franchise', FranchiseController::class);
 });
 
 //Rutas solo para SuperAdmin
