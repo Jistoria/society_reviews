@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// Para ver las rutas de resource utilice php artisan route:list
 
 
-// para ver las rutas de resource utilice php artisan route:list
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
 
 //Rutas que requieren que no estes autenticado
@@ -32,7 +32,7 @@ Route::middleware(['guest'])->group(function () {
 //Rutas para cualquier Usuario
 Route::middleware(['auth:sanctum'])->group(function () {
     //detalles del usuario logeado
-    Route::get('/session-details', [UserController::class, 'getSessionDetails']);
+    Route::get('/', [UserController::class, 'getSessionDetails']);
     //cerrar sesion
     Route::post('/logout',[UserController::class, 'logout']);
 });

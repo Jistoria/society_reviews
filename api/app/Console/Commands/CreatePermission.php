@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\Permission\Models\Permission;
 
 class CreatePermission extends Command
 {
