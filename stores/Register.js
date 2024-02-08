@@ -26,6 +26,7 @@ export const RegisterStore = defineStore('RegisterP',{
                 }
                 return true
             } catch (error) {
+                console.log(error.response._data.errors)
                 return error.response._data.errors;
             }
         },

@@ -1,60 +1,48 @@
 <script setup>
-    const { $swal } = useNuxtApp()
-    const RegisterP= RegisterStore();
-    const loginP = LoginStore();
-    const router = useRouter();
-    const errors = ref([]);
-    const form = reactive({
-        name:'',
-        email:'',
-        password:'',
-        cof_password:'',
-        color:'#000000',
-    })
-    const register = async()=>{
-        let swalInstance = null;
-        try {
-          swalInstance = $swal.fire({
-            title:'Procesando',
-            html: '<div class="spinner-border text-primary mt-2 mb-2"></div>',
-            showConfirmButton:false,
-          })
-         const register = await RegisterP.Register(form);
-         if(register === true ){
-          swalInstance.close();
-          const Toast = $swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.onmouseenter = $swal.stopTimer;
-                toast.onmouseleave = $swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "success",
-              title: "Reseñador en sesion " + loginP.user.name
-            });
-          router.push({path:'/'})
-         }else{
-          swalInstance.close();
-          errors.value = register;
-          $swal.fire({
-             title:'Error de credenciales',
-             //aqui se debe hacer una lista de ifs para cada valor de error
-             icon: 'error',
-             confirmButtonText: 'Entendido'
-          })
-          console.log('error');
-         }
-        } catch (error) {
-          console.log(error);
-        }
-    }
+import { AlertaSesion } from '~/composables/AlertaSesion';
 
-    
+const { showErrorAlert, showLoadingAnimation,showSuccessAlertSession} = AlertaSesion();
+const RegisterP = RegisterStore();
+const loginP = LoginStore();
+const router = useRouter();
+const errors = ref([]);
+const form = reactive({
+    name:'',
+    email:'',
+    password:'',
+    cof_password:'',
+    color:'#000000',
+});
+
+const register = async () => {
+    try {
+        showLoadingAnimation('Procesando');
+
+        const registerResult = await RegisterP.Register(form);
+
+        if (registerResult === true) {
+          showSuccessAlertSession('Registro exitoso', 'bienvenido '+ loginP.user.name);
+          await router.push({ path: '/' });
+
+        } else if (registerResult && typeof registerResult === 'object') {
+            const errorMessages = [];
+            
+            for (const key in registerResult) {
+                if (Object.hasOwnProperty.call(registerResult, key)) {
+                    const errorMessage = registerResult[key];
+                    errorMessages.push(errorMessage);
+                }
+            }
+            await showErrorAlert('Error de credenciales', errorMessages);
+        } else {
+            console.error('Registro fallido, pero no se proporcionaron mensajes de error:', registerResult);
+        }
+    } catch (error) {
+        console.error('Error durante el registro:', error);
+
+        await showErrorAlert('Error', ['Hubo un problema durante el registro.']);
+    }
+};
 </script>
 
 <template>
