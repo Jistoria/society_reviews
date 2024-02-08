@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('franchises', function (Blueprint $table) {
             $table->id('franchise_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
             $table->string('title');
+            $table->string('slug')->unique();
             $table->string('description');
             $table->string('animation_studio_latest')->nullable();
             $table->string('image_url')->nullable();
             $table->string('author')->nullable();
             $table->string('original_work')->nullable();
-            $table->date('publication_year')->nullable();
+            $table->date('first_release')->nullable();
+            $table->date('end_release')->nullable();
             $table->timestamps();
         });
     }

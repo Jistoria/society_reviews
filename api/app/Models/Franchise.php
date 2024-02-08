@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +9,18 @@ class Franchise extends Model
 {
     use HasFactory;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($franchise) {
+            $franchise->slug = Str::slug($franchise->title);
+        });
+
+        static::updating(function ($franchise) {
+            $franchise->slug = Str::slug($franchise->title);
+        });
+    }
     protected $primaryKey = 'franchise_id'; // Definir clave primaria personalizada si es diferente de 'id'
 
     protected $fillable = [
@@ -18,7 +30,8 @@ class Franchise extends Model
         'image_url',
         'author',
         'original_work',
-        'publication_year',
+        'first_release',
+        'end_release',
     ];
 
     public function tags()

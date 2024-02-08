@@ -29,60 +29,55 @@ class UserController extends Controller
     }
 
     public function userRegister(RegisterRequest $request)
-{
-    try {
-        $new_user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'color' => $request->input('color'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-
-        $civilRole = Role::where('name', 'Civil')->first();
-
-        if ($civilRole) {
-            $new_user->assignRole($civilRole);
-            $new_user->sendEmailVerificationNotification();
-            Auth::login($new_user);
-
-            $token = $new_user->createToken('token-name')->plainTextToken;
-            $cookie = cookie('cookie_token', $token, 60 * 24);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Registrado exitosamente',
-                'user' => $new_user->getSessionDetails()
-            ], Response::HTTP_CREATED)->withCookie($cookie);
+    {
+        try {
+            $new_user = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'color' => $request->input('color'),
+                'password' => bcrypt($request->input('password')),
+            ]);
+            $civilRole = Role::where('name', 'Civil')->first();
+            if ($civilRole) {
+                $new_user->assignRole($civilRole);
+                $new_user->sendEmailVerificationNotification();
+                Auth::login($new_user);
+                $token = $new_user->createToken('token-name')->plainTextToken;
+                $cookie = cookie('cookie_token', $token, 60 * 24);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registrado exitosamente',
+                    'user' => $new_user->getSessionDetails()
+                ], Response::HTTP_CREATED)->withCookie($cookie);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json(['success' => false, 'message' => 'Error de validación', 'errors' => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => "Error interno del servidor. $e"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        $errors = $e->validator->errors()->getMessages();
-
-        return response()->json(['success' => false, 'message' => 'Error de validación', 'errors' => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => "Error interno del servidor. $e"], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-}
 
 
     public function userLogin (Request $request)
     {
         // Validación básica de datos
         $request->validate([
-            'email' => 'required|email',
+            'identifier' => 'required', // Nuevo campo 'identifier' que puede ser un correo electrónico o nombre de usuario
             'password' => 'required',
         ]);
 
-        // Intentar autenticar al usuario
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('password');
 
+        // Verificar si el campo 'identifier' es un correo electrónico o nombre de usuario
+        $field = filter_var($request->identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $credentials[$field] = $request->identifier;
         if (Auth::attempt($credentials)) {
             // Obtener el usuario autenticado
             $user = Auth::user();
             $token = $user->createToken('token-name')->plainTextToken;
             $cookie = cookie('cookie_token', $token, 60 * 24);
-
         // Obtener el número de notificaciones del usuario
-
         // Retornar una respuesta JSON con éxito y el usuario
         return response()->json(['user'=> $user->getSessionDetails()],Response::HTTP_OK)->withCookie(($cookie));
         } else {

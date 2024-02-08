@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('tag_id')
                 ->references('tag_id')
                 ->on('tags')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->timestamps();
         });
