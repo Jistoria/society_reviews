@@ -6,17 +6,18 @@ const log_session = ref(false);
 let isClickEventAdded = false; 
 // Funciones
 const credentials = reactive({
-    email:'',
+    identifier:'',
     password:'',
 });
 const submitLoginForm = async()=>{
     try {
-        const data =await loginP.Login(credentials);
+        const data = await loginP.Login(credentials);
+        console.log(data);
         if(data){
             loginP.session = true;
             log_session.value = false;
         }else{
-            loginP.session = true;
+            loginP.session = false;
         }
     } catch (error) {
         console.log(error);
@@ -63,7 +64,7 @@ const Logout = async ()=>{
     <div class="login_form" ref="loginForm" v-show="log_session" v-if="!loginP.session"  >
         <form @submit.prevent="submitLoginForm">
             <h3 class="title">Inciar Sesion</h3>
-            <TextInput class="mt-2" v-model="credentials.email" type="text" placeholder="Nombre de Usuario" />
+            <TextInput class="mt-2" v-model="credentials.identifier" type="text" placeholder="Nombre de Usuario" />
             <TextInput class="mt-2" v-model="credentials.password" type="Password" placeholder="Contraseña" />
             <Button_g class="botons" type="submit">Iniciar Sesion</Button_g>
         </form>

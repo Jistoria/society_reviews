@@ -40,6 +40,9 @@ export default defineNuxtConfig({
           }
       ],
   }
-  }
+  },
+  hooks:{
+    'ready': (ctx) => console.log(ctx)
+  },
 
 })
