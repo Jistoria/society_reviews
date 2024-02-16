@@ -62,6 +62,14 @@ export function AlertaSesion() {
       showConfirmButton: false,
     });
   };
+  // Función para cuando no se aceptaron terminos y condiciones
+  const showErrorTerms = async (title) => {
+    const terms = Swal.fire({
+      title,
+      icon: 'error',
+    })
+  };
+
 
   // Función para cerrar la animación de carga
 //   const closeLoadingAnimation = async (title) => {
@@ -79,6 +87,7 @@ export function AlertaSesion() {
     });
   };
 
+
   return {
     showSuccessAlertSession,
     showSuccessAlert,
@@ -86,6 +95,7 @@ export function AlertaSesion() {
     showInfoAlert,
     showConfirmationAlert,
     showLoadingAnimation,
+    showErrorTerms,
     // closeLoadingAnimation,
   };
 }

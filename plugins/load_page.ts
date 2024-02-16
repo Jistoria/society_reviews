@@ -1,7 +1,6 @@
 const loadedRoutes = new Set();
 export default defineNuxtPlugin((nuxtApp) =>{
     nuxtApp.hook("page:start",async ()=>{
-        console.log('entre');
         const router = useRouter(); 
         const currentRoute = router.currentRoute.value;
         if (currentRoute.path === '/') {

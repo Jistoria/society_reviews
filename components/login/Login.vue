@@ -4,6 +4,9 @@ const loginP = LoginStore();
 const loginForm = ref(null);
 const log_session = ref(false);
 let isClickEventAdded = false; 
+const auth = useState('user', ()=> false);
+
+
 // Funciones
 const credentials = reactive({
     identifier:'',
@@ -12,10 +15,10 @@ const credentials = reactive({
 const submitLoginForm = async()=>{
     try {
         const data = await loginP.Login(credentials);
-        console.log(data);
         if(data){
             loginP.session = true;
             log_session.value = false;
+            auth.value = true;
         }else{
             loginP.session = false;
         }
@@ -49,6 +52,7 @@ const Logout = async ()=>{
         const data = await loginP.Logout();
         if(data){
             loginP.session = false;
+            auth.value = false;
         }else{
             loginP.session = true;
 
