@@ -53,6 +53,7 @@ const Logout = async ()=>{
         if(data){
             loginP.session = false;
             auth.value = false;
+            //deberia ser un else if siempre y cuando haya sesion existente
         }else{
             loginP.session = true;
 
@@ -75,6 +76,7 @@ const Logout = async ()=>{
     </div>
     <Button_g v-if="loginP.session"  class="btn-outline-dark log">hola {{ loginP.user.name }}</Button_g>
     <Button_g v-if="loginP.session" @click="Logout"   class="btn-outline-dark log ms-2">Cerrar sesion</Button_g>
+
 </template>
 <style scoped>
 .login_form{

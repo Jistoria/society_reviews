@@ -54,6 +54,21 @@ export const LoginStore = defineStore('loginP',{
             this.user=data_set;
     
         },
+        async get_session_detail(){
+            try {
+                const data = await $fetch('http://127.0.0.1:8000/api/take',{
+                    method:'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include',
+                })
+                console.log(data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
 
     }
 })

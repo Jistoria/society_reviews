@@ -33,7 +33,7 @@ Route::middleware(['guest'])->group(function () {
 //Rutas para cualquier Usuario Autenticado
 Route::middleware(['auth:sanctum'])->group(function () {
     //detalles del usuario logeado
-    Route::get('/', [UserController::class, 'getSessionDetails']);
+    Route::get('/take', [UserController::class, 'getSessionDetails']);
     //cerrar sesion
     Route::post('/logout',[UserController::class, 'logout']);
 });
