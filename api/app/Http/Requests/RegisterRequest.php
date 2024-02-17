@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'color' => 'required',
             'password' => 'required|string|min:8',
+            'cof_password' => 'required|string|same:password',
         ];
     }
 
@@ -50,6 +51,8 @@ class RegisterRequest extends FormRequest
             'password.required' => 'La contraseña es obligatoria.',
             'password.string' => 'La contraseña debe ser una cadena de texto.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'cof_password.required' => 'La confirmación de contraseña es obligatoria',
+            'cof_password.same' => 'Las contraseñas no coinciden'
         ];
     }
 }
