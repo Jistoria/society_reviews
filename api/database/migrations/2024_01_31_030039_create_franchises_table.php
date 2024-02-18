@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('franchise_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('description');
+            $table->text('description');
             $table->string('animation_studio_latest')->nullable();
             $table->string('image_url')->nullable();
             $table->string('author')->nullable();
