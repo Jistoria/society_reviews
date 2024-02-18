@@ -12,6 +12,7 @@ class FranchiseController extends Controller
     //Mostrar todas las franquicias
     public function index()
     {
+
         $franchises = Franchise::pluck('title','franchise_id');
         return response()->json(['success'=>true, 'franchises'=>$franchises]);
     }

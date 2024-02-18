@@ -68,7 +68,7 @@ class TagController extends Controller
     {
         try {
             if($tag->franchises()->exists()){
-                return response()->json(['success' => false, 'message' => 'No se puede eliminar un Tag que tiene Franquicia']);
+                return response()->json(['success' => false, 'message' => 'No se puede eliminar un Tag que tiene Franquicia'], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             $tag->delete();
             return response()->json(['success' => true, 'message' => 'Se ha eliminado el tag']);

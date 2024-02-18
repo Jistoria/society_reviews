@@ -7,22 +7,19 @@ use Spatie\Permission\Models\Role;
 
 class CreateRole extends Command
 {
-    protected $signature = 'create:role {name : The name of the role}';
-    protected $description = 'Create a new role';
+    protected $signature = 'create:roles';
+    protected $description = 'Create a all roles';
 
     public function handle()
     {
-        $roleName = $this->argument('name');
+        $roleNames = ['SuperAdmin', 'Admin', 'Civil'];
 
-        // Verificar si el rol ya existe
-        if (Role::where('name', $roleName)->exists()) {
-            $this->error('El rol ya existe.');
-            return;
+        // Crear roles o ignorarlos si ya existen
+        foreach ($roleNames as $roleName) {
+            Role::firstOrCreate(['name' => $roleName]);
+            $this->info("El rol '$roleName' ha sido creado correctamente.");
         }
 
-        // Crear el rol
-        Role::create(['name' => $roleName]);
 
-        $this->info("El rol '$roleName' ha sido creado correctamente.");
     }
 }
