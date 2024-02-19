@@ -18,7 +18,6 @@ const form = reactive({
 });
 const register = async () => {
     if(form.checked == false){
-      console.log('no chekeado');
       await showErrorTerms ('Falta Aceptar termino y condiciones');
       return 
     }

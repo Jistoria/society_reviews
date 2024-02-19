@@ -44,7 +44,7 @@ export const LoginStore = defineStore('loginP',{
                 this.user=[];
                 return true
             } catch (error) {
-                console.log(error);
+                
                 return false
 
             }

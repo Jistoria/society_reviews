@@ -1,4 +1,7 @@
 <script setup>
+import { AlertaSesion } from '~/composables/AlertaSesion';
+
+const { showSuccessAlertSession, showErrorTerms} = AlertaSesion();
 //variables
 const loginP = LoginStore();
 const loginForm = ref(null);
@@ -13,14 +16,20 @@ const credentials = reactive({
     password:'',
 });
 const submitLoginForm = async()=>{
+    if (credentials.identifier.trim() === '' || credentials.password.trim() === '') {
+        await showErrorTerms ('Los campos no pueden estar vacios');
+        return; // Detener la función si las credenciales están vacías
+    }
     try {
         const data = await loginP.Login(credentials);
         if(data){
             loginP.session = true;
             log_session.value = false;
             auth.value = true;
+            showSuccessAlertSession('¡Bienvenido '+ loginP.user.name,'!');
         }else{
             loginP.session = false;
+            await showErrorTerms ('El usuario o la contraseña son incorrectos');
         }
     } catch (error) {
         console.log(error);
@@ -53,6 +62,7 @@ const Logout = async ()=>{
         if(data){
             loginP.session = false;
             auth.value = false;
+            showSuccessAlertSession('Sesion cerrada ','');
             //deberia ser un else if siempre y cuando haya sesion existente
         }else{
             loginP.session = true;
