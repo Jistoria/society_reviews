@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+            'hash' => false, // Esto desactiva el hashing automático de las contraseñas, que no se necesita para Sanctum
+        ],
     ],
 
     /*

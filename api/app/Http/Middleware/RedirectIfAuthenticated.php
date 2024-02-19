@@ -7,24 +7,24 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-
-class RedirectIfAuthenticated
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+class RedirectIfAuthenticated extends Middleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
+    public function handle($request, Closure $next, ...$guards)
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+        if ($token = $request->cookie('cookie_token')) {
+            $request->headers->set('Authorization', 'Bearer ' . $token);
         }
-
+            // Si hay un token de autenticación en la solicitud, intenta autenticar al usuario utilizando ese token
+            if (Auth::guard('sanctum')->check()) {
+                return response()->json(['success'=>false, 'message'=>'Hay Sesión'],403);
+            }
+        // Si el usuario no está autenticado, permite que la solicitud continúe sin cambios
         return $next($request);
     }
 }

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
 
 //Rutas que requieren que no estes autenticado
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['guest:sanctum'])->group(function () {
     //registrarse como civil
     Route::post('register',[UserController::class,'userRegister']);
     //iniciar sesion (todos los roles deben iniciar sesion por esta ruta)
