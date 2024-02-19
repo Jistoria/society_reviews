@@ -26,11 +26,11 @@ class FranchiseRequest extends FormRequest
             'title' => 'required|string|max:255|unique:franchises',
             'description' => 'required|string',
             'animation_studio_latest' => 'nullable|string|max:255',
-            'image_url' => 'nullable|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'original_work' => 'nullable|string|max:255',
-            'first_release' => 'nullable|date',
-            'end_release' => 'nullable|date',
+            'image_url' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'original_work' => 'required|string|max:255',
+            'first_release' => 'required|date',
+            'end_release' => 'required|date',
         ];
 
         // Reglas solo para tag_id
@@ -44,15 +44,29 @@ class FranchiseRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required'=>'El titulo es obligatorio',
-            'title.max' => 'Es demasiado largo el titulo',
-            'description.required' => 'La descripción es obligatoria',
-            'animation_studio_latest.max' => 'Es muy largo',
-            'publication_year' => 'Tiene que ser una fecha',
-            'tag_id.required' => 'Se requiere al menos un tag',
-            'tag_id.exists' => 'El tag seleccionado no es válido',
-            'end_release.date' => 'Debe ser una fecha',
-            'first_release.date' => 'Debe ser una fecha'
+                'title.required' => 'El título es obligatorio.',
+                'title.string' => 'El título debe ser una cadena de texto.',
+                'title.max' => 'El título no puede tener más de 255 caracteres.',
+                'title.unique' => 'El título ya está en uso por otra franquicia.',
+                'description.required' => 'La descripción es obligatoria.',
+                'description.string' => 'La descripción debe ser una cadena de texto.',
+                'animation_studio_latest.string' => 'El estudio de animación más reciente debe ser una cadena de texto.',
+                'animation_studio_latest.max' => 'El estudio de animación más reciente no puede tener más de 255 caracteres.',
+                'image_url.required' => 'La URL de la imagen es obligatoria.',
+                'image_url.string' => 'La URL de la imagen debe ser una cadena de texto.',
+                'image_url.max' => 'La URL de la imagen no puede tener más de 255 caracteres.',
+                'author.required' => 'El autor es obligatorio.',
+                'author.string' => 'El autor debe ser una cadena de texto.',
+                'author.max' => 'El autor no puede tener más de 255 caracteres.',
+                'original_work.required' => 'La obra original es obligatoria.',
+                'original_work.string' => 'La obra original debe ser una cadena de texto.',
+                'original_work.max' => 'La obra original no puede tener más de 255 caracteres.',
+                'first_release.required' => 'La fecha de primera publicación es obligatoria.',
+                'first_release.date' => 'La fecha de primera publicación debe ser una fecha válida.',
+                'end_release.required' => 'La fecha de finalización es obligatoria.',
+                'end_release.date' => 'La fecha de finalización debe ser una fecha válida.',
+                'tag_id.required' => 'Se requiere al menos un tag',
+                'tag_id.exists' => 'El tag seleccionado no es válido',
         ];
     }
 
