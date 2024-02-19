@@ -6,6 +6,6 @@ crear SuperAdmin => php artisan register:super-admin //se crea un SuperAdmin con
 
 crear tags => php artisan create:tags
 crear franquicias demo => php artisan db:seed
-
+crear Admin => create:admin
 En caso de error 1045:
 https://github.com/bestmomo/laravel5-3-example/issues/18
