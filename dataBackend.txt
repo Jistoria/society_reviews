@@ -1,0 +1,52 @@
+CREAR TAG
+'name_tag' :'Isekai'
+'name_tag' => 'required|string|unique:tags',
+    MENSAJES DE VALIDACION
+                'name_tag.required' => 'Se necesita el nombre del Tag',
+                'name_tag.unique' => 'El nombre del tag ya está en uso.'
+
+ACTUALIAR TAG
+'name_tag' :'Isekai'
+ en la url se debe especificar el tag_id para saber cual es el que debe ser actualizado
+        MENSAJES DE VALIDACION  
+            'name_tag.required'=> 'Se necesita el nombre del Tag',
+            'name_tag.unique' => 'El nombre del tag ya está en uso.'
+
+CREAR FRANQUICIA
+{
+	"title": "Kono subarashi Sekai",
+	"description": "Un cojudo y tres pendejas",
+	"animation_studio_latest": "Studio Deen",
+	"image_url": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/8\/8a\/Kono_Subarashii_Sekai_ni_Shukufuku_o!_Logo_Anime.png\/250px-Kono_Subarashii_Sekai_ni_Shukufuku_o!_Logo_Anime.png",
+	"author": "Natsume Akatsuki",
+	"original_work": "Novela Ligera",
+	"first_release": "2013-09-1",
+	"tag_id": [
+		"1",
+		"2"
+	]
+}
+    MENSAJES DE VALIDACION
+        'title.required'=>'El titulo es obligatorio',
+            'title.max' => 'Es demasiado largo el titulo',
+            'description.required' => 'La descripción es obligatoria',
+            'animation_studio_latest.max' => 'Es muy largo',
+            'publication_year' => 'Tiene que ser una fecha',
+            'tag_id.required' => 'Se requiere al menos un tag',
+            'tag_id.exists' => 'El tag seleccionado no es válido',
+            'end_release.date' => 'Debe ser una fecha',
+            'first_release.date' => 'Debe ser una fecha'
+ACTUALIAR FRANQUICIA
+Puede recibir cualquiera de los valores de la franquica, menos los tags
+    Solo se valida si se pasa un titulo que este no sea de otra franquica
+    'title.unique'=>'Ya esta en uso este titulo'
+
+ACTUALIAR TAGS DE FRANQUICIA
+    tiene que ser un array con los tag_id:
+    "tag_id": [
+		"1",
+		"2"
+	]
+    MENSAJES DE VALIDACION
+        'tag_id.required' => 'Se requiere al menos un tag',
+                'tag_id.exists' => 'El tag seleccionado no es válido',

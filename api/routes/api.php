@@ -4,6 +4,7 @@ use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Models\Franchise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,8 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::resource('tag', TagController::class);
     //Franquicias
     Route::resource('franchise', FranchiseController::class);
+    Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
+    //
 });
 
 //Rutas solo para SuperAdmin

@@ -48,6 +48,7 @@ class TagController extends Controller
             $request->validate([
                 'name_tag' => 'required|string|unique:tags,name_tag,' . $tag->tag_id.',tag_id',
             ],[
+                'name_tag.required'=> 'Se necesita el nombre del Tag',
                 'name_tag.unique' => 'El nombre del tag ya está en uso.',
             ]);
 

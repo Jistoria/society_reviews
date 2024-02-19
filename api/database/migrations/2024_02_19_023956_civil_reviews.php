@@ -9,11 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id('review_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
-            $table->unsignedBigInteger('franchise_id');
+        Schema::create('civil_reviews', function (Blueprint $table) {
+            $table->id('civil_review_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
+            $table->unsignedBigInteger('franchise_id')->nullable();
+            $table->unsignedBigInteger('civil_franchise_id')->nullable();
+            $table->enum('franchise_type', ['existing', 'civil_suggestion']);
             $table->string('slug')->unique();
             $table->unsignedBigInteger('content_type_id');
             $table->unsignedBigInteger('user_id');
@@ -23,16 +25,22 @@ return new class extends Migration
             $table->decimal('rating_main', 5, 2); // Ajusta la precisión y escala según tus necesidades
             $table->text('spoiler_content')->nullable();
             $table->date('release_year');
-            $table->date('release_year_end');
+            $table->date('release_year');
             $table->integer('quantity_episode')->nullable();
             $table->time('duration_time')->nullable();
-            $table->boolean('published')->default(false); // Agregado el campo 'published'
+            $table->boolean('seend')->default(false); // Agregado el campo 'seend'
+            $table->enum('state_type', ['accept', 'not_accept'])->nullable();
             $table->timestamps();
 
             // Claves foráneas
             $table->foreign('franchise_id')
-                ->references('franchise_id')
-                ->on('franchises')
+            ->references('id')
+            ->on('franchises')
+            ->onDelete('cascade');
+
+            $table->foreign('civil_franchise_id')
+                ->references('id')
+                ->on('civil_franchises')
                 ->onDelete('cascade');
 
             $table->foreign('content_type_id')
@@ -52,6 +60,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        //
+        Schema::dropIfExists('civil_reviews');
     }
 };

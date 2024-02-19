@@ -39,8 +39,8 @@ class Franchise extends Model
         return $this->belongsToMany(Tag::class, 'franchise_tag', 'franchise_id', 'tag_id')->withTimestamps();
     }
     // Puedes definir relaciones con otros modelos aquí, por ejemplo:
-    // public function reviews()
-    // {
-    //     return $this->hasMany(Review::class, 'franchise_id');
-    // }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'franchise_id');
+    }
 }
