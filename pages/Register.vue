@@ -64,11 +64,11 @@ definePageMeta({
               <label for="floatingInput">Correo electronico</label>
             </div>
             <div class="form-floating mb-3">
-              <TextInput  v-model="form.password" type="text" placeholder="Nombre" />
+              <TextInput  v-model="form.password" type="password" placeholder="Nombre" />
               <label for="floatingInput">Contraseña</label>
             </div>
             <div class="form-floating mb-3">
-              <TextInput  v-model="form.cof_password" type="text" placeholder="Nombre"  />
+              <TextInput  v-model="form.cof_password" type="password" placeholder="Nombre"  />
               <label for="floatingInput">Confirmar Contraseña</label>
             </div>
             <div>

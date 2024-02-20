@@ -10,4 +10,3 @@ const detail = async ()=>{
 <ButtonG @click="detail" class="btn-primary">tomo</ButtonG>
 
 </template>
-

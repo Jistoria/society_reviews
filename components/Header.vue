@@ -18,7 +18,7 @@ const loginP = LoginStore();
                       <Login />
                   </ul>
                   <ul v-if="!loginP.session" class="navbar-nav d-inline-block ms-3">
-                       <NuxtLink to="Register">
+                       <NuxtLink to="/Register">
                         <Button_g class="btn-primary" type="submit">Registro</Button_g>
                       </NuxtLink>
                   </ul>

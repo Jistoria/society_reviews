@@ -50,8 +50,16 @@ export const LoginStore = defineStore('loginP',{
             }
         },
         async set_data(data_set){
-            this.session = true;
-            this.user=data_set;
+            console.log(data_set);
+            if(data_set == false){
+                this.session = false;
+                
+            }else{
+                this.session = true;
+                this.user=data_set;
+                console.log(this.user);
+
+            }
     
         },
         async get_session_detail(){

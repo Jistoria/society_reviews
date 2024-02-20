@@ -8,8 +8,6 @@ const loginForm = ref(null);
 const log_session = ref(false);
 let isClickEventAdded = false; 
 const auth = useState('user', ()=> false);
-
-
 // Funciones
 const credentials = reactive({
     identifier:'',
@@ -72,7 +70,21 @@ const Logout = async ()=>{
         console.log(error);
     }
 }
+const props = defineProps({
+    IconName:{
+        type:String,
+        requierd: true,
+    },
+})
+const iconMap = {
+    IconUser:'bi bi-person-circle',
+    IconAdmin:'bi bi-person-lines-fill',
+    IconSuperAdmin:'bi bi-person-workspace',
+}
+const IconU = computed(()=> iconMap[props.IconName]);
+
 </script>
+
 
 <template>
     <Button_g v-if="!loginP.session" v-on:click="show_log" class="btn-outline-dark log">Iniciar sesión</Button_g>
@@ -84,7 +96,10 @@ const Logout = async ()=>{
             <Button_g class="botons" type="submit">Iniciar Sesion</Button_g>
         </form>
     </div>
-    <Button_g v-if="loginP.session"  class="btn-outline-dark log">hola {{ loginP.user.name }}</Button_g>
+    <Button_g v-if="loginP.session"  class="btn-outline-dark log">
+        <i :class="IconU"></i>
+        {{ loginP.user.name }}
+    </Button_g>
     <Button_g v-if="loginP.session" @click="Logout"   class="btn-outline-dark log ms-2">Cerrar sesion</Button_g>
 
 </template>

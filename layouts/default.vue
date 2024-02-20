@@ -1,6 +1,6 @@
 <template>
     <div class="main_pc_body">
-        <Header class="main_pc_header" />
+        <HeadCentral class="main_pc_header"></HeadCentral>
         <div class="main_pc">
             <slot  />
         </div>

@@ -15,7 +15,7 @@ export default defineNuxtPlugin(nuxtApp => {
             loginP.set_data(useru.user);
         } catch (error) {
             
-            return;
+            return loginP.set_data(false);
         }
     });
 });
