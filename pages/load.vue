@@ -28,6 +28,7 @@ setTimeout(() => {
     width: 100%;
     height: 100vh;
     display:flex;
+    z-index: 20;
 }
 .spinner{
     height: 120px;

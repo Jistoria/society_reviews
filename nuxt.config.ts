@@ -46,7 +46,7 @@ export default defineNuxtConfig({
   }
   },
   hooks:{
-    'ready': (ctx) => console.log(ctx)
+    'ready': (ctx) => console.log('iniciando todo')
   },
 
 })

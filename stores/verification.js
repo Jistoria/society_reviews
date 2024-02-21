@@ -1,7 +1,7 @@
 export const VerificacionE = defineStore('emailVerificacion',{
     state:()=>(
         {
-
+            isChecked: false
         }
     ),
     getters:{
@@ -18,5 +18,8 @@ export const VerificacionE = defineStore('emailVerificacion',{
                 throw error
             }
         },
+        async background(){
+            this.isChecked = !this.isChecked;
+        }
     },
 })

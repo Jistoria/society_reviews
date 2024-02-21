@@ -6,7 +6,7 @@ const detail = async ()=>{
 </script>
 
 <template>
-<h1 class="ms-4 mt-3">Cuerpo</h1> 
 <ButtonG @click="detail" class="btn-primary">tomo</ButtonG>
+
 
 </template>

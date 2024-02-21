@@ -12,6 +12,7 @@ const iconMap = {
     HeaderSuperAdmin:'bi bi-buildings-fill super-admin-icon',
 }
 const iconClass = computed(()=> iconMap[props.componentName]);
+
 </script>
 <template>
 <div>
@@ -24,8 +25,10 @@ const iconClass = computed(()=> iconMap[props.componentName]);
                 <i :class="iconClass" ></i>
             </button>
             <div class="collapse navbar-collapse justify-content-end mt-2" id="navbarSupportedContent">
+                <div class="d-flex justify-content-end mb-2 mt-2">
+                    <ButtonBgChange></ButtonBgChange>
+                </div>
                 <slot>
-
                 </slot>
             </div>
         </div>

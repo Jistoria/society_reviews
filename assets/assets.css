@@ -1,12 +1,15 @@
-.main_pc_header{
-    border: 0 px solid red;
-}
 .main_pc_body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+    transition: background-color 0.5s ease;
+
 }
+.main_pc_header{
+    border: 0 px solid red;
+}
+
 .main_pc_footer{
     background-color: #333;
     color: white;
@@ -16,4 +19,7 @@
 
 .main_pc{
     flex: 1;
+
 }
+
+
