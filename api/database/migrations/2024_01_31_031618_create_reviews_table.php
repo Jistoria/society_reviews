@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('quantity_episode')->nullable();
             $table->time('duration_time')->nullable();
             $table->boolean('published')->default(false); // Agregado el campo 'published'
+            $table->boolean('notify')->default(false);
             $table->timestamps();
 
             // Claves foráneas

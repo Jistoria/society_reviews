@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\FranchiseController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-use App\Models\Franchise;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,11 +47,23 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     //Franquicias
     Route::resource('franchise', FranchiseController::class);
     Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
-    //
+    //Reseñas
+    Route::resource('review', ReviewController::class);
+    Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);
+    Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
 });
 
 //Rutas solo para SuperAdmin
 Route::middleware(['auth:sanctum','role:SuperAdmin'])->group(function () {
     //crear un admin
     Route::post('/create_admin', [SuperAdminController::class, 'createAdmin']);
+});
+
+Route::post('/noti_mark', function () {
+    $users = User::all();
+    // Iterar sobre cada usuario y marcar todas sus notificaciones como leídas
+    $users->each(function ($user) {
+        $user->unreadNotifications->markAsRead();
+    });
+    return response(['success'=>true]);
 });

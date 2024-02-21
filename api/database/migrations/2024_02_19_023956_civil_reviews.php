@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('rating_main', 5, 2); // Ajusta la precisión y escala según tus necesidades
             $table->text('spoiler_content')->nullable();
             $table->date('release_year');
-            $table->date('release_year');
+            $table->date('release_year_end');
             $table->integer('quantity_episode')->nullable();
             $table->time('duration_time')->nullable();
             $table->boolean('seend')->default(false); // Agregado el campo 'seend'
@@ -34,12 +34,12 @@ return new class extends Migration
 
             // Claves foráneas
             $table->foreign('franchise_id')
-            ->references('id')
+            ->references('franchise_id')
             ->on('franchises')
             ->onDelete('cascade');
 
             $table->foreign('civil_franchise_id')
-                ->references('id')
+                ->references('civil_franchise_id')
                 ->on('civil_franchises')
                 ->onDelete('cascade');
 

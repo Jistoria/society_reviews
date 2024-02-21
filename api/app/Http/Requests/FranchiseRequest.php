@@ -29,8 +29,8 @@ class FranchiseRequest extends FormRequest
             'image_url' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'original_work' => 'required|string|max:255',
-            'first_release' => 'required|date',
-            'end_release' => 'required|date',
+            'first_release' => 'date',
+            'end_release' => 'date',
         ];
 
         // Reglas solo para tag_id
@@ -61,9 +61,7 @@ class FranchiseRequest extends FormRequest
                 'original_work.required' => 'La obra original es obligatoria.',
                 'original_work.string' => 'La obra original debe ser una cadena de texto.',
                 'original_work.max' => 'La obra original no puede tener más de 255 caracteres.',
-                'first_release.required' => 'La fecha de primera publicación es obligatoria.',
                 'first_release.date' => 'La fecha de primera publicación debe ser una fecha válida.',
-                'end_release.required' => 'La fecha de finalización es obligatoria.',
                 'end_release.date' => 'La fecha de finalización debe ser una fecha válida.',
                 'tag_id.required' => 'Se requiere al menos un tag',
                 'tag_id.exists' => 'El tag seleccionado no es válido',

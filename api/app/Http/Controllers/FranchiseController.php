@@ -31,7 +31,7 @@ class FranchiseController extends Controller
             // Adjuntar tags (relación muchos a muchos)
             $franchise->tags()->attach($f_request->tag_id);
 
-            return response()->json(['success' => true, 'message' => 'Se ha creado la franquicia']);
+            return response()->json(['success' => true, 'message' => 'Se ha creado la franquicia'], 201);
         } catch (Exception $e) {
             // Manejar errores
             return response()->json(['success' => false, 'message' => 'Error al crear la franquicia', 'error' => $e->getMessage()]);
