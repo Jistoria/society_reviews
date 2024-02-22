@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,11 @@ class UserController extends Controller
             $civilRole = Role::where('name', 'Civil')->first();
             if ($civilRole) {
                 $new_user->assignRole($civilRole);
-                $new_user->sendEmailVerificationNotification();
+                // $new_user->sendEmailVerificationNotification();
+                Queue::push(function ($job) use ($new_user) {
+                    $new_user->sendEmailVerificationNotification();
+                    $job->delete();
+                });
                 Auth::login($new_user);
                 $token = $new_user->createToken('token-name')->plainTextToken;
                 $cookie = cookie('cookie_token', $token, 60 * 24);

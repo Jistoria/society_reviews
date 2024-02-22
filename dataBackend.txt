@@ -68,4 +68,4 @@ ACTUALIAR TAGS DE FRANQUICIA
 	]
     MENSAJES DE VALIDACION
         'tag_id.required' => 'Se requiere al menos un tag',
-                'tag_id.exists' => 'El tag seleccionado no es válido',
+        'tag_id.exists' => 'El tag seleccionado no es válido',

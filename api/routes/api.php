@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SuperAdminController;
@@ -38,6 +39,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/take', [UserController::class, 'getSessionDetails']);
     //cerrar sesion
     Route::post('/logout',[UserController::class, 'logout']);
+    //Comentarios
+    Route::resource('comment', CommentController::class)->middleware('verified');
 });
 
 //Rutas solo para Admin
@@ -47,10 +50,13 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     //Franquicias
     Route::resource('franchise', FranchiseController::class);
     Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
+
     //Reseñas
     Route::resource('review', ReviewController::class);
     Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);
-    Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
+
+    // Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
+
 });
 
 //Rutas solo para SuperAdmin

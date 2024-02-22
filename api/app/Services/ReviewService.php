@@ -100,7 +100,13 @@ class ReviewService
      */
     public function notifyUsersAboutReview(Array $data)
     {
-        // Notificar a los usuarios sobre la disponibilidad de la revisión
+        // Notificar a los usuarios sobre la disponibilidad de la reseña
         dispatch(new NotifyUsersAboutReview($data));
     }
+
+    public function deleteReview(Review $review)
+    {
+        $review->delete();
+    }
+
 }
