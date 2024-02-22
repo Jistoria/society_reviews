@@ -7,6 +7,9 @@ const RegisterP = RegisterStore();
 const loginP = LoginStore();
 const router = useRouter();
 const errors = ref([]);
+const bg_ver = VerificacionE();
+// bg_ver.isChecked
+
 const auth = useState('user', ()=> false);
 const form = reactive({
     name:'',
@@ -53,7 +56,7 @@ definePageMeta({
 
 <template>  
         <form @submit.prevent="register" class="col-12">
-          <section class="form_register mt-5">
+          <section class="form_register mt-5" :class="{'form_register_blue': bg_ver.isChecked }">
             <h4 class="text-center controls_font mb-3">Registrate!</h4>
             <div class="form-floating mb-3">
               <TextInput  v-model="form.name" type="text" placeholder="Nombre"/>
@@ -91,15 +94,27 @@ definePageMeta({
 </template>
 
 <style scoped>
+/* para el color blue */
+.form_register_blue{
+  background: #24303c !important;
+  color: rgb(52, 143, 213) !important;
+
+  transition: 0.3s; 
+}
+.botons_blue{
+  background: #1f53c5 !important;
+}
 .form_register{
   width: 430px;
   margin: auto;
-  background: #24303c;
-  color: rgb(52, 143, 213);
+  background: #eeebe4 ;
+  color: rgb(2, 3, 3);
   padding: 15px;
   border-radius: 7px;
   box-shadow: 7px 13px 37px #000;
   font-family: 'calibri';
+  transition: 0.5s ease;
+
 }
 .controls_font{
   font-size: 38px;
@@ -110,7 +125,7 @@ definePageMeta({
 }
 .botons {
   width: 100%;
-  background: #1f53c5;
+  background: #acb4c4;
   border: none;
   padding: 12px;
   color: white;

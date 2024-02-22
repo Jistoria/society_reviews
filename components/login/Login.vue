@@ -50,6 +50,7 @@ const handleOutsideClick = (event) =>{
     const lg_form = document.querySelector('.login_form');
     const login_v = document.querySelector('.log');
     if (lg_form.contains(event.target) || login_v.contains(event.target) ){
+        
     }else{
         log_session.value = false;
     }
@@ -87,7 +88,7 @@ const IconU = computed(()=> iconMap[props.IconName]);
 
 
 <template>
-    <Button_g v-if="!loginP.session" v-on:click="show_log" class="btn-outline-dark log">Iniciar sesión</Button_g>
+    <Button_g v-if="!loginP.session" v-on:click="show_log" class="btn_ligth log">Iniciar sesión</Button_g>
     <div class="login_form" ref="loginForm" v-show="log_session" v-if="!loginP.session"  >
         <form @submit.prevent="submitLoginForm">
             <h3 class="title">Inciar Sesion</h3>

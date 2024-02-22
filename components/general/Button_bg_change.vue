@@ -25,7 +25,7 @@ const toggleBackground = async ()=>{
     position: absolute;
     top: 0.7vh;
     left: 0.7vh;
-    background: linear-gradient(180deg, rgb(27, 13, 13), blue);
+    background: linear-gradient(180deg, rgb(27, 13, 13), rgb(29, 29, 204));
     border-radius: 180px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
@@ -66,11 +66,11 @@ const toggleBackground = async ()=>{
 }
 .change_bg .moon_bg{
     left: 10vh;
-    color: #be2424;
+    color: #000000;
     transition: 0.3;
 }
 .change_bg_input:checked + .change_bg  .sol_bg{
-    color: red;
+    color: rgb(41, 17, 17);
 }
 .change_bg_input:checked + .change_bg  .moon_bg{
     color: rgb(0, 255, 242);

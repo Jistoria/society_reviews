@@ -16,7 +16,7 @@ const iconClass = computed(()=> iconMap[props.componentName]);
 </script>
 <template>
 <div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <NuxtLink to="/">
                 <img src="/placeholder.png"  width="180" height="50">

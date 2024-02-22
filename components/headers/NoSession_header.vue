@@ -1,5 +1,6 @@
 <script setup>
 const loginP = LoginStore();
+const bg_ver = VerificacionE(); 
 
 </script>
 
@@ -12,7 +13,7 @@ const loginP = LoginStore();
                     </ul>
                     <ul v-if="!loginP.session" class="navbar-nav d-inline-block ms-3">
                         <NuxtLink to="/Register">
-                            <Button_g class="btn-outline-dark" type="submit">Registro</Button_g>
+                            <Button_g  class="btn_ligth"  type="submit">Registro</Button_g>
                         </NuxtLink>
                     </ul>
                 </div>
