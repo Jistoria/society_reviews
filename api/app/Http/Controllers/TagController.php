@@ -40,6 +40,10 @@ class TagController extends Controller
             return response(['success' => false, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    public function edit(Tag $tag)
+    {
+        return response()->json(['success'=>true, 'tag'=>$tag]);
+    }
     //Actualizar un Tag
     public function update(Request $request, Tag $tag)
     {

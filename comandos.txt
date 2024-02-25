@@ -6,7 +6,7 @@ crear SuperAdmin => php artisan register:super-admin //se crea un SuperAdmin con
 
 crear tags => php artisan create:tags
 crear franquicias demo => php artisan db:seed
-crear Admin => create:admin
+crear Admin => create:admin EDITAR ARCHIVO api/app/Console/Commands/createAdmin.php
 crear tipos de contenido => create:cont-type
 En caso de error 1045:
 https://github.com/bestmomo/laravel5-3-example/issues/18
