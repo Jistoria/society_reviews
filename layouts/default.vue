@@ -1,11 +1,18 @@
 <script setup>
 const loading = ref(true);
-
+const route = useRoute();
 onMounted(() => {
   loading.value = false;
 });
 const bg_ver = VerificacionE();
-
+//rutas para donde el footer no debe aparecer
+const route_remove = ()=>{
+  if(route.name  == 'place-dashboard'){
+    return false;
+  }else{
+    return true;
+  }
+}
 </script>
 
 <template>
@@ -23,7 +30,7 @@ const bg_ver = VerificacionE();
                 <div class="dots-3"></div>
             </div>
         </div>
-        <Footer class="main_pc_footer" 
+        <Footer v-if="route_remove()" class="main_pc_footer" 
         :class="{'footer_blue': bg_ver.isChecked }"
         />
     </div>

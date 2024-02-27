@@ -28,7 +28,7 @@ class createAdmin extends Command
     public function handle()
     {
 
-        $new_user = ['name'=>"Jistoria", 'email'=>"maestrojgcm@gmail.com", 'color'=>"#ff80ff", 'password'=>"johan07141234"];
+        $new_user = ['name'=>"diegoAD", 'email'=>"mielesdiego06@gmail.com", 'color'=>"#ff80ff", 'password'=>"dieguchi123"];
         $user = new User();
 
         $superAdminRole = Role::where('name', 'Admin')->first();
