@@ -15,7 +15,7 @@ class FranchiseController extends Controller
     public function index()
     {
         // $franchises = Franchise::with('tags:tag_id,name_tag')->findOrFail(2);
-        $franchises = Franchise::pluck('title', 'franchise_id');
+        $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest')->get();
         return response()->json(['success'=>true, 'franchises'=>$franchises]);
     }
     //Crear franquicia
