@@ -37,7 +37,10 @@ class FranchiseController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al crear la franquicia', 'error' => $e->getMessage()]);
         }
     }
-
+    public function edit(Franchise $franchise)
+    {
+        return response()->json(['success'=>true, 'franchise'=>$franchise]);
+    }
     public function update(Request $request, Franchise $franchise)
     {
         try{
