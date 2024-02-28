@@ -13,7 +13,7 @@ class TagController extends Controller
     //Obetener todos los Tags
     public function index()
     {
-        $tags = Tag::pluck('name_tag', 'tag_id');
+        $tags = Tag::select('tag_id', 'name_tag', 'description')->get();
         return response()->json(['success' => true, 'tags' => $tags,
         ]);
     }
