@@ -60,7 +60,7 @@ class FranchiseController extends Controller
     public function destroy(Franchise $franchise)
     {
         try {
-            if($franchise->review()->exists()){
+            if($franchise->reviews()->exists()){
                 return response()->json(['success' => false, 'message' => 'No se puede eliminar una franquicia con reseña'], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             $franchise->delete();
