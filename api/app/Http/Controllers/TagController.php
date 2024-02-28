@@ -13,8 +13,12 @@ class TagController extends Controller
     //Obetener todos los Tags
     public function index()
     {
-        $tags = Tag::pluck('name_tag','tag_id');
-        return response(['success'=>true, 'tags'=>$tags]);
+        $tags = Tag::all()->map(function ($tag) {
+            return ['tag_id' => $tag->tag_id,'name_tag' => $tag->name_tag,];
+        })->toArray();
+        
+        return response()->json(['success' => true, 'tags' => $tags,
+        ]);
     }
     //Crear un Tag
     public function store(Request $request)

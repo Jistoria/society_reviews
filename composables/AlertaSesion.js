@@ -22,7 +22,7 @@ export function AlertaSesion() {
   const showInfoAlert = async (title, text) => {
     await showInstanceAlert(title, text, 'info');
   };
-//Funcion para mensajes de success en la parte superior derecha
+//Funcion para mensajes de success en la parte superior derecha de LOGIN SOLAMENTE
   const showSuccessAlertSession = async (title, text) => {
     const Toast = $swal.mixin({
         toast: true,
@@ -40,6 +40,25 @@ export function AlertaSesion() {
         icon: "success",
         title: title + ' ' + text // Ajusta el título según tus necesidades
     });
+};
+//Funcion para mensajes de success en la parte superior derecha de LOGIN SOLAMENTE
+const showSuccessAlertSkinny = async (title) => {
+  const Toast = $swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+          toast.onmouseenter = $swal.stopTimer;
+          toast.onmouseleave = $swal.resumeTimer;
+      }
+  });
+
+  await Toast.fire({
+      icon: "success",
+      title: title
+  });
 };
   // Función para mostrar una alerta de confirmación
   const showConfirmationAlert = async (title, text) => {
@@ -96,6 +115,7 @@ export function AlertaSesion() {
     showConfirmationAlert,
     showLoadingAnimation,
     showErrorTerms,
+    showSuccessAlertSkinny,
     // closeLoadingAnimation,
   };
 }
