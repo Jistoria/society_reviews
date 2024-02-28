@@ -12,7 +12,7 @@ export const TagsAd = defineStore('TagsAd',{
         async Tags_post(formdata){
             console.log(formdata);
             try {
-                const response = await $fetch('',{
+                const response = await $fetch('http://127.0.0.1:8000/api/tag',{
                     method: 'POST',
                     body: formdata,
                     headers:{
@@ -22,8 +22,10 @@ export const TagsAd = defineStore('TagsAd',{
                     credentials:'include'
                 })
                 console.log(response);
+                return response
             } catch (error) {
-                
+                console.log(error.response._data.message)
+                return error.response._data
             }
         },
         async Tags_get(){
@@ -42,9 +44,10 @@ export const TagsAd = defineStore('TagsAd',{
                 
             }
         },
-        async Tags_put(formdata){
+        async Tags_put(formdata,id){
             try {
-                const response = await $fetch('',{
+                console.log(formdata)
+                const response = await $fetch(` http://127.0.0.1:8000/api/tag/${id} `,{
                     method: 'PUT',
                     body: formdata,
                     headers:{
@@ -54,13 +57,16 @@ export const TagsAd = defineStore('TagsAd',{
                     credentials:'include'
                 })
                 console.log(response);
-            } catch (error) {
-                
+                return response
+            }  catch (error) {
+                console.log(error.response._data)
+                return error.response._data
             }
         },
-        async Tags_delete(){
+        async Tags_delete(id_tag){
             try {
-                const response = await $fetch('',{
+                console.log(id_tag)
+                const response = await $fetch(` http://127.0.0.1:8000/api/tag/${id_tag} `,{
                     method: 'DELETE',
                     headers:{
                         'X-Requested-With': 'XMLHttpRequest',
@@ -69,8 +75,10 @@ export const TagsAd = defineStore('TagsAd',{
                     credentials:'include'
                 })
                 console.log(response);
+                return response;
             } catch (error) {
-                
+                console.log(error.response._data.message)
+                return error.response._data
             }
         }
 

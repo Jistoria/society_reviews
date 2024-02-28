@@ -18,6 +18,7 @@ export function AlertaSesion() {
     });
 };
 
+
   // Función para mostrar una alerta de información
   const showInfoAlert = async (title, text) => {
     await showInstanceAlert(title, text, 'info');
@@ -41,7 +42,7 @@ export function AlertaSesion() {
         title: title + ' ' + text // Ajusta el título según tus necesidades
     });
 };
-//Funcion para mensajes de success en la parte superior derecha de LOGIN SOLAMENTE
+//Funcion para mensajes de success en la parte superior derecha GLOBAL
 const showSuccessAlertSkinny = async (title) => {
   const Toast = $swal.mixin({
       toast: true,
@@ -72,7 +73,18 @@ const showSuccessAlertSkinny = async (title) => {
     });
     return result.isConfirmed;
   };
-
+  // Función para mostrar una alerta de Error normal no hagan caso a esta vaina
+  const showErrorNormalAlert = async (title, text) => {
+    const result = await Swal.fire({
+      title,
+      text,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    });
+    return result.isConfirmed;
+  };
   // Función para mostrar una animación de carga
   const showLoadingAnimation = async (title) => {
     swalInstance.value = await Swal.fire({
@@ -116,6 +128,7 @@ const showSuccessAlertSkinny = async (title) => {
     showLoadingAnimation,
     showErrorTerms,
     showSuccessAlertSkinny,
+    showErrorNormalAlert,
     // closeLoadingAnimation,
   };
 }
