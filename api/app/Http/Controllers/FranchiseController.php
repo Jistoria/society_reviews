@@ -91,7 +91,7 @@ class FranchiseController extends Controller
 
     public function getTags(Franchise $franchise)
     {
-        $tags = $franchise->tags()->pluck('tags.tag_id');
+        $tags = $franchise->tags()->select('tags.tag_id')->get();
         return response()->json(['success'=>true,'tags_franchise'=>$tags]);
     }
 }
