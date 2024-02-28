@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     //Franquicias
     Route::resource('franchise', FranchiseController::class);
     Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
-
+    Route::get('franchise/{franchise}/tags',[FranchiseController::class,'getTags']);
     //Reseñas
     Route::resource('review', ReviewController::class);
     Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);

@@ -44,7 +44,7 @@ class FranchiseController extends Controller
     public function update(Request $request, Franchise $franchise)
     {
         try{
-            $request->validate(['title'=> 'nullable|unique:franchises,title'.$franchise->franchise_id.',franchise_id'],[
+            $request->validate(['title'=> 'nullable|unique:franchises,title,'.$franchise->franchise_id.',franchise_id'],[
                 'title.unique'=>'Ya esta en uso este titulo'
             ]);
             $franchise->update($request->all());
@@ -77,7 +77,6 @@ class FranchiseController extends Controller
     public function updateTags(Request $request, Franchise $franchise)
     {
         try{
-
             $request->validate([ 'tag_id' => 'required|array|exists:tags,tag_id'],[
                 'tag_id.required' => 'Se requiere al menos un tag',
                 'tag_id.exists' => 'El tag seleccionado no es válido',
@@ -88,5 +87,11 @@ class FranchiseController extends Controller
             //Log::error('Error al actualizar los tags de la franquicia: '.$e->getMessage());
             return response()->json(['success'=>false, 'message'=>'Error al actualizar los Tags de la Franquicia', 'error'=>$e->getMessage()], 500);
         }
+    }
+
+    public function getTags(Franchise $franchise)
+    {
+        $tags = $franchise->tags()->pluck('tags.tag_id');
+        return response()->json(['success'=>true,'tags_franchise'=>$tags]);
     }
 }

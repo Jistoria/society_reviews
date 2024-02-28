@@ -14,6 +14,7 @@ class Tag extends Model
         'name_tag',
         'description'
     ];
+    protected $hidden = ['pivot'];
 
     public function franchises()
     {

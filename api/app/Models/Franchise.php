@@ -22,7 +22,7 @@ class Franchise extends Model
         });
     }
     protected $primaryKey = 'franchise_id'; // Definir clave primaria personalizada si es diferente de 'id'
-
+    protected $hidden = ['pivot'];
     protected $fillable = [
         'title',
         'description',
