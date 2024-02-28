@@ -59,10 +59,10 @@ onMounted(async () => {
                                 <h2>Tags Creados</h2>
                                 <div v-for="(tag, index) in tagStore.tags" :key="index" class="tag-item d-flex justify-content-between align-items-center ">
                                     <div class="tag-info">
-                                        <span class="tag-id">ID: {{ tag.tag_id }}</span>
+                                        <span class="tag-id">ID: {{ index }}</span>
                                     </div>
                                     <div class="tag-info">
-                                        <span class="tag-title">{{ tag.name_tag }}</span>
+                                        <span class="tag-title">{{ tag }}</span>
                                     </div>
                                     <div>
                                         <button class="btn btn-sm btn-info me-1">
