@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id('tag_id'); // Puedes usar `id` o `bigIncrements` según tus necesidades
             $table->string('name_tag');
+            $table->text('description');
             $table->timestamps();
         });
     }

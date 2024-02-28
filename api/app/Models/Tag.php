@@ -11,7 +11,8 @@ class Tag extends Model
     protected $primaryKey ='tag_id';
 
     protected $fillable=[
-        'name_tag'
+        'name_tag',
+        'description'
     ];
 
     public function franchises()

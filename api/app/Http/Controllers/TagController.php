@@ -13,10 +13,7 @@ class TagController extends Controller
     //Obetener todos los Tags
     public function index()
     {
-        $tags = Tag::all()->map(function ($tag) {
-            return ['tag_id' => $tag->tag_id,'name_tag' => $tag->name_tag,];
-        })->toArray();
-        
+        $tags = Tag::pluck('name_tag', 'tag_id');
         return response()->json(['success' => true, 'tags' => $tags,
         ]);
     }
@@ -27,9 +24,12 @@ class TagController extends Controller
             // Validar la solicitud
             $request->validate([
                 'name_tag' => 'required|string|unique:tags',
+                'description' => 'required|string'
             ],[
                 'name_tag.required' => 'Se necesita el nombre del Tag',
                 'name_tag.unique' => 'El nombre del tag ya está en uso.',
+                'description.required' => 'Se necesita una descripción',
+                'description.string' => 'Debe ser texto'
             ]);
 
             // Crear el Tag
@@ -55,6 +55,7 @@ class TagController extends Controller
             // Validar la solicitud
             $request->validate([
                 'name_tag' => 'required|string|unique:tags,name_tag,' . $tag->tag_id.',tag_id',
+                'description' => 'required|string'
             ],[
                 'name_tag.required'=> 'Se necesita el nombre del Tag',
                 'name_tag.unique' => 'El nombre del tag ya está en uso.',
