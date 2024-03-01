@@ -98,7 +98,16 @@ class UserController extends Controller
         return response(['message' => 'Cerró Sesión'], Response::HTTP_OK)->withCookie($cookie);
     }
 
+    public function getNotifications()
+    {
+        // Obtén el usuario autenticado
+        $user = Auth::user();
 
+        // Obtén todas las notificaciones del usuario
+        $notifications = $user->notifications;
+
+        return $notifications;
+    }
 
     public function verify($id, $hash)
     {

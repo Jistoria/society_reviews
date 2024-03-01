@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Jobs\SendReplyNotificationJob;
 use App\Models\Comment;
+use App\Notifications\ReplyNotification;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +60,11 @@ class CommentService
     {
         // Crea un nuevo comentario con los datos proporcionados
         $comment = $this->commentModel->create($data);
-
+        if($comment->com_comment_id)
+        {
+            // Despacha el Job para enviar la notificación a la cola
+            SendReplyNotificationJob::dispatch($comment);
+        }
         // Devuelve el comentario creado
         return $comment;
     }

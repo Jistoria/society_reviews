@@ -49,11 +49,11 @@ class Review extends Model
     public function dataNotify()
     {
         return [
-        'title' =>$this->franchise->title,
-        'title_alternative'=>$this->title_alternative,
-        'name'=>$this->user->name,
-        'type'=>$this->contentType->type,
-        'slug'=>$this->slug,
+            'title' =>$this->franchise->title,
+            'title_alternative'=>$this->title_alternative,
+            'name'=>$this->user->name,
+            'type'=>$this->contentType->type,
+            'slug'=>$this->slug,
         ];
 
     }

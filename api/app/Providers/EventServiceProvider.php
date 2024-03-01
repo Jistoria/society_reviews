@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ReplyNotificationEvent;
 use App\Events\UserVerified;
+use App\Listeners\NotifyOtherCommentersListener;
+use App\Listeners\SendReplyNotificationListener;
 use App\Listeners\SendWelcomeNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserVerified::class => [
             SendWelcomeNotification::class,
+        ],
+        ReplyNotificationEvent::class => [
+            SendReplyNotificationListener::class,
+            NotifyOtherCommentersListener::class
         ],
     ];
 

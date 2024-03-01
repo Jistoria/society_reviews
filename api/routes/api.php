@@ -39,6 +39,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/take', [UserController::class, 'getSessionDetails']);
     //cerrar sesion
     Route::post('/logout',[UserController::class, 'logout']);
+    //Obtener Notificaciones
+    Route::get('get_notifications',[UserController::class,'getNotifications']);
     //Comentarios
     Route::resource('comment', CommentController::class)->middleware('verified');
 });

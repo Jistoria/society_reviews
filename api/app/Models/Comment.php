@@ -26,8 +26,25 @@ class Comment extends Model
         return $this->belongsTo(Review::class,'review_id');
     }
     public function replies()
-{
-    return $this->hasMany(Comment::class, 'com_comment_id');
-}
+    {
+        return $this->hasMany(Comment::class, 'com_comment_id');
+    }
+
+    /**
+     * Define la relación para el comentario padre.
+     */
+    public function parentComment()
+    {
+        return $this->belongsTo(Comment::class, 'com_comment_id');
+    }
+    public function notifyComment()
+    {
+        return [
+            'title' =>$this->review->title_alternative,
+            'name' => $this->user->name,
+            'slug'=>"{$this->review->franchise->slug}/{$this->review->slug}"
+        ];
+    }
+
 
 }

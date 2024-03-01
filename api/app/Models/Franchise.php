@@ -25,6 +25,7 @@ class Franchise extends Model
     protected $hidden = ['pivot'];
     protected $fillable = [
         'title',
+        'title_alternative',
         'description',
         'animation_studio_latest',
         'image_url',
