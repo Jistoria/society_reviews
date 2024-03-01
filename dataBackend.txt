@@ -69,3 +69,19 @@ ACTUALIAR TAGS DE FRANQUICIA
     MENSAJES DE VALIDACION
         'tag_id.required' => 'Se requiere al menos un tag',
         'tag_id.exists' => 'El tag seleccionado no es válido',
+
+Datos para crear REVIEW:
+        'franchise_id' => id de la franquicia relacionada,
+        'content_type_id' => id del tipo de contenido relacionado,
+        'user_id' => usuario que esta creando la reseña,
+        'title_alternative' => titulo de la reseña,
+        'description_alternative' => breve descripcion de la reseña,
+        'data' =>  reseña sin spoilers,
+        'rating_main' => puntuacion principal de la reseña,
+        'spoiler_content'=> reseña con spoilers,
+        'release_year' => fecha de lanzamiento de la serie/peli/ova,
+        'release_year_end' fecha de finalización,
+        'quantity_episode' cantidad de episodio en caso de ser serie,
+        'duration_time' duracion en caso de ser pelicula u ova,
+
+
