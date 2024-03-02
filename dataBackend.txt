@@ -84,4 +84,6 @@ Datos para crear REVIEW:
         'quantity_episode' cantidad de episodio en caso de ser serie,
         'duration_time' duracion en caso de ser pelicula u ova,
 
-
+ACTUALIAR REVIEW (recuerda la id en la url)
+    funciona igual que el de franchise solo valida el title_alternative de ahi 
+        se le puede enviar cualquier dato para actualizar

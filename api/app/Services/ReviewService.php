@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\NotifyUsersAboutReview;
+use App\Models\ContentType;
 use App\Models\Review;
 use App\Models\Franchise;
 use App\Models\User;
@@ -109,4 +110,16 @@ class ReviewService
         $review->delete();
     }
 
+    /**
+     * Obtener una lista de tipos de contenido.
+     *
+     * Esta función devuelve un pluck de la colección ContentType, que es un array asociativo
+     * donde las claves son content_type_id y los valores son los tipos de contenido.
+     *
+     * @return array Un array asociativo de tipos de contenido, donde las claves son content_type_id y los valores son los tipos de contenido.
+     */
+    public function getContentType(): array
+{
+    return ContentType::pluck('type', 'content_type_id')->toArray();
+}
 }

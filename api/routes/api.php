@@ -53,12 +53,14 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::resource('franchise', FranchiseController::class);
     Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
     Route::get('franchise/{franchise}/tags',[FranchiseController::class,'getTags']);
+    Route::get('pluck/franchise',[FranchiseController::class,'pluckFranchise']);
     //Reseñas
     Route::resource('review', ReviewController::class);
     Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);
 
     // Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
-
+    //Tipo de contenido
+    Route::get('content_type',[ReviewController::class,'pluckContenType']);
 });
 
 //Rutas solo para SuperAdmin

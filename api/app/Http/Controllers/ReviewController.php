@@ -77,4 +77,10 @@ class ReviewController extends Controller
             return response()->json(['success' => false, 'message' => 'Error de servidor', 'error' => $e->getMessage()]);
         }
     }
+
+    public function pluckContenType()
+    {
+        return response()->json(['success'=>true, 'content_type'=>$this->reviewService->getContentType()]);
+    }
+
 }

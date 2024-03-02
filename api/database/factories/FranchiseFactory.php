@@ -22,6 +22,7 @@ class FranchiseFactory extends Factory
         $title = $this->faker->sentence;
     return [
             'title' => $title,
+            'title_alternative' => $this->faker->sentence,
             'slug' => Str::slug($title),
             'description' => $this->faker->paragraph,
             'animation_studio_latest' => $this->faker->company,

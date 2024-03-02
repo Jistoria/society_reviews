@@ -24,6 +24,7 @@ class FranchiseRequest extends FormRequest
          // Reglas para todos los valores excepto tag_id
         $rulesWithoutTagId = [
             'title' => 'required|string|max:255|unique:franchises',
+            'title_alternative' => 'string|max:255',
             'description' => 'required|string',
             'animation_studio_latest' => 'nullable|string|max:255',
             'image_url' => 'required|string|max:255',

@@ -94,4 +94,10 @@ class FranchiseController extends Controller
         $tags = $franchise->tags()->select('tags.tag_id')->get();
         return response()->json(['success'=>true,'tags_franchise'=>$tags]);
     }
+
+    public function pluckFranchise()
+    {
+        $franchise = Franchise::pluck('title','franchise_id');
+        return response()->json(['success'=>true,'franchise'=>$franchise]);
+    }
 }
