@@ -36,7 +36,7 @@ const pre_data = ()=>{
     form_franchise.title = 'Tri-gun',
     form_franchise.description ='un tipo pacifista',
     form_franchise.animation_studio_latest ='Madhouse',
-    form_franchise.image_url='https://static.wikia.nocookie.net/trigun/images/1/10/Wol.jpg/revision/latest?cb=20140126030541&path-prefix=es',
+    form_franchise.image_url='https://steamuserimages-a.akamaihd.net/ugc/773989158926471047/665BF26EFBCFA750F99C022A4D3C0959AFC21DF1/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
     form_franchise.author = 'Yasuhiro Nightow',
     form_franchise.original_work ='manga',
     form_franchise.first_release = '1970-08-30',
@@ -69,7 +69,6 @@ const change_side = () =>{
                             <div class="form-floating mb-3">
                                 <h1>Descripcion</h1>
                                 <textarea v-model="form_franchise.description" class="form-control" placeholder="Leave a comment here"></textarea>
-
                             </div>
                             <div class="form-floating mb-3">
                                 <h1>Estudio de animacion</h1>
@@ -94,11 +93,10 @@ const change_side = () =>{
                             </div>
                             <div class="form-floating mb-3">
                                 <h1>seleccione tags minimo 2</h1>
-                                <select v-model="form_franchise.tag_id"  class="form-select" multiple aria-label="Multiple select example">
-                                        <!-- <option v-for="(tagName, tag_id) in tagsP.tags" :key="tag_id" :value="{ id: tag_id, name: tagName }">{{ tag_id }}  {{ tagName }}</option> -->
-                                        <option v-for="(tagName, tag_id) in tagsP.tags" :key="tag_id" :value="tag_id">{{ tag_id }}  {{ tagName }}</option>
-    
-                                </select>
+                                <div>
+                                    <input type="checkbox" v-for="(tag, index) in tagsP.tags" :key="index" :id="'tag_' + tag.tag_id" :value="tag.tag_id" v-model="form_franchise.tag_id">
+                                    <label class="me-2" v-for="(tag, index) in tagsP.tags" :key="index" :for="'tag_' + tag.tag_id">{{ tag.name_tag }}</label>
+                                </div>
                             </div>
                             <ButtonG class="btn-primary">enviar formulario</ButtonG>
                     </form>
@@ -109,7 +107,7 @@ const change_side = () =>{
                         <i class=" separador_icon bi bi-arrow-left-right"></i>
                     </ButtonG>
                 </div>
-            </div>
+                </div>
                 <div class="border_y" :class="{'col-7' : side_view, 'col-12': !side_view}">
                     <div class="border_v base_view">
                         <div class="container-fluid">

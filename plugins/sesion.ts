@@ -11,7 +11,7 @@ export default defineNuxtPlugin(nuxtApp => {
                 credentials: 'include',
             }) as { user: any }; // Aquí defines el tipo esperado de la respuesta
 
-            console.log(useru.user);
+            // console.log(useru.user);
             loginP.set_data(useru.user);
         } catch (error) {
             

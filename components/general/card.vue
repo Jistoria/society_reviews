@@ -2,18 +2,7 @@
 
 </script>
 <template>
-        <div class="border_r" hidden>
-            imagen
-        </div>
-        <div class="card card_config border_y" hidden>
-            <h1>imagen</h1>
-            <div class="card-header">
-            <h2>..</h2>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">....</h5>
-            </div>
-        </div>
+    <!-- hacer un emit de los .value por ahora dejarlo afuera -->
         <div class="container-fluid border_black">
             <div class="row border_y">
                 <div class="col-3  base_image">
