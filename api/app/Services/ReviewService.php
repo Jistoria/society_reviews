@@ -13,9 +13,9 @@ class ReviewService
 {
     /**
      * Regresar un pluck de las Reseñas
-     * @return Review
+     * @return array
      */
-    public function indexReview(): Review
+    public function indexReview()
     {
         return Review::pluck('title_alternative','review_id');
     }
@@ -38,6 +38,10 @@ class ReviewService
         return $review;
     }
 
+    public function editReview(Review $review)
+    {
+        return $review;
+    }
     protected function updateFranchiseReleaseYear($franchiseId, $releaseYear, $releaseYearEnd)
     {
         $franchise = Franchise::find($franchiseId);

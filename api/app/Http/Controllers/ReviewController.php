@@ -19,7 +19,7 @@ class ReviewController extends Controller
     //Matenme
     public function index()
     {
-        $reviews = $this->indexReview();
+        $reviews = $this->reviewService->indexReview();
         return response()->json(['success'=>true,'reviews'=>$reviews]);
     }
     //Crear Review
@@ -56,6 +56,11 @@ class ReviewController extends Controller
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => 'Error al eliminar la reseña', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    public function edit(Review $review)
+    {
+        return $this->reviewService->editReview($review);
     }
 
     public function update(Request $request, Review $review)
