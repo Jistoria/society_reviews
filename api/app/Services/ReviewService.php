@@ -17,7 +17,7 @@ class ReviewService
      */
     public function indexReview()
     {
-        return Review::pluck('title_alternative','review_id');
+        return Review::indexData();
     }
     /**
      * Crear una nueva revisión.

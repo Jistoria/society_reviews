@@ -72,4 +72,21 @@ class Review extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public static function indexData()
+    {
+        return self::with('franchise:franchise_id,title','contentType:content_type_id,type')
+        ->select('review_id','title_alternative','slug','rating_main','published','franchise_id','content_type_id')->get();
+    }
+    // public function dataIndex()
+    // {
+    //     return [
+    //         'review_id'=> $this->id_review,
+    //         'title_alternative' => $this->title_alternative,
+    //         'slug' => $this->slug,
+    //         'franchise_id'=> $this->franchise_id,
+    //         'franchise_title'=> $this->franchise->title,
+    //         'rating_main'=> $this->rating_main,
+    //         'published'=> $this->published
+    //     ];
+    // }
 }
