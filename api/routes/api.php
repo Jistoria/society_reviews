@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FranchiseController;
+use App\Http\Controllers\PaginateController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TagController;
@@ -24,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 
 //Verificar el Email
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
+//PAGINACIÓN/BUSQUEDA/FILTRO
+Route::get('paginate/{search?}',[PaginateController::class,'index']);
+
 
 //Rutas que requieren que no estes autenticado
 Route::middleware(['guest:sanctum'])->group(function () {
@@ -57,7 +61,6 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     //Reseñas
     Route::resource('review', ReviewController::class);
     Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);
-
     // Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
     //Tipo de contenido
     Route::get('content_type',[ReviewController::class,'pluckContenType']);
