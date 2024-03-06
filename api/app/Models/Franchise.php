@@ -31,6 +31,7 @@ class Franchise extends Model
         'image_url',
         'author',
         'original_work',
+        'franchise_rating',
         'first_release',
         'end_release',
     ];
@@ -43,5 +44,18 @@ class Franchise extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'franchise_id');
+    }
+
+    //FUNCION PARA LA HUEVADA DE RATINGS DIOSITO SEPA QUE ESPERO QUE FUNCIONE, SI NO ME MATO
+    public function updateRating()
+    {
+        // Obtener todas las rating_main de las reviews asociadas a esta franquicia
+        $ratings = $this->reviews->pluck('rating_main');
+
+        // Calcular el promedio de las rating_main
+        $avgRating = $ratings->avg();
+
+        // Actualizar el campo franchise_rating con el promedio calculado
+        $this->update(['franchise_rating' => $avgRating]);
     }
 }

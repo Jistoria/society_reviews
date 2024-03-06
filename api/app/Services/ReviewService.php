@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\NotifyUsersAboutReview;
+use App\Jobs\UpdateFranchiseRating;
 use App\Models\ContentType;
 use App\Models\Review;
 use App\Models\Franchise;
@@ -32,8 +33,13 @@ class ReviewService
         $releaseYear = $data['release_year'];
         $releaseYearEnd = $data['release_year_end'];
         $this->updateFranchiseReleaseYear($franchiseId, $releaseYear, $releaseYearEnd);
-        // Crear la nueva revisión
-        $review = Review::create($data);
+        // Crear una nueva instancia de revisión sin guardarla en la base de datos
+        $review = new Review($data);
+        // Si es necesario, puedes manipular los datos aquí antes de guardar la revisión
+
+        // Guardar la revisión en la base de datos
+        $review->save();
+        UpdateFranchiseRating::dispatch($data['franchise_id']);
 
         return $review;
     }
