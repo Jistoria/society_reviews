@@ -21,7 +21,6 @@ export const TagsAd = defineStore('TagsAd',{
                     },
                     credentials:'include'
                 })
-                console.log(response);
                 return response
             } catch (error) {
                 console.log(error.response._data.message)
@@ -39,15 +38,14 @@ export const TagsAd = defineStore('TagsAd',{
                     credentials:'include'
                 })
                 this.tags = response.tags;
-                console.log(this.tags);
             } catch (error) {
-                
+                console.log(error.response);
             }
         },
         async Tags_put(formdata,id){
             try {
                 console.log(formdata)
-                const response = await $fetch(` http://127.0.0.1:8000/api/tag/${id} `,{
+                const response = await $fetch(`http://127.0.0.1:8000/api/tag/${id} `,{
                     method: 'PUT',
                     body: formdata,
                     headers:{

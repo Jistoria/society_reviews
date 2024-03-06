@@ -56,7 +56,6 @@ export const LoginStore = defineStore('loginP',{
             }else{
                 this.session = true;
                 this.user=data_set;
-                console.log(this.user);
 
             }
     

@@ -1,5 +1,5 @@
 <script setup>
-let stageSet = ref ('franchise')
+let stageSet = ref ('reviews')
 const viewstage = (data)=>{
     console.log(data);
     stageSet.value = data;
@@ -34,8 +34,8 @@ const viewstage = (data)=>{
     </div>
     <!-- componente de estructura para cada ruta ya sea reseñas, franquicias y tags -->
     <!-- hacer un composable para franquisias y tags con el mismo para reseñas -->
-        <div class="container-fluid border_blue">
-            <div class="border_r container">
+        <div class="container-fluid ">
+            <div class="container">
                 <ReviewsGET v-if="stageSet == 'reviews'"></ReviewsGET>
                 <FranchiseGET v-if="stageSet == 'franchise'"></FranchiseGET>
                 <TagsGet v-if="stageSet == 'tags'"></TagsGet>

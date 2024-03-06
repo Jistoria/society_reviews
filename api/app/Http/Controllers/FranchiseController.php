@@ -15,7 +15,8 @@ class FranchiseController extends Controller
     public function index()
     {
         // $franchises = Franchise::with('tags:tag_id,name_tag')->findOrFail(2);
-        $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest')->get();
+        // $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest')->get();
+        $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest','author','original_work')->get();
         return response()->json(['success'=>true, 'franchises'=>$franchises]);
     }
     //Crear franquicia
@@ -94,7 +95,6 @@ class FranchiseController extends Controller
         $tags = $franchise->tags()->select('tags.tag_id')->get();
         return response()->json(['success'=>true,'tags_franchise'=>$tags]);
     }
-
     public function pluckFranchise()
     {
         $franchise = Franchise::pluck('title','franchise_id');

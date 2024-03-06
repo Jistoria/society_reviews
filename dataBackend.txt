@@ -81,8 +81,8 @@ Datos para crear REVIEW:
         'spoiler_content'=> reseña con spoilers,
         'release_year' => fecha de lanzamiento de la serie/peli/ova,
         'release_year_end' fecha de finalización,
-        'quantity_episode' cantidad de episodio en caso de ser serie,
-        'duration_time' duracion en caso de ser pelicula u ova,
+        'quantity_episode' cantidad de episodio en caso de ser serie, los dos son Null
+        'duration_time' duracion en caso de ser pelicula u ova, los dos null 
 
 ACTUALIAR REVIEW (recuerda la id en la url)
     funciona igual que el de franchise solo valida el title_alternative de ahi 

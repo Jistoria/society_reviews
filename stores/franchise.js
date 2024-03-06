@@ -1,7 +1,9 @@
 export const FranchiseAd = defineStore('franchiseAd',{
     state:()=>(
         {
-            franchise:[]
+            franchise:[],
+            franchise_edit:[],
+            franchise_edit_tags:[],
         }
     ),
     getters:{
@@ -41,25 +43,27 @@ export const FranchiseAd = defineStore('franchiseAd',{
                 console.log(error);
             }
         },
-        async Franchise_put(formdata){
+        async Franchise_put(formdata,id){
             try {
-                const response = await $fetch('',{
-                    method: 'PUT',
-                    body: formdata,
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type':'application/json',
-                    },
-                    credentials:'include'
+                 const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${id}`,{
+                     method: 'PUT',
+                     body: formdata,
+                     headers:{
+                         'X-Requested-With': 'XMLHttpRequest',
+                         'Content-Type':'application/json',
+                     },
+                     credentials:'include'
                 })
                 console.log(response);
+
             } catch (error) {
-                
+                console.log(response.error);
             }
         },
-        async Franchise_delete(){
+        async Franchise_delete(formdata){
+            console.log(formdata);
             try {
-                const response = await $fetch('',{
+                const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${formdata}`,{
                     method: 'DELETE',
                     headers:{
                         'X-Requested-With': 'XMLHttpRequest',
@@ -67,11 +71,58 @@ export const FranchiseAd = defineStore('franchiseAd',{
                     },
                     credentials:'include'
                 })
-                console.log(response);
+                return true
             } catch (error) {
-                
+                console.log(error.response);
+                return false
             }
-        }
-
+        },
+        async Franchiste_get_edit(formdata){
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${formdata}/edit`,{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                this.franchise_edit= response.franchise;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async Franchise_get_tags(formdata){
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${formdata}/tags`,{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                this.franchise_edit_tags = response.tags_franchise
+            } catch (error) {
+                console.log(error.response);
+            }
+        },
+        async Franchiste_edit_tags(formdata,id){
+            console.log('id enviando a actualizar ' + id);
+            console.log(formdata);
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${id}/update_tags`,{
+                    method: 'POST',
+                    body: formdata,
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+            } catch (error) {
+                console.log(error.response);
+            }
+        },
     },
 })
