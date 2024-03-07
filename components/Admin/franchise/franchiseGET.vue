@@ -2,7 +2,6 @@
 const franchiseP = FranchiseAd();
 onMounted(async () => {
     await franchiseP.Franchise_get();
-
 });
 const delete_franchise = async (data) =>{
     const response = await franchiseP.Franchise_delete(data);
@@ -10,6 +9,10 @@ const delete_franchise = async (data) =>{
         await franchiseP.Franchise_get();
     }
 }
+//Cambia la pagina con los botones de navegacion en la paginacion
+const handlePageChange = async (page) => {
+  await franchiseP.Franchise_get_paginacion(page)
+};
 </script>
 <template>
         <NuxtLink to="/place/admin/franchise/franchisePOST">
@@ -31,7 +34,7 @@ const delete_franchise = async (data) =>{
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(franchise, index) in franchiseP.franchise" :key="index" >
+                        <tr v-for="(franchise, index) in franchiseP.franchise.data" :key="index" >
                             <td class="d-flex justify-content-center ">
                                 <img width="150px" height="150" src="https://steamuserimages-a.akamaihd.net/ugc/773989158926471047/665BF26EFBCFA750F99C022A4D3C0959AFC21DF1/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="Descripción de la imagen">
                                 <!-- <img width="420px" height="420" :src="`${franchise.image_url}`"> -->
@@ -64,6 +67,11 @@ const delete_franchise = async (data) =>{
                         </tr>
                     </tbody>
             </table>
+            <Paginacion
+            :currentPage="franchiseP.franchise.current_page"
+            :totalPages="franchiseP.franchise.last_page"
+            :onPageChange="handlePageChange"
+            />
         </div>
 </template>
 <style>

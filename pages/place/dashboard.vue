@@ -61,6 +61,7 @@ h1{
     overflow: hidden;
     transition: width 0.2s linear;
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 .linear{
     margin: 0;

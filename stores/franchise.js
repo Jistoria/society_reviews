@@ -43,6 +43,22 @@ export const FranchiseAd = defineStore('franchiseAd',{
                 console.log(error);
             }
         },
+        async Franchise_get_paginacion(page){
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/franchise?page=${page}`,{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                console.log(response);
+                this.franchise = response.franchises;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async Franchise_put(formdata,id){
             try {
                  const response = await $fetch(`http://127.0.0.1:8000/api/franchise/${id}`,{
