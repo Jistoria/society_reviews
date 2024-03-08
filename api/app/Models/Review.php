@@ -75,7 +75,7 @@ class Review extends Model
     public static function indexData()
     {
         return self::with('franchise:franchise_id,title','contentType:content_type_id,type')
-        ->select('review_id','title_alternative','slug','rating_main','published','franchise_id','content_type_id')->get();
+        ->select('review_id','title_alternative','slug','rating_main','published','franchise_id','content_type_id')->paginate(5);
     }
     // public function dataIndex()
     // {
