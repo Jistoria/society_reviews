@@ -6,7 +6,8 @@ onMounted(async () => {
 const delete_franchise = async (data) =>{
     const response = await franchiseP.Franchise_delete(data);
     if(response == true){
-        await franchiseP.Franchise_get();
+        console.log(franchiseP.franchise.current_page)
+        await franchiseP.Franchise_get_paginacion(franchiseP.franchise.current_page);
     }
 }
 //Cambia la pagina con los botones de navegacion en la paginacion
@@ -19,7 +20,7 @@ const handlePageChange = async (page) => {
             franchisePost
         </NuxtLink>
         <div>
-            aqui iria el buscador debe ser universal
+            <Buscador></Buscador>
         </div>
         <div class="franchise_base table-responsive">
             <table class="table align-middle">

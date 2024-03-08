@@ -3,13 +3,12 @@
 const n = 10;
 const reviewP = ReviewAd();
 onMounted(async () => {
-    console.log('me monte')
     await reviewP.Review_get();
 });
 const delete_review =  async(data)=>{
     console.log(data);
     await reviewP.Review_delete(data);
-    await reviewP.Review_get();
+    await reviewP.Review_get_paginate(reviewP.review.current_page);
 }
 const handlePageChange = async (page) => {
   await reviewP.Review_get_paginate(page)
