@@ -42,6 +42,22 @@ export const ReviewAd = defineStore('ReviewAd',{
                 console.log(error.response);
             }
         },
+        async Review_get_paginate(page){
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/review?page=${page}`,{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                console.log(response);
+                this.review = response.reviews;
+            } catch (error) {
+                console.log(error.response);
+            }
+        },
         async Review_put(formdata,id){
             console.log(id);
             console.log(formdata);

@@ -1,4 +1,5 @@
 <script setup>
+
 const n = 10;
 const reviewP = ReviewAd();
 onMounted(async () => {
@@ -10,6 +11,9 @@ const delete_review =  async(data)=>{
     await reviewP.Review_delete(data);
     await reviewP.Review_get();
 }
+const handlePageChange = async (page) => {
+  await reviewP.Review_get_paginate(page)
+};
 </script>
 <template>
     <div class="border_r">
@@ -31,12 +35,12 @@ const delete_review =  async(data)=>{
 
                 </div>
                 <div class="row base_r">
-                    <div class="col-12  base_t" v-for="reviews in reviewP.review">
+                    <div class="col-12  base_t" v-for="reviews in reviewP.review.data">
                         <div class="container-fluid border_black">
                             <div class="row border_y">
-                                <div class="col-3  base_image">
+                                <!-- <div class="col-3  base_image">
                                     <img src="../../../assets/images.jfif" >
-                                </div> 
+                                </div>  -->
                                 <div class="col-9 border_v base_content">
                                     <div class="card">
                                         <div class="card-header">
@@ -54,6 +58,11 @@ const delete_review =  async(data)=>{
                         </div>
                     </div>
                 </div>
+                <Paginacion
+                :currentPage="reviewP.review.current_page"
+                :totalPages="reviewP.review.last_page"
+                :onPageChange="handlePageChange"
+                />
             </div>
     </div>
 
