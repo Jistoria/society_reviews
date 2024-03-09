@@ -21,8 +21,7 @@ class ReviewService
         $query = Review::indexData();
         if ($search) {
             // Agregar condiciones de búsqueda según tus criterios
-            $query->where('title', 'like', "%$search%")
-                    ->orWhere('title_alternative', 'like', "%$search%");
+            $query->where('title_alternative', 'like', "%$search%");
         }
         return $query->paginate(5);
     }
