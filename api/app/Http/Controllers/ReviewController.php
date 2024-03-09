@@ -17,9 +17,9 @@ class ReviewController extends Controller
     }
 
     //Matenme
-    public function index()
+    public function index(Request $request)
     {
-        $reviews = $this->reviewService->indexReview();
+        $reviews = $this->reviewService->indexReview($request->query('search'));
         return response()->json(['success'=>true,'reviews'=>$reviews]);
     }
     //Crear Review

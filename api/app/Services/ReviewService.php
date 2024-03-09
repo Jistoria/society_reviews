@@ -16,9 +16,15 @@ class ReviewService
      * Regresar un pluck de las Reseñas
      * @return array
      */
-    public function indexReview()
+    public function indexReview($search=null)
     {
-        return Review::indexData();
+        $query = Review::indexData();
+        if ($search) {
+            // Agregar condiciones de búsqueda según tus criterios
+            $query->where('title', 'like', "%$search%")
+                    ->orWhere('title_alternative', 'like', "%$search%");
+        }
+        return $query->paginate(5);
     }
     /**
      * Crear una nueva revisión.
