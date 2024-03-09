@@ -12,13 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 class FranchiseController extends Controller
 {
     //Mostrar todas las franquicias
-    public function index()
+    public function index(Request $request)
     {
-        // $franchises = Franchise::with('tags:tag_id,name_tag')->findOrFail(2);
-        // $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest')->get();
-        $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest','author','original_work')->paginate(13);
+        $search = $request->query('search');
+        $franchises = Franchise::select('franchise_id','title', 'image_url','animation_studio_latest','author','original_work');
+        if ($search) {
+            // Agregar condiciones de búsqueda según tus criterios
+            $franchises->where('title', 'like', "%$search%");
+        }
+        $franchises = $franchises->paginate(10); // Aquí necesitas asignar el resultado paginado a la variable $franchises
         return response()->json(['success'=>true, 'franchises'=>$franchises]);
     }
+
     //Crear franquicia
     public function store(FranchiseRequest $f_request)
     {

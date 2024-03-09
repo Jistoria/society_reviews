@@ -24,7 +24,7 @@ class PaginateService
                     ->orWhere('title_alternative', 'like', "%$search%");
         }
 
-        return $query->paginate(22);
+        return $query->paginate(10);
     }
 
 }
