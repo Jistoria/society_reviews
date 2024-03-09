@@ -1,5 +1,5 @@
 <script setup>
-
+const rawrf="review"
 const n = 10;
 const reviewP = ReviewAd();
 onMounted(async () => {
@@ -10,11 +10,17 @@ const delete_review =  async(data)=>{
     await reviewP.Review_delete(data);
     await reviewP.Review_get_paginate(reviewP.review.current_page);
 }
-const handlePageChange = async (page) => {
-  await reviewP.Review_get_paginate(page)
+const handlePageChange = async (page,search) => {
+  await reviewP.Review_get_paginate(page,search)
 };
 </script>
 <template>
+    <div class="border_r">
+        <Buscador
+            :rawr="rawrf"
+            :onSearch="handlePageChange"
+        />
+    </div>
     <div class="border_r">
         <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: 3 }}">
                                         <ButtonG class="btn-secondary" >

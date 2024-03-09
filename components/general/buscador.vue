@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <input type="text" v-model="searchQuery" placeholder="Buscar..." />
+    <input type="text" v-model="searchQuery" @input="onSearchInput" placeholder="Buscar..." />
     <span class="search-icon">
       <i class="bi bi-search"></i>
     </span>
@@ -11,19 +11,49 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, defineProps } from 'vue';
+const franquiciaStore= FranchiseAd();
+const reviewStore = ReviewAd();
+const props = defineProps({
+  rawr: {
+    type: String,
+    required: true
+  },
+  onSearch: {
+    type: Function,
+    required: true
+  },
+});
 
 const searchQuery = ref('');
 
 const clearSearchQuery = () => {
   searchQuery.value = '';
+  switch(props.rawr) {
+    case 'franquicia':
+      franquiciaStore.Franchise_get();
+      break;
+    case 'review':
+      reviewStore.Review_get();
+      break;
+    default:
+      console.log('Identificador no reconocido');
+  }
+};
+
+const onSearchInput = () => {
+  // Verificar si la longitud de la cadena de búsqueda es mayor o igual a 2
+  if (searchQuery.value.length >= 2) {
+    props.onSearch(1, searchQuery.value);
+  }
 };
 
 watch(searchQuery, (newValue) => {
-  // Aquí puedes realizar acciones adicionales cada vez que searchQuery cambie
-  console.log('Nuevo valor de searchQuery:', newValue);
-  // También puedes actualizar el estado global aquí, si es necesario
-  // franchiseStore.search.update(newValue);
+  console.log('buscador:', newValue);
+  console.log('identificador:', props.rawr);
+  if (newValue === '') {
+    clearSearchQuery();
+  }
 });
 </script>
 

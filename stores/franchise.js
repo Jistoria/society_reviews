@@ -2,6 +2,7 @@ export const FranchiseAd = defineStore('franchiseAd',{
     state:()=>(
         {
             franchise:[],
+            franchise_search:null,
             franchise_edit:[],
             franchise_edit_tags:[],
         }
@@ -43,20 +44,60 @@ export const FranchiseAd = defineStore('franchiseAd',{
                 console.log(error);
             }
         },
-        async Franchise_get_paginacion(page){
-            try {
-                const response = await $fetch(`http://127.0.0.1:8000/api/franchise?page=${page}`,{
-                    method: 'GET',
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type':'application/json',
-                    },
-                    credentials:'include'
-                })
-                console.log(response);
-                this.franchise = response.franchises;
-            } catch (error) {
-                console.log(error);
+        async Franchise_get_paginacion(page,search){
+            if(search){
+                try {
+                    if (this.franchise_search == null  || search !== this.franchise_search) {
+                        this.franchise_search=search
+                    }
+                    const response = await $fetch(`http://127.0.0.1:8000/api/franchise?page=${page}&search=${search}`,{
+                        method: 'GET',
+                        headers:{
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type':'application/json',
+                        },
+                        credentials:'include'
+                    })
+                    console.log(response);
+                    this.franchise = response.franchises;
+                } catch (error) {
+                    console.log(error);
+                }
+            }else{
+                if(this.franchise_search == null){
+                    try {
+                        const response = await $fetch(`http://127.0.0.1:8000/api/franchise?page=${page}`,{
+                            method: 'GET',
+                            headers:{
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type':'application/json',
+                            },
+                            credentials:'include'
+                        })
+                        console.log(response);
+                        this.franchise = response.franchises;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }else{
+                    try {
+                        search =this.franchise_search
+                        console.log(search)
+                        console.log(page)
+                        const response = await $fetch(`http://127.0.0.1:8000/api/franchise?page=${page}&search=${search}`,{
+                            method: 'GET',
+                            headers:{
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type':'application/json',
+                            },
+                            credentials:'include'
+                        })
+                        console.log(response);
+                        this.franchise = response.franchises;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
             }
         },
         async Franchise_put(formdata,id){

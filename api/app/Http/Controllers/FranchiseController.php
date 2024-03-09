@@ -20,7 +20,7 @@ class FranchiseController extends Controller
             // Agregar condiciones de búsqueda según tus criterios
             $franchises->where('title', 'like', "%$search%");
         }
-        $franchises = $franchises->paginate(10); // Aquí necesitas asignar el resultado paginado a la variable $franchises
+        $franchises = $franchises->paginate(3); // Aquí necesitas asignar el resultado paginado a la variable $franchises
         return response()->json(['success'=>true, 'franchises'=>$franchises]);
     }
 

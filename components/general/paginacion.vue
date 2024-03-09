@@ -19,12 +19,12 @@ const props = defineProps({
   totalPages: Number,
   onPageChange: Function
 });
-
+const search = null;
 const paginationButtons = ref([]);
 const paginationContainer = ref(null);
 
 const goToPage = (page) => {
-  props.onPageChange(page);
+  props.onPageChange(page,search);
 };
 
 onMounted(() => {
@@ -54,7 +54,7 @@ function calculateMaxVisibleButtons() {
 
 function generatePaginationButtons(maxVisibleButtons) {
   const buttons = [];
-  console.log(maxVisibleButtons)
+  //console.log(maxVisibleButtons)
   if (props.totalPages <= 1) {
     paginationButtons.value = [];
     return;

@@ -1,5 +1,6 @@
 <script setup>
 const franchiseP = FranchiseAd();
+const rawrf = "franquicia";
 onMounted(async () => {
     await franchiseP.Franchise_get();
 });
@@ -11,8 +12,8 @@ const delete_franchise = async (data) =>{
     }
 }
 //Cambia la pagina con los botones de navegacion en la paginacion
-const handlePageChange = async (page) => {
-  await franchiseP.Franchise_get_paginacion(page)
+const handlePageChange = async (page,search) => {
+    await franchiseP.Franchise_get_paginacion(page,search)
 };
 </script>
 <template>
@@ -20,7 +21,10 @@ const handlePageChange = async (page) => {
             franchisePost
         </NuxtLink>
         <div>
-            <Buscador></Buscador>
+            <Buscador
+            :rawr="rawrf"
+            :onSearch="handlePageChange"
+            />
         </div>
         <div class="franchise_base table-responsive">
             <table class="table align-middle">

@@ -3,6 +3,7 @@ export const ReviewAd = defineStore('ReviewAd',{
         {
             review:[],
             review_edit:[],
+            review_search:null
         }
     ),
     getters:{
@@ -38,58 +39,65 @@ export const ReviewAd = defineStore('ReviewAd',{
                 })
                 console.log(response);
                 this.review = response.reviews;
+                this.review_search=null
             } catch (error) {
                 console.log(error.response);
             }
         },
-        async Review_get_paginate(page){
-            try {
-                const response = await $fetch(`http://127.0.0.1:8000/api/review?page=${page}`,{
-                    method: 'GET',
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type':'application/json',
-                    },
-                    credentials:'include'
-                })
-                console.log(response);
-                this.review = response.reviews;
-            } catch (error) {
-                console.log(error.response);
-            }
-        },
-        async Review_put(formdata,id){
-            console.log(id);
-            console.log(formdata);
-            try {
-                const response = await $fetch(`http://127.0.0.1:8000/api/review/${id}`,{
-                    method: 'PUT',
-                    body: formdata,
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type':'application/json',
-                    },
-                    credentials:'include'
-                })
-                console.log(response);
-            } catch (error) {
-                
-            }
-        },
-        async Review_delete(formdata){
-            try {
-                const response = await $fetch(`http://127.0.0.1:8000/api/review/${formdata}`,{
-                    method: 'DELETE',
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type':'application/json',
-                    },
-                    credentials:'include'
-                })
-                console.log(response);
-                
-            } catch (error) {
-                
+        async Review_get_paginate(page,search){
+            if(search){
+                try {
+                    if (this.review_search == null  || search !== this.review_search) {
+                        this.review_search=search
+                    }
+                    const response = await $fetch(`http://127.0.0.1:8000/api/review?page=${page}&search=${search}`,{
+                        method: 'GET',
+                        headers:{
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type':'application/json',
+                        },
+                        credentials:'include'
+                    })
+                    console.log(response);
+                    this.review = response.reviews;
+                } catch (error) {
+                    console.log(error);
+                }
+            }else{
+                if(this.review_search == null){
+                    try {
+                        const response = await $fetch(`http://127.0.0.1:8000/api/review?page=${page}`,{
+                            method: 'GET',
+                            headers:{
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type':'application/json',
+                            },
+                            credentials:'include'
+                        })
+                        console.log(response);
+                        this.review = response.reviews;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }else{
+                    try {
+                        search =this.review_search
+                        console.log(search)
+                        console.log(page)
+                        const response = await $fetch(`http://127.0.0.1:8000/api/review?page=${page}&search=${search}`,{
+                            method: 'GET',
+                            headers:{
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type':'application/json',
+                            },
+                            credentials:'include'
+                        })
+                        console.log(response);
+                        this.review = response.reviews;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
             }
         },
         async Review_get_edit(formdata){
