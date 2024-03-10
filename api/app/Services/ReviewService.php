@@ -134,7 +134,21 @@ class ReviewService
      * @return array Un array asociativo de tipos de contenido, donde las claves son content_type_id y los valores son los tipos de contenido.
      */
     public function getContentType(): array
-{
-    return ContentType::pluck('type', 'content_type_id')->toArray();
-}
+    {
+        return ContentType::pluck('type', 'content_type_id')->toArray();
+    }
+
+    /**
+     * Obtener una lista de los autores
+     *
+     * @return array
+     */
+    public function getAuthors()
+    {
+        return User::join('reviews', 'users.id', '=', 'reviews.user_id')
+                ->select('users.id', 'users.name')
+                ->distinct()
+                ->pluck('name', 'id');
+    }
+
 }

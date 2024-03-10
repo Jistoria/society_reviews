@@ -29,6 +29,14 @@ Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
 Route::get('paginate/{search?}',[PaginateController::class,'index']);
 
 
+
+//PLUCKS
+Route::get('pluck/franchise',[FranchiseController::class,'pluckFranchise']);
+//Tipo de contenido
+Route::get('content_type',[ReviewController::class,'pluckContenType']);
+//Obtener autores de reseñas
+Route::get('pluck/authors',[ReviewController::class,'pluckAuthors']);
+
 //Rutas que requieren que no estes autenticado
 Route::middleware(['guest:sanctum'])->group(function () {
     //registrarse como civil
@@ -57,13 +65,12 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::resource('franchise', FranchiseController::class);
     Route::post('franchise/{franchise}/update_tags', [FranchiseController::class,'updateTags']);
     Route::get('franchise/{franchise}/tags',[FranchiseController::class,'getTags']);
-    Route::get('pluck/franchise',[FranchiseController::class,'pluckFranchise']);
+
     //Reseñas
     Route::resource('review', ReviewController::class);
     Route::post('review/{review}/published', [ReviewController::class,'publishedReview']);
     // Route::post('review/{review}/notify',[ReviewController::class,'notifyReview']);
-    //Tipo de contenido
-    Route::get('content_type',[ReviewController::class,'pluckContenType']);
+
 });
 
 //Rutas solo para SuperAdmin

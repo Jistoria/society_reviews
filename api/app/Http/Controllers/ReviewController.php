@@ -88,4 +88,9 @@ class ReviewController extends Controller
         return response()->json(['success'=>true, 'content_type'=>$this->reviewService->getContentType()]);
     }
 
+    public function pluckAuthors()
+    {
+        return response()->json(['success'=>true,'authors'=>$this->reviewService->getAuthors()]);
+    }
+
 }
