@@ -145,10 +145,17 @@ class ReviewService
      */
     public function getAuthors()
     {
-        return User::join('reviews', 'users.id', '=', 'reviews.user_id')
-                ->select('users.id', 'users.name')
-                ->distinct()
-                ->pluck('name', 'id');
+        $authors_admin = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->pluck('name', 'id');
+        $authors_community = User::join('reviews', 'users.id', '=', 'reviews.user_id')
+                    ->select('users.id', 'users.name')
+                    ->whereHas('roles', function ($query) {
+                        $query->where('name', 'Civil');
+                    })
+                    ->distinct()
+                    ->pluck('name', 'id');
+        return ['authors_admin'=> $authors_admin,'authors_community'=>$authors_community];
     }
 
 }
