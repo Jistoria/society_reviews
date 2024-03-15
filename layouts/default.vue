@@ -6,6 +6,7 @@ onMounted(() => {
 });
 const bg_ver = VerificacionE();
 //rutas para donde el footer no debe aparecer
+
 const route_remove = ()=>{
   if(route.name  == 'place-dashboard'){
     return false;

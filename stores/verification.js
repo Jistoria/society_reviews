@@ -20,6 +20,8 @@ export const VerificacionE = defineStore('emailVerificacion',{
         },
         async background(){
             this.isChecked = !this.isChecked;
-        }
+        },
+
     },
+
 })

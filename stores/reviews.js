@@ -3,7 +3,9 @@ export const ReviewAd = defineStore('ReviewAd',{
         {
             review:[],
             review_edit:[],
-            review_search:null
+            review_search:null,
+            content_type:[],
+            authors:[],
         }
     ),
     getters:{
@@ -37,7 +39,7 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
-                console.log(response);
+                // console.log(response);
                 this.review = response.reviews;
                 this.review_search=null
             } catch (error) {
@@ -116,7 +118,33 @@ export const ReviewAd = defineStore('ReviewAd',{
             } catch (error) {
                 console.log(error.response);
             }
-        }
+        },
+        async Review_content_type(){
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/content_type`,{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                // console.log(response.content_type);
+                this.content_type = response.content_type;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async filter(){
+            try {
+                const data  = await $fetch(`http://127.0.0.1:8000/api/pluck/authors`, {
+                    method: 'GET',
+                })
+                this.authors = data.authors;
+            } catch (error) {
+                throw error
+            }
+        },
 
     },
 })
