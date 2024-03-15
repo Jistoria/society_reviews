@@ -15,20 +15,20 @@ const handlePageChange = async (page,search) => {
 };
 </script>
 <template>
-    <div class="border_r" hidden>
+    <div class="border_r">
         <Buscador
             :rawr="rawrf"
             :onSearch="handlePageChange"
         />
     </div>
-    <div class="border_r" hidden>
+    <div class="border_r" >
         <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: 3 }}">
                                         <ButtonG class="btn-secondary" >
                                             <i class="bi bi-clipboard"> review 1</i>
                                         </ButtonG>
         </NuxtLink>
     </div>
-    <div class="container-fluid border_black" hidden>
+    <div class="container-fluid border_black" >
             <div class="border_y container">
                 <!-- hacer un composable para franquisias y tags con el mismo para reseñas -->
                 <div class="row">  
@@ -70,7 +70,6 @@ const handlePageChange = async (page,search) => {
                 />
             </div>
     </div>
-    <Filter></Filter>
 
 </template>
 <style>
