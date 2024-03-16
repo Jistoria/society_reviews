@@ -8,6 +8,7 @@ const data_tags = ref(null);
 //llamada al pinia
 const tagsP = TagsAd();
 const reviewP = ReviewAd();
+const coverP = coversE();
 
 onMounted(async () => {
     await tagsP.Tags_get();
@@ -139,9 +140,8 @@ const selectSubobjeto = (subobjeto) => {
     }
      subobjetoSeleccionado.value = subobjeto;
 };
-const data_send_see = () =>{
-    // const dataValues = Object.values(data_send.tags);
-    // const dataStrings = dataValues.map(tag => tag.toString());
+const data_send_see = async() =>{
+
     const data_idO = {
          "tags_id_filter": data_send.tags,
          "authors_id_filter": data_send.authors,
@@ -149,8 +149,7 @@ const data_send_see = () =>{
          "time_id_filter": data_send.time,
          "rating_id_filter": data_send.rating,
     };
-    //console.log(data_send);
-    console.log(data_idO);
+    await coverP.filter(data_idO);
 }
 const show_filter = ()=>{
     
@@ -184,7 +183,6 @@ const filtered_content_type = computed(()=>{
 const filtered_author = computed(()=>{
     return filtered
 })
-
 
 //
 const restructureIds = () => {
@@ -228,7 +226,6 @@ const toggleCheckedTag = (tag) => {
   const index = checkedTags.value.findIndex((item) => item.tag_id == tag.tag_id);
   if (index == -1) {
     checkedTags.value.push({ ...tag, id: getNextId() });
-    console.log(checkedTags.value);
   } else {
     checkedTags.value.splice(index, 1);
     restructureIds();
@@ -236,7 +233,6 @@ const toggleCheckedTag = (tag) => {
   }
   // Actualiza los tags en data_send según los tags seleccionados
   data_send.tags = checkedTags.value;
-  console.log('datos en data_send.tags');
 };
 
 //para tipo de contenido
@@ -244,30 +240,21 @@ const checkedContentTypes = ref([]);
 
 // Función para verificar si un tipo de contenido está seleccionado
 const isCheckedContentType = (contentType) => {
-  return checkedContentTypes.value.some((item) => item.number == contentType.number);
+  return checkedContentTypes.value.some((item) => item.number == contentType.content_type_id);
 };
 
 // Función para alternar la selección de un tipo de contenido
 const toggleCheckedContentType = (contentType) => {
-    console.log(contentType.number + ' ' + contentType.name );
-    const index = checkedContentTypes.value.findIndex((item) => item.number == contentType.number);
-    console.log(index);
-    console.log(checkedContentTypes.value);
+    const index = checkedContentTypes.value.findIndex((item) => item.number == contentType.content_type_id);
     if (index == -1) {
-        console.log('estoy en true');
         checkedContentTypes.value.push({ ...contentType, id: getNextId() });
-        console.log(checkedContentTypes.value);
     } else {
-        console.log('estoy en false')
         checkedContentTypes.value.splice(index, 1);
-        console.log(checkedContentTypes.value);
         restructureIds();
 
     }
   // Actualiza los tipos de contenido en data_send según los tipos de contenido seleccionados
   data_send.content_type = checkedContentTypes.value;
-  console.log('dato que sale');
-   console.log(data_send.content_type);  
 };
 //para fechas
 const checkedDate = ref([]);
@@ -321,17 +308,41 @@ const selectedLetter = ref('');
 const autors_var = ref(null);
 
 const getLetter = (index, cajas) => {
-  const keys = Object.keys(cajas);
-  const key = keys[index];
-  const letra = cajas[key];
-  return letra;
+  let keys = Object.keys(cajas);
+  let key = keys[index];
+  let letra = cajas[key];
+
+  if (index >= 0 && index < 2) {
+    const key_a = keys[0];
+    const letra = cajas[key_a];
+    return letra
+  }else if (index >= 2 && index < 4) {
+    const key_b = keys[1];
+    const letra = cajas[key_b];
+    return letra
+  }else if (index >= 4 && index < 6){
+    const key_c = keys[2];
+    const letra = cajas[key_c];
+    return letra
+  }else if(index >= 6 && index < 8){
+    const key_d = keys[3];
+    const letra = cajas[key_d];
+    return letra
+  }else{
+    const key_e = keys[4];
+    const letra = cajas[key_e];
+    return letra
+  }
+
+  //lo que tendria que hacer es que dependiendo del paso que envia hacer el v-if con la calificacion
+
 };
 watch([subobjetoSeleccionado, selectedValue], ([newSubobjeto, newValue], [oldSubobjeto, oldValue]) => {
   if (newSubobjeto) {
     selectedLetter.value = getLetter(newValue, newSubobjeto.cajas);
     const letra = getLetter(newValue, newSubobjeto.cajas);
     const nombre = newSubobjeto.nombre;
-    data_send.rating = [{ name: letra, tipo: nombre }]; // Objeto con la letra y el nombre
+    data_send.rating = [{ name: letra, tipo: nombre, rating_main: selectedValue  }]; // Objeto con la letra y el nombre
 
   }
 });
@@ -373,7 +384,7 @@ const delete_data = (groupName, index)=>{
 }
 </script>
 <template>
-
+    {{data_send}}
     <div >
         <div >
             <div class="container-fluid">
@@ -417,8 +428,8 @@ const delete_data = (groupName, index)=>{
                                                     </div> 
                                                 </div>
                                                 <div class="col-12">
-                                                    <div v-for="(name,item) in autor_see" v-if="filter_show == 'autor'" class="d-inline ms-3">
-                                                        <ButtonG class="button_filter mt-2 mb-2" @click="toggleCheckedAuthor({name,item})">
+                                                    <div v-for="(name,user_id) in autor_see" v-if="filter_show == 'autor'" class="d-inline ms-3">
+                                                        <ButtonG class="button_filter mt-2 mb-2" @click="toggleCheckedAuthor({name,user_id})">
                                                             {{ name }}
                                                             <i v-if="isCheckedAuthor({name})" class="bi bi-check-circle-fill"></i>
                                                             <i v-else class="bi bi-circle"></i>
@@ -432,10 +443,10 @@ const delete_data = (groupName, index)=>{
                                     </div>
                                     <!-- tipo de contenido -->
                                     <div>   
-                                        <div class="d-inline ms-3" v-if="filter_show == 'tipo de contenido'" v-for="(name, number) in filtered_content_type" >
-                                            <ButtonG class="button_filter mt-2 mb-3"   @click="toggleCheckedContentType({ number, name })" >
+                                        <div class="d-inline ms-3" v-if="filter_show == 'tipo de contenido'" v-for="(name, content_type_id) in filtered_content_type" >
+                                            <ButtonG class="button_filter mt-2 mb-3"   @click="toggleCheckedContentType({ content_type_id, name })" >
                                                     {{ name }} 
-                                                    <i v-if="isCheckedContentType({ number, name })" class="bi bi-check-circle-fill"></i>
+                                                    <i v-if="isCheckedContentType({ content_type_id, name })" class="bi bi-check-circle-fill"></i>
                                                     <i v-else class="bi bi-circle"></i>
                                             </ButtonG>
                                         </div>
@@ -466,7 +477,7 @@ const delete_data = (groupName, index)=>{
                                                                 <div class="col-12 ">
                                                                     <div v-for="subobjeto in objeto.subobjeto2_segun">
                                                                         <div v-if="subobjeto == subobjetoSeleccionado">
-                                                                            <input class="form-range input_edit" v-model="selectedValue" :id="'data_'+  subobjeto.nombre"  type="range" min="0" max="4" step="1">
+                                                                            <input class="form-range input_edit" v-model="selectedValue" :id="'data_'+  subobjeto.nombre"  type="range" min="0" max="9" step="1">
                                                                             <p>Calificacion: <label :for="'data_'+ subobjeto.nombre" class="btn-dark btn mb-1">{{ getLetter(selectedValue, subobjeto.cajas) }}</label></p>
                                                                         </div>
                                                                     </div>
@@ -498,7 +509,7 @@ const delete_data = (groupName, index)=>{
                                                     </div>
                                             </div>
                                             <div class="col-2">
-                                                <ButtonG class="btn-dark ms-0 mt-2">
+                                                <ButtonG class="btn-dark ms-0 mt-2" @click="data_send_see()">
                                                         filtrar
                                                 </ButtonG>
                                             </div>
