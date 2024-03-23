@@ -9,7 +9,6 @@ use App\Models\Review;
 use App\Models\Franchise;
 use App\Models\User;
 use App\Notifications\ReviewAvailableNotification;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ReviewService
 {
@@ -20,8 +19,9 @@ class ReviewService
     public function indexReview($search=null)
     {
         $query = Review::indexData()->when($search, function ($query, string $search) {
-            $query->where('title', $search);
+            $query->where('title_alternative', 'like', "%$search%");
         });
+
         return $query->paginate(5);
     }
     /**
