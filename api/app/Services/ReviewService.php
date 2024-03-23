@@ -9,6 +9,7 @@ use App\Models\Review;
 use App\Models\Franchise;
 use App\Models\User;
 use App\Notifications\ReviewAvailableNotification;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ReviewService
 {
@@ -18,11 +19,9 @@ class ReviewService
      */
     public function indexReview($search=null)
     {
-        $query = Review::indexData();
-        if ($search) {
-            // Agregar condiciones de búsqueda según tus criterios
-            $query->where('title_alternative', 'like', "%$search%");
-        }
+        $query = Review::indexData()->when($search, function ($query, string $search) {
+            $query->where('title', $search);
+        });
         return $query->paginate(5);
     }
     /**
@@ -143,11 +142,12 @@ class ReviewService
      *
      * @return array
      */
-    public function getAuthors()
+    public function getAuthors() :array
     {
         $authors_admin = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->pluck('name', 'id');
+
         $authors_community = User::join('reviews', 'users.id', '=', 'reviews.user_id')
                     ->select('users.id', 'users.name')
                     ->whereHas('roles', function ($query) {
