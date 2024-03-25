@@ -562,6 +562,7 @@ const calculateTotalWidth = () => {
     background: rgb(103, 105, 105);
     width: 37%;
     position: absolute;
+    z-index: 1000000;
 
 }
 .button_filter{
