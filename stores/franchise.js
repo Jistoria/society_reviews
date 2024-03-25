@@ -38,7 +38,7 @@ export const FranchiseAd = defineStore('franchiseAd',{
                     },
                     credentials:'include'
                 })
-                console.log(response);
+                // console.log(response);
                 this.franchise = response.franchises;
             } catch (error) {
                 console.log(error);
@@ -58,7 +58,7 @@ export const FranchiseAd = defineStore('franchiseAd',{
                         },
                         credentials:'include'
                     })
-                    console.log(response);
+                    // console.log(response);
                     this.franchise = response.franchises;
                 } catch (error) {
                     console.log(error);
@@ -74,7 +74,7 @@ export const FranchiseAd = defineStore('franchiseAd',{
                             },
                             credentials:'include'
                         })
-                        console.log(response);
+                        // console.log(response);
                         this.franchise = response.franchises;
                     } catch (error) {
                         console.log(error);
@@ -145,6 +145,7 @@ export const FranchiseAd = defineStore('franchiseAd',{
                     credentials:'include'
                 })
                 this.franchise_edit= response.franchise;
+                return response.franchise
             } catch (error) {
                 console.log(error);
             }

@@ -15,64 +15,101 @@ const handlePageChange = async (page,search) => {
 };
 </script>
 <template>
-    <Filter></Filter>
-    <div class="border_r" hidden>
-        <Buscador
-            :rawr="rawrf"
-            :onSearch="handlePageChange"
-        />
-    </div>
-    <div class="border_r" >
-        <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: 3 }}" hidden>
-                                        <ButtonG class="btn-secondary" >
-                                            <i class="bi bi-clipboard"> review 1</i>
-                                        </ButtonG>
-        </NuxtLink>
-    </div>
-    <div class="container-fluid border_black" hidden >
-            <div class="border_y container">
-                <!-- hacer un composable para franquisias y tags con el mismo para reseñas -->
-                <div class="row">  
-                    <div class="col-3">
-                        <NuxtLink to="/place/admin/reviews/reviewPOST">
-                            crear review
-                        </NuxtLink>
-                    </div> 
-
-                </div>
-                <div class="row base_r">
-                    <div class="col-12  base_t" v-for="reviews in reviewP.review.data">
-                        <div class="container-fluid border_black">
-                            <div class="row border_y">
-                                <!-- <div class="col-3  base_image">
-                                    <img src="../../../assets/images.jfif" >
-                                </div>  -->
-                                <div class="col-9 border_v base_content">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Better Call Saul
+ <!-- {{ reviewP.review.data }} -->
+    <div>
+        <div >
+            <Buscador
+                :rawr="rawrf"
+                :onSearch="handlePageChange"
+            />
+        </div>
+        <div>
+            <NuxtLink to="/place/admin/reviews/reviewPOST">
+                crear reseña
+            </NuxtLink>
+        </div>
+        <div class="base_review_ad">
+            <div class="row">
+                    <div class="col-12 ">
+                        <div class="container-fluid ">
+                            <div class="data_contain_flex ">
+                                <div class="item_review_ad d-inline-block   mt-2 me-3" v-for="reviews in reviewP.review.data">
+                                    <div class="d-flex">
+                                        <div class="img_conf ">
+                                            <img :src="`${reviews.franchise.image_url}`" >
                                         </div>
-                                        <div class="card-body">
-                                            <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: reviews.review_id }}">
-                                                <ButtonG class="border_y">{{ reviews.review_id }} actualizar</ButtonG>
-                                            </NuxtLink>
-                                            <ButtonG @click="delete_review(reviews.review_id)">Eliminar</ButtonG>
+                                        <div class="flex-grow-1 ">
+                                            <div class="d-flex justify-content-center mb-2 mt-2">
+                                                <ButtonG class="btn-dark">
+                                                    <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: reviews.review_id }}">
+                                                        <i class="bi bi-indent" style="font-size: 1.3rem;" ></i>
+                                                    </NuxtLink>
+                                                </ButtonG>
+                                            </div>
+                                            <div class="d-flex justify-content-center  mb-2 ">
+                                                <ButtonG :class="reviews.published ? 'btn-danger' : 'btn-success'" >
+                                                    <i v-if="reviews.published" class="bi bi-calendar-x" style="font-size: 1.3rem; color: white;"></i>
+                                                    <i v-else class="bi bi-calendar-check"   style="font-size: 1.3rem; color: white;"></i>
+                                                </ButtonG>
+                                            </div>
+                                            <div class="d-flex justify-content-center  mb-2 ">
+                                                <ButtonG class="btn-warning">
+                                                    <i class="bi bi-x" style="font-size: 1.3rem;"></i>
+                                                </ButtonG>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="ms-2">
+                                            <!-- ponerle limite de cuantas letras deben estar para hacer uno que cuando haga hoover transpase o solo poner los .... -->
+                                            <div class="p-2">
+                                                <p>{{ reviews.title_alternative }}</p>
+                                            </div>
+                                            <h5 class="ms-2">{{ reviews.rating_main }}</h5>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <Paginacion
+            </div>
+            <Paginacion
                 :currentPage="reviewP.review.current_page"
                 :totalPages="reviewP.review.last_page"
                 :onPageChange="handlePageChange"
-                />
-            </div>
+            />
+        </div>
     </div>
+
 
 </template>
 <style>
+
+.item_review_ad{
+    border: 0px solid red;
+    width: 300px !important;
+    height: 320px; 
+    border-radius: 15px;
+    background: rgb(181, 202, 193);
+}
+.base_review_ad{
+    width: 100%;
+}
+.img_conf{
+    width: 160px; 
+    height: 180px;
+    display: inline-block;
+    border: 0px solid green;
+    padding: 0 !important;
+    margin: 0 !important;
+
+}
+.img_conf img{
+    border: 0px solid red;
+    margin-left: 4px;
+    border-radius: 15px;
+    width: 160px; 
+    height: 180px;
+}
 
 </style>

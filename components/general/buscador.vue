@@ -55,6 +55,8 @@ watch(searchQuery, (newValue) => {
     clearSearchQuery();
   }
 });
+
+
 </script>
 
 <style scoped>

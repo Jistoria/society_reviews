@@ -51,6 +51,10 @@ const route_remove = ()=>{
     background-color: #11051f;
     border-top: 1px solid white !important;
 }
+.main_pc_cover_blue{
+    background: #151f2b !important; 
+
+}
 
 /* Estilos para el loader */
 .loader-overlay {

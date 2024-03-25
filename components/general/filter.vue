@@ -1,4 +1,6 @@
 <script setup>
+import { ref, reactive } from "vue";
+
 const P_tags = 10;
 const P_author = 3;
 const prueba = 10;
@@ -141,18 +143,29 @@ const selectSubobjeto = (subobjeto) => {
      subobjetoSeleccionado.value = subobjeto;
 };
 const data_send_see = async() =>{
-
     const data_idO = {
-         "tags_id_filter": data_send.tags,
-         "authors_id_filter": data_send.authors,
+         "tags_id": data_send.tags,
+         "author_id": data_send.authors,
          "content_type_id": data_send.content_type,
          "time_id_filter": data_send.time,
          "rating_id_filter": data_send.rating,
     };
-    await coverP.filter(data_idO);
+
+    const filteredData = {};
+    for (const key in data_send) {
+    filteredData[key] = data_send[key].map(item => {
+        const filteredItem = {};
+        for (const prop in item) {
+        if (prop.endsWith('_id')) {
+            filteredItem[prop] = item[prop];
+        }
+        }
+        return filteredItem;
+    });
+    }
+    console.log(filteredData);
 }
 const show_filter = ()=>{
-    
     if(filter_show.value == null){
         return false
     }
@@ -180,9 +193,7 @@ const filtered_content_type = computed(()=>{
     }
     return filtered;
 })
-const filtered_author = computed(()=>{
-    return filtered
-})
+
 
 //
 const restructureIds = () => {
@@ -240,12 +251,12 @@ const checkedContentTypes = ref([]);
 
 // Función para verificar si un tipo de contenido está seleccionado
 const isCheckedContentType = (contentType) => {
-  return checkedContentTypes.value.some((item) => item.number == contentType.content_type_id);
+  return checkedContentTypes.value.some((item) => item.content_type_id == contentType.content_type_id);
 };
 
 // Función para alternar la selección de un tipo de contenido
 const toggleCheckedContentType = (contentType) => {
-    const index = checkedContentTypes.value.findIndex((item) => item.number == contentType.content_type_id);
+    const index = checkedContentTypes.value.findIndex((item) => item.content_type_id == contentType.content_type_id);
     if (index == -1) {
         checkedContentTypes.value.push({ ...contentType, id: getNextId() });
     } else {
@@ -301,12 +312,10 @@ const toggleCheckedAuthor = (author) => {
 const isCheckedAuthor = (author) => {
     return checkedAuthors.value.some((item) => item.name === author.name);
 };
-
 //para el range
 const selectedValue = ref(0); // Valor seleccionado inicialmente
 const selectedLetter = ref('');
 const autors_var = ref(null);
-
 const getLetter = (index, cajas) => {
   let keys = Object.keys(cajas);
   let key = keys[index];
@@ -332,7 +341,7 @@ const getLetter = (index, cajas) => {
     const key_e = keys[4];
     const letra = cajas[key_e];
     return letra
-  }
+}
 
   //lo que tendria que hacer es que dependiendo del paso que envia hacer el v-if con la calificacion
 
@@ -382,10 +391,28 @@ const delete_data = (groupName, index)=>{
     restructureIds()
 
 }
+//expansible
+const contentWidth = ref('100%'); // Establece el ancho inicial al 100%
+let totalWidth = 0; // Inicializa el ancho total
+
+// Observa los cambios en data_send y ajusta la anchura del contenido en consecuencia
+watch(data_send, () => {
+  totalWidth = calculateTotalWidth();
+  contentWidth.value = totalWidth;
+}, { deep: true });
+
+// Función para calcular el ancho total del contenido en píxeles
+const calculateTotalWidth = () => {
+  let width = 0;
+  for (const groupName in data_send) {
+    width += data_send[groupName].length * 150; // Aumenta en 20 píxeles cada vez
+  }
+  return width;
+};
+
 </script>
 <template>
-    {{data_send}}
-    <div >
+    <div>
         <div >
             <div class="container-fluid">
                 <div class="mt-1 mb-1">
@@ -494,19 +521,24 @@ const delete_data = (groupName, index)=>{
                                     <div class="container-fluid" v-if="show_filter()">
                                         <div class="row">
                                             <div class="col-10">
-                                                    <div class="base_send">
-                                                        <div v-for="(group, groupName) in data_send" :key="groupName" class="d-inline" >
-                                                            <div  v-for="(item, index) in group" :key="index" class="d-inline"  >
-                                                                <ButtonG class="btn-dark me-3 ms-2 mt-2 mb-2" v-if="item.id < 4" @click="delete_data(groupName, index)">
-                                                                    {{ item.name }} {{ item.name_tag }}
-                                                                    <i class="bi bi-x-circle"></i>
-                                                                </ButtonG>
+
+
+                                                    <div class="base_send ">
+                                                        <div :style="{ width: contentWidth + 'px' }">
+                                                            <div v-for="(group, groupName) in data_send" :key="groupName" class="d-inline">
+                                                                <div  v-for="(item, index) in group" :key="index"   class="d-inline-block base_button_first">
+                                                                        <div class="d-flex justify-content-center">
+                                                                            <ButtonG class="btn-dark ms-2 mt-2 mb-2 "  @click="delete_data(groupName, index)">
+                                                                                {{ item.name }} {{ item.name_tag }}
+                                                                                <i class="bi bi-x-circle"></i>
+                                                                            </ButtonG>
+                                                                        </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <ButtonG  v-if="idCounter > 4"  class="btn-dark ms-3 mt-1">
-                                                            ...
-                                                        </ButtonG>
                                                     </div>
+
+
                                             </div>
                                             <div class="col-2">
                                                 <ButtonG class="btn-dark ms-0 mt-2" @click="data_send_see()">
@@ -551,14 +583,24 @@ const delete_data = (groupName, index)=>{
     margin-left: 5px;
     margin-top: 8px;
 }
+/* expansion */
 .base_send{
-    width: 100%;
-    height: 100%;
     background: lightblue;
-    margin: 0;
-    padding: 0;
+    width: 100%;
+    overflow-x: auto;
     border-radius: 15px;
+}
+/* .base_button{
+    width: 120px;
+    height: 40px;
+} */
+.base_button_first{
+    width: 150px;
+    border: 0px solid red;
 
+}
+.expansion{
+    width: 900px;
 }
 
 </style>

@@ -72,112 +72,270 @@ const hideTitles = () => {
     franchise_show.value = ''; 
   }
 };
-const prueba_fun = () =>{
-    console.log('si cargan las cosas')
-}
+const enviar_id = ref(null);
+const enviar_titulo = ref(null);
+const franchise_change = ref(null);
+const rating_main = reactive([
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+])
+const handleVariable2 = (titulo,id) => {
+  console.log('Variable 2 recibida:' + titulo + ' ' + id) ;
+  enviar_id.value = id;
+  enviar_titulo.value = titulo;
+  franchise_change.value = titulo;
+  form_review.franchise_id = id;
+};
+const getLetter = (index) => {
+  if (index >= 0 && index < 2) {
+    const letra = rating_main[4];
+
+    return letra
+  }else if (index >= 2 && index < 4) {
+
+    const letra = rating_main[3];
+    return letra
+  }else if (index >= 4 && index < 6){
+
+    const letra =  rating_main[2];
+    return letra
+  }else if(index >= 6 && index < 8){
+    const letra = rating_main[1];
+    return letra
+  }else{
+    const letra = rating_main[0];
+
+    return letra
+  }
+
+};
+
+
 </script>
 <template>
-<h1>creador de reseñas</h1>
-<div class="border_y">
+<div>
     <ButtonG class="btn-primary" @click="pre_data"> pre cargar datos </ButtonG>
 </div>
 <!-- formulario -->
-<div class="container-fluid border_black">
-    <div class="row border_r">
-        <div class="border_r" :class="{'col-5' : side_form, 'separador_none': !side_form}">
-            <form @submit.prevent="send_review">
-                <!-- el buscador de franquisias -->
-                <div class="form-floating mb-3">
-                    <div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-7">
+            <div>
+                <div class="d-flex justify-content-end" >
+                    <ButtonG class="btn-success">
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </ButtonG>
+                </div>
+            </div>
+            <div>
+                <form @submit.prevent="send_review"   class="form_review">
 
-                        <div  class="d-flex justify-content-between ">
-                            <h1>
-                                {{ loginP.user.name }}
-                                <a class="ms-2">{{ loginP.user.id }}</a>
-                            </h1>
-                            <div>
-                                <div >
-                                    <i style="font-size: 2rem;" :style="{ color: loginP.user.color }"  class="bi bi-person-badge-fill"></i>
+                    <div class="review_input">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">Seleccione una franquisia</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="enviar_titulo == null" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="data_form mt-2 mb-4">
+                                            <p class="data_franchise  fs-5">
+                                                {{ enviar_titulo }}
+                                            </p>
+                                        </div>
+                                        <div class=" d-flex justify-content-end flex-grow-1 ">
+                                            <div class="align-self-center me-4 mb-3">
+                                                <ModalReview :enviar_titulo="enviar_titulo" :enviar_id="enviar_id"  @enviarVariable2="handleVariable2" ></ModalReview>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </div>
+                    <div class="form">
+                                    <!-- tipo de contenido debe ser un select multiple -->
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">tipo de contenido</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.content_type_id == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input  class="form-control edit_form" type="number" v-model="form_review.content_type_id">
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">titulo alternativo</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.title_alternative == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input  class="form-control edit_form" type="text" v-model="form_review.title_alternative">
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">Descripcion alternativa</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.description_alternative == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <textarea type="text" v-model="form_review.description_alternative" class="form-control edit_form_1"></textarea>
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">Data</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.data == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <textarea type="text" v-model="form_review.data" class="form-control edit_form_1"></textarea>
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">Puntuacion final</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.rating_main == null" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-range input_edit edit_form me-3" v-model="form_review.rating_main" id="data_"  type="range" min="0" max="9" step="1">
+                                    <p class="ms-4 fs-4">Calificacion: <label class="btn-dark btn ">{{ getLetter(form_review.rating_main) }} = {{ form_review.rating_main }}</label></p>
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">contenido que es Spoiler</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.spoiler_content == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <textarea type="text" v-model="form_review.spoiler_content" class="form-control edit_form_1"></textarea>
+                    </div>
+                    <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">fecha de lanzamiento</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.release_year == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input type="date" class="form-control edit_form" v-model="form_review.release_year" name="fecha">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>Seleccione la franquisia relacionada</h1>
-                    <div>
-                        <input type="text" v-model="franchise_term" @click="showTitles = true"  @mouseleave="hideTitles">
-                        <ul v-if="showTitles" @mouseenter="showTitles = true" @mouseleave="hideTitles" class="border_y">
-                            <li class="border_r mt-2" v-for="franchise in filtered_franchise" @click="franchise_selected(franchise)" >
-                                <a> {{ franchise.title }} -- {{ franchise.franchise_id }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>tipo de contenido</h1>
-                    <!-- esto tiene que ser un select unitario o un input que desactive el resto -->
-                    <input type="number" v-model="form_review.content_type_id">
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>titulo alternativo</h1>
-                    <input type="text" v-model="form_review.title_alternative">
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>descripcion alternativa</h1>
-                    <textarea v-model="form_review.description_alternative" class="form-control"></textarea>
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>data</h1>
-                    <textarea v-model="form_review.data" class="form-control" ></textarea>
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>puntuacion final</h1>
-                    <input type="text" v-model="form_review.rating_main">
-                    es de la S a la E
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>contenido que es Spoiler</h1>
-                    <textarea v-model="form_review.spoiler_content" class="form-control" > </textarea>
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>fecha de lanzamiento</h1>
-                    <input type="text" class="form-control" v-model="form_review.release_year">
-                </div>
-                <div  class="form-floating mb-3">
-                    <h1>Fecha de finalizacion</h1>
-                    <input type="text" class="form-control" v-model="form_review.release_year_end">
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>cantidad de episodios</h1>
-                    <input type="number" class="form-control" v-model="form_review.quantity_episode">
-                </div>
-                <div class="form-floating mb-3">
-                    <h1>duracion total</h1>
-                    <input type="time"  v-model="form_review.duration_time">
-                </div>
-                <ButtonG class="btn-primary" type="submit">enviar formulario</ButtonG>
-            </form>
+                                <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">Fecha de finalizacion</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.release_year_end == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input type="date" class="form-control edit_form" v-model="form_review.release_year_end">
+                                </div>
+                                <div class="form">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">cantidad de episodios</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.quantity_episode == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input type="number" min="1" class="form-control edit_form" v-model="form_review.quantity_episode">
+                                </div>
+                                <div class="form ">
+                                    <div class="d-flex ">
+                                        <h2 class="ms-3 pt-2">duracion total</h2>
+                                        <div class="align-self-center ms-2">
+                                            <i v-if="form_review.duration_time == ''" class="bi bi-x-circle-fill"       style="font-size: 2rem; color: red;"></i>
+                                            <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
+                                        </div>
+                                    </div>
+                                    <input type="time" class="form-control edit_form " v-model="form_review.duration_time">
+                                </div>
+                                <div class="d-flex p-3 mb-4 justify-content-end">
+                                    <ButtonG class="btn-primary" type="submit">Actualiazar Datos</ButtonG>
+                                </div>
+
+                </form>
+            </div>
         </div>
-            <div class="separador_base">
-                    <div class="d-flex justify-content-center">
-                        <ButtonG @click="change_side">
-                            <i class=" separador_icon bi bi-arrow-left-right"></i>
-                        </ButtonG>
-                    </div>
-            </div>
-        <div class="border_y" :class="{'col-7' : side_view, 'col-12': !side_view}">
-            <div class="border_v">
-                <h1>aqui deberia salir los datos de la franqusia seleccionada</h1>
-                {{ franchise_show }}
-            </div>
+        <div class="col-5">
+
         </div>
     </div>
+
 </div>
 
 
 </template>
 <style>
+.separador_none{
+    display: none;
+}
+.separador_base{
+    position: absolute;
+    right: 17vh;
+}
+.separador_icon{
+    background: wheat;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.base_view{
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+
+.edit_form{
+    width: 76%;
+    border-radius: 15px;
+    margin-left: 15px;
+
+}
+.edit_form_1{
+    width: 76%;
+    border-radius: 15px;
+    margin-left: 15px;
+    resize: none; 
+    height: 140px;
+    max-height: 150px; 
+}
+.review_input{
+   border-radius: 15px;
+}
+.data_form{
+    background: white;
+    width: 75%;
+    margin-left: 15px;
+    border-radius: 15px;
+    
+
+}
+.data_franchise{
+    margin-top: 10px;
+    margin-left: 15px;
+    padding: 5px;
+    font-style: italic;
+
+}
+.form_review{
+    background: lightblue;
+    border-radius: 15px;
+}
+.base_check{
+    width: 100%;
+    height: 100%;
+}
+.input_tag{
+    width: 20px;
+    height: 20px;
+}
 .separador_none{
     display: none;
 }

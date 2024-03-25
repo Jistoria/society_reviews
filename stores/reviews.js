@@ -63,7 +63,7 @@ export const ReviewAd = defineStore('ReviewAd',{
                     console.log(response);
                     this.review = response.reviews;
                 } catch (error) {
-                    console.log(error);
+                    console.log(error.response._data.errors);
                 }
             }else{
                 if(this.review_search == null){
@@ -94,7 +94,7 @@ export const ReviewAd = defineStore('ReviewAd',{
                             },
                             credentials:'include'
                         })
-                        console.log(response);
+                        // console.log(response);
                         this.review = response.reviews;
                     } catch (error) {
                         console.log(error);
@@ -103,7 +103,7 @@ export const ReviewAd = defineStore('ReviewAd',{
             }
         },
         async Review_get_edit(formdata){
-            console.log(formdata);
+            // console.log(formdata);
             try {
                 const response = await $fetch(`http://127.0.0.1:8000/api/review/${formdata}/edit`,{
                     method: 'GET',
@@ -113,7 +113,7 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
-                console.log(response);
+                // console.log(response);
                 this.review_edit = response;
             } catch (error) {
                 console.log(error.response);
@@ -145,6 +145,21 @@ export const ReviewAd = defineStore('ReviewAd',{
                 throw error
             }
         },
+        async Review_put(formdata,id){
+            try {
+                const data = await $fetch(`http://127.0.0.1:8000/api/review/${id}`,{
+                    method: 'PUT',
+                    body: formdata,
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
 
     },
 })

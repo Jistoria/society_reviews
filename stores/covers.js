@@ -9,7 +9,6 @@ export const coversE = defineStore('CoverE',{
     },
     actions:{
         async filter(formdata){
-            console.log(formdata)
             
         },
 

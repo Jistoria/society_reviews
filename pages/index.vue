@@ -10,4 +10,5 @@ const detail = async ()=>{
 <NuxtLink to="/place/dashboard">
     voy a dashboard de admin
 </NuxtLink>
+<Main></Main>
 </template>
