@@ -13,6 +13,11 @@ const delete_review =  async(data)=>{
 const handlePageChange = async (page,search) => {
   await reviewP.Review_get_paginate(page,search)
 };
+const published = async(id)=>{
+    console.log(id);
+    await reviewP.published(id);
+    await reviewP.Review_get_paginate(reviewP.review.current_page);
+}
 </script>
 <template>
  <!-- {{ reviewP.review.data }} -->
@@ -49,8 +54,8 @@ const handlePageChange = async (page,search) => {
                                                 </ButtonG>
                                             </div>
                                             <div class="d-flex justify-content-center  mb-2 ">
-                                                <ButtonG :class="reviews.published ? 'btn-danger' : 'btn-success'" >
-                                                    <i v-if="reviews.published" class="bi bi-calendar-x" style="font-size: 1.3rem; color: white;"></i>
+                                                <ButtonG :class="reviews.published ? 'btn-success' : 'btn-danger'" @click="published(reviews.review_id)">
+                                                    <i v-if="reviews.published == false" class="bi bi-calendar-x" style="font-size: 1.3rem; color: white;"></i>
                                                     <i v-else class="bi bi-calendar-check"   style="font-size: 1.3rem; color: white;"></i>
                                                 </ButtonG>
                                             </div>

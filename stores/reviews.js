@@ -159,6 +159,21 @@ export const ReviewAd = defineStore('ReviewAd',{
             } catch (error) {
                 console.log(error);
             }
+        },
+        async published(review){
+            try {
+                const data = await $fetch(`http://127.0.0.1:8000/api/review/${review}/published` ,{
+                    method: 'POST',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                
+            } catch (error) {
+                console.log(error);
+            }
         }
 
     },

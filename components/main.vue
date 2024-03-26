@@ -1,7 +1,14 @@
 <script setup>
 const bg_ver = VerificacionE();
+const coverP = coversE();
+const set_data = async()=>{
+    await coverP.get_data();
+}
+set_data()
 </script>
 <template>
+
+
 <div class="container-fluid ">
     <div class="row ">
         <div class="row">
@@ -18,10 +25,10 @@ const bg_ver = VerificacionE();
                               <div class="col-sm-9 col-12 " >
                                 <div class="row justify-content-center  fondo_bg"  :class="{ 'main_pc_cover_blue': bg_ver.isChecked }" >
                                     <!-- esto es lo del pagination -->
-                                    <div class="col-xl-3 col-6 mt-3 mb-3 me-0 d-flex justify-content-center " >
+                                    <div class="col-xl-3 col-6 mt-3 mb-3 me-0 d-flex justify-content-center " v-for="covers in coverP.franchises.data">
                                         <div class="base_exp " >
                                             <div class="exp_7 ">
-                                            <button type="button" class="  forma d-flex  mt-2 ms-2  exp_8"  data-bs-toggle="modal" data-bs-target="1" >
+                                            <button type="button" class="  forma d-flex  mt-2 ms-2  exp_8"  data-bs-toggle="modal" :data-bs-target="'#slug_'+covers.slug" >
                                                 <div class="contenido-icono  ">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -30,69 +37,53 @@ const bg_ver = VerificacionE();
                                                 </div>
                                             </button>
                                             <a >
-                                                <img src="../assets/81tE1x6OmQL._AC_UF894,1000_QL80_.jpg" width="213.5px" height="305.44px" class=" exp_9 prueba-3 prueba-hoover cambio-cero rounded">
+                                                <img :src="`${covers.franchise.image_url}`"  width="213.5px" height="305.44px" class=" exp_9 prueba-3 prueba-hoover cambio-cero rounded">
                                             </a>
                                             </div>
                                         </div>
                                         <!--nueva en modal-->
-                                        <div class="modal fade" id="1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" :id="'slug_'+covers.slug" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
-
                                             <div class="modal-body">
                                                 <div class="container-fluid" >
-
                                                 <div class="row">
-
-
                                                     <div class="col-sm-auto  d-flex justify-content-center" >
                                                     <img src="../assets/81tE1x6OmQL._AC_UF894,1000_QL80_.jpg" width="320" height="450" >
-
                                                     </div>
-
                                                     <div class="col-sm-6  " >
                                                         <div class="row mt-5 mb-5" >
-
-
-
                                                         <div class="col mb-0 mt-0 prueba-de-movimiento " >
-
-                                                            <a class="sujeto">titulo</a>
-
+                                                            <p class="fs-3">  {{ covers.franchise.title }}</p>
                                                         </div>
-
-
-
                                                         </div>
                                                         <div class="row mt-5 mb-5" style="border: 0px solid rgb(25, 181, 189);">
-                                                        <div class="col mb-0 mt-0" style="border: 0px solid rgb(66, 41, 41);">
-                                                            <a>Konami</a>
+                                                            <div class="col mb-0 mt-0" style="border: 0px solid rgb(66, 41, 41);">
+                                                                <p class="capitalize"> {{covers.content_type.type}}</p>
+                                                            </div>
                                                         </div>
-                                                        </div>
-
                                                         <div class="row  mt-3 " >
                                                         <div class="col-6   mt-sm-5 mb-sm-5  " >
                                                             <div class="btn-group-vertical"  role="group" aria-label="Vertical button group">
-                                                            <button type="button" class="btn btn-danger ">genero1</button>
-                                                            <button type="button" class="btn btn-dark">genero2</button>
-                                                            <button type="button" class="btn btn-danger ">genero2</button>
+                                                            <button type="button" class="btn btn-danger " v-for="tags in covers.franchise.tags" style="border-bottom: 5px solid violet !important;">
+                                                                {{ tags.name_tag }}
+
+                                                            </button>
                                                             </div>
                                                         </div>
                                                         <div class="col-6 mt-sm-3 mb-sm-3 " >
-
                                                             <div class="final mt-1 ms-2">
-                                                                <a class="calificacion-1 mt-4"> Calificacion: </a>
-                                                                <a class="nota mt-2">calificacion</a>
+                                                                <div class="flex-grow-1  d-flex justify-content-center fs-4">
+                                                                    <a > Calificacion:    </a>
+                                                                </div>
+                                                                <div class="d-flex justify-content-center fs-3">
+                                                                    {{ covers.rating_main }}
+                                                                </div>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                 </div>
-
                                                 </div>
-
                                             </div>
                                             <div class="modal-footer d-flex justify-content-center" >
                                             <a ><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ir a la reseña</button></a>
@@ -100,8 +91,8 @@ const bg_ver = VerificacionE();
                                             </div>
                                         </div>
                                         </div>
-                                    </div>
-                                    <!-- fin de lo de pagination -->
+                                        </div>
+                                        <!-- fin de lo de pagination -->
                                     </div>
                                 </div>
                             <div class="col-sm col-0 "></div>
@@ -112,7 +103,7 @@ const bg_ver = VerificacionE();
                     </div>
 </div>
 </template>
-<style scoped>
+<style>
 .fondo_bg{
     /* background: #151f2b ; */
     background: rgb(209, 194, 194);
@@ -135,7 +126,9 @@ const bg_ver = VerificacionE();
     -webkit-border-radius:50px;
     border-radius:50px;
 }
-
+.capitalize::first-letter {
+  text-transform: uppercase;
+}
 
 
 /*visibilidad del sugerir y reseñar*/
@@ -326,7 +319,7 @@ const bg_ver = VerificacionE();
     width: 190px;
     height: 70px;
     color: #fbfbfb;
-    font-family: 'Courier New';
+    /* font-family: 'Courier New'; */
     font-weight: 600;
     font-size: 30px;
 
@@ -341,7 +334,7 @@ const bg_ver = VerificacionE();
     border: 5px solid rgb(52, 143, 213);
 
     color: #ffffff;
-    font-family: 'Courier New';
+    /* font-family: 'Courier New'; */
     font-weight: 700;
     font-size: 30px;
     transition-property: background-color ease;
@@ -358,7 +351,7 @@ const bg_ver = VerificacionE();
     width: 185px;
     height: 70px;
     color: #ffffff;
-    font-family: 'Courier New';
+    /* font-family: 'Courier New'; */
     font-weight: 900;
     font-size: 30px;
     margin-left: -5px;
@@ -747,7 +740,7 @@ body, div, fieldset{
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
+    /* font: inherit; */
 }
 .cajabuscar {
     float: none;
@@ -965,7 +958,7 @@ body, div, fieldset{
 
     margin-top: auto;
     display: block;
-    font-family: 'Courier New';
+    /* font-family: 'Courier New'; */
     font-size: 10px;
     background: #151f2b;
     text-align: center;
@@ -983,7 +976,7 @@ body, div, fieldset{
 }
 .navegacion-del-footer ul li {
     margin-top: 10px;
-    font-family: 'Courier New';
+    /* font-family: 'Courier New'; */
     display: inline-block;
     position: relative;
     top: 7px;
