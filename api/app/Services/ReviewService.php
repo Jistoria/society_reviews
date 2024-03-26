@@ -21,7 +21,6 @@ class ReviewService
         $query = Review::indexData()->when($search, function ($query, string $search) {
             $query->where('title_alternative', 'like', "%$search%");
         });
-
         return $query->paginate(5);
     }
     /**
