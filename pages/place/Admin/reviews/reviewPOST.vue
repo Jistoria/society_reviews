@@ -5,6 +5,8 @@ const loginP = LoginStore();
 const showTitles = ref(false);
 const side_form = ref(true);
 const side_view = ref(true);
+const array_content_type = ref(null);
+const name_content_type = ref('');
 
 
 const form_review = reactive({
@@ -27,14 +29,17 @@ const change_side = () =>{
     side_view.value = !side_view.value;
 };
 const send_review = async() =>{
-    console.log('si vale el submit')
     await reviewP.Review_post(form_review);
 }
+
 onMounted(async () =>{ 
-console.log('si monte');
-await franchiseP.Franchise_get();
-form_review.user_id = loginP.user.id;
+    await franchiseP.Franchise_get();
+    form_review.user_id = loginP.user.id;
+    await reviewP.Review_content_type();
+    array_content_type.value = reviewP.content_type;
 })
+
+
 const pre_data = () =>{
     form_review.franchise_id = '15',
     form_review.content_type_id = '2',
@@ -114,9 +119,26 @@ const getLetter = (index) => {
 };
 
 
+const filtered_content_type = computed(()=>{
+
+    const filtered = {};
+    for (const key in reviewP.content_type) {
+        if (reviewP.content_type[key].toLowerCase().includes(name_content_type.value.toLowerCase())) {
+        filtered[key] = reviewP.content_type[key];
+        }
+    }
+    return filtered
+
+})
+const select_franchise = (data,id)=>{
+    form_review.content_type_id = id;
+    name_content_type.value = data;
+}
+
 </script>
 <template>
-<div>
+    
+<div hidden>
     <ButtonG class="btn-primary" @click="pre_data"> pre cargar datos </ButtonG>
 </div>
 <!-- formulario -->
@@ -163,7 +185,14 @@ const getLetter = (index) => {
                                             <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
                                         </div>
                                     </div>
-                                    <input  class="form-control edit_form" type="number" v-model="form_review.content_type_id">
+                                    <div >
+                                        <input  class="form-control edit_form" type="text" v-model="name_content_type">
+                                        <div class="edit_form_filter ">
+                                            <div v-for="(content_type,number) in filtered_content_type"  class="d-inline-block">
+                                                    <a class="btn btn-dark me-2 mt-2 ms-3 mb-2"   @click="select_franchise(content_type,number)" role="button">{{content_type}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
                     </div>
                     <div class="form">
                                     <div class="d-flex ">

@@ -24,9 +24,11 @@ const handlePageChange = async (page,search) => {
             />
         </div>
         <div>
-            <NuxtLink to="/place/admin/reviews/reviewPOST">
-                crear reseña
-            </NuxtLink>
+            <div class="btn btn-dark ms-4 ">
+                <NuxtLink to="/place/admin/reviews/reviewPOST"  style="color:white; text-decoration: none;">
+                    crear reseña
+                </NuxtLink>
+            </div>
         </div>
         <div class="base_review_ad">
             <div class="row">

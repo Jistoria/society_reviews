@@ -10,6 +10,8 @@ const side_view = ref(true);
 const franchise_term = ref('');
 const franchise_show = ref([]);
 const new_franchise = ref([]);
+const name_content_type = ref('');
+const array_content_type = ref(null);
 const rating_main = reactive([
     'A',
     'B',
@@ -44,6 +46,7 @@ const enviar_titulo = ref(null);
 const franchise_change = ref(null);
 const data_Pinia = async ()=>{
     await reviewP.Review_get_edit(id);
+    await reviewP.Review_content_type();
     const franchiseData = await franchiseP.Franchiste_get_edit(reviewP.review_edit.franchise_id)
         .then(franchiseData => {
             // Aquí puedes establecer el valor de enviar_titulo
@@ -52,7 +55,24 @@ const data_Pinia = async ()=>{
             form_review_put.rating_main = reviewP.review_edit.rating_main 
             getLetter(reviewP.review_edit.rating_main);
             //seteo de los datos
-            form_review_put.content_type_id = reviewP.review_edit.content_type_id;
+            if(form_review_put.content_type_id == ''){
+                const  datos = reviewP.content_type;
+                const numero =reviewP.review_edit.content_type_id;
+                const buscarValor = (datos, numero) => {
+                    for (const [key, value] of Object.entries(datos)) {
+                        if (parseInt(key) === numero) {
+                            return { content_type_id: parseInt(key), name: value };
+                        }
+                    }
+                    return null; 
+                };
+                const valorEncontrado = buscarValor(datos, numero);
+                form_review_put.content_type_id = valorEncontrado.content_type_id;
+                name_content_type.value = valorEncontrado.name;
+                console.log(valorEncontrado);
+
+            }
+            // form_review_put.content_type_id = reviewP.review_edit.content_type_id;
             form_review_put.title_alternative = reviewP.review_edit.title_alternative;
             form_review_put.description_alternative = reviewP.review_edit.description_alternative;
             form_review_put.data = reviewP.review_edit.data;
@@ -61,6 +81,7 @@ const data_Pinia = async ()=>{
             form_review_put.release_year_end = reviewP.review_edit.release_year_end;
             form_review_put.quantity_episode = reviewP.review_edit.quantity_episode;
             form_review_put.duration_time = reviewP.review_edit.duration_time;
+            array_content_type.value = reviewP.content_type;
         })
         .catch(error => {
             console.error('Error al obtener los datos de la franquicia:', error);
@@ -96,6 +117,22 @@ const getLetter = (index) => {
   }
 
 };
+
+const filtered_content_type = computed(()=>{
+    const filtered = {};
+    for (const key in array_content_type.value) {
+        if (array_content_type.value[key].toLowerCase().includes(name_content_type.value.toLowerCase())) {
+        filtered[key] = reviewP.content_type[key];
+        }
+    }
+    return filtered;
+})
+
+const select_franchise = (data,id)=>{
+    form_review_put.content_type_id = id;
+    name_content_type.value = data;
+
+}
 </script>
 <template>
         <!-- que me envie bien la fecha y el contet type para poder poner bien esa nota -->
@@ -145,7 +182,14 @@ const getLetter = (index) => {
                                             <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
                                         </div>
                                     </div>
-                                    <input  class="form-control edit_form" type="number" v-model="form_review_put.content_type_id">
+                                    <div >
+                                        <input  class="form-control edit_form" type="text" v-model="name_content_type">
+                                        <div class="edit_form_filter border_v ">
+                                            <div v-for="(content_type,number) in filtered_content_type"  class="d-inline-block">
+                                                    <a class="btn btn-dark me-2 mt-2 ms-3 mb-2"   @click="select_franchise(content_type,number)" role="button">{{content_type}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form">
                                     <div class="d-flex ">
@@ -260,6 +304,12 @@ const getLetter = (index) => {
     border-radius: 15px;
     margin-left: 15px;
 
+}
+.edit_form_filter{
+    width: 76%;
+    border-radius: 15px;
+    margin-left: 15px; 
+    background: violet;
 }
 .edit_form_1{
     width: 76%;

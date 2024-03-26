@@ -17,14 +17,17 @@ const handlePageChange = async (page,search) => {
 };
 </script>
 <template>
-        <NuxtLink to="/place/admin/franchise/franchisePOST">
-            franchisePost
-        </NuxtLink>
+
         <div>
             <Buscador
             :rawr="rawrf"
             :onSearch="handlePageChange"
             />
+        </div>
+        <div class="btn btn-dark">
+            <NuxtLink to="/place/admin/franchise/franchisePOST" style="color:white; text-decoration: none;">
+                franchisePost
+            </NuxtLink>
         </div>
         <div class="franchise_base table-responsive">
             <table class="table align-middle">
@@ -41,7 +44,7 @@ const handlePageChange = async (page,search) => {
                     <tbody>
                         <tr v-for="(franchise, index) in franchiseP.franchise.data" :key="index" >
                             <td class="d-flex justify-content-center ">
-                                <img width="150px" height="150" src="https://steamuserimages-a.akamaihd.net/ugc/773989158926471047/665BF26EFBCFA750F99C022A4D3C0959AFC21DF1/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="Descripción de la imagen">
+                                <img width="150px" height="150" :src="`${franchise.image_url}`" alt="Descripción de la imagen">
                                 <!-- <img width="420px" height="420" :src="`${franchise.image_url}`"> -->
                             </td>
                             <td>
@@ -61,7 +64,7 @@ const handlePageChange = async (page,search) => {
                                 <div class="d-flex mt-2">
                                     <NuxtLink :to="{ path:'/place/admin/franchise/franchisePUT', query: { id_fran: franchise.franchise_id }}">
                                         <ButtonG class="btn-secondary" >
-                                            <i class="bi bi-clipboard"> {{ franchise.franchise_id }}</i>
+                                            <i class="bi bi-clipboard"></i>
                                         </ButtonG>
                                     </NuxtLink>
                                     <ButtonG class="btn-danger ms-2" @click="delete_franchise(franchise.franchise_id)">
