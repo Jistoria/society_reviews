@@ -528,7 +528,7 @@ const calculateTotalWidth = () => {
                                                             <div v-for="(group, groupName) in data_send" :key="groupName" class="d-inline">
                                                                 <div  v-for="(item, index) in group" :key="index"   class="d-inline-block base_button_first">
                                                                         <div class="d-flex justify-content-center">
-                                                                            <ButtonG class="btn-dark ms-2 mt-2 mb-2 "  @click="delete_data(groupName, index)">
+                                                                            <ButtonG class="btn-dark ms-1 mt-2 mb-2 "  @click="delete_data(groupName, index)">
                                                                                 {{ item.name }} {{ item.name_tag }}
                                                                                 <i class="bi bi-x-circle"></i>
                                                                             </ButtonG>
