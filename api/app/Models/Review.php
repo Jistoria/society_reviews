@@ -42,8 +42,8 @@ class Review extends Model
     protected $casts = [
         'notify' => 'boolean',
         'published' => 'boolean', // Convertir el campo 'published' a boolean
-        'release_year' => 'date',
-        'release_year_end' => 'date',
+        'release_year' => 'date:Y-m-d',
+        'release_year_end' => 'date:Y-m-d',
     ];
 
     public function dataNotify()
