@@ -15,7 +15,7 @@ class PaginateService
 
     public function paginate($search = null)
     {
-        $query = $this->franchiseModel::with('reviews:review_id,franchise_id,content_type_id,title_alternative,rating_main','reviews.contentType:content_type_id,type')
+        $query = $this->franchiseModel::with('reviews:review_id,franchise_id,content_type_id,title_alternative,rating_main,slug','reviews.contentType:content_type_id,type','tags:tag_id,name_tag')
             ->select('franchise_id','title','slug','franchise_rating');
 
         if ($search) {
