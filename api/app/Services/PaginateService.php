@@ -23,8 +23,7 @@ class PaginateService
         ->select('review_id', 'franchise_id', 'content_type_id', 'title_alternative', 'rating_main', 'slug')
         ->when($search, function ($query, $search) {
             // Agregar condiciones de búsqueda según tus criterios
-            $query->where('title', 'like', "%$search%")
-                ->orWhere('title_alternative', 'like', "%$search%");
+            $query->where('title_alternative', 'like', "%$search%");
         })
         ->where('published', true);
         return $query->paginate(10);
