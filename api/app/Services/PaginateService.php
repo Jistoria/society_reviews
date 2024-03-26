@@ -22,7 +22,7 @@ class PaginateService
             },
             'reviews.contentType:content_type_id,type',
             'tags:tag_id,name_tag'
-        ])->select('franchise_id', 'title', 'slug', 'franchise_rating');
+        ])->select('franchise_id', 'title', 'slug', 'franchise_rating','image_url');
 
         $query->when($search, function ($query, $search) {
             // Agregar condiciones de búsqueda según tus criterios
