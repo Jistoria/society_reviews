@@ -35,8 +35,8 @@ const published = async(id)=>{
                 </NuxtLink>
             </div>
         </div>
-        <div class="base_review_ad">
-            <div class="row">
+        <div class="base_review_ad ">
+            <div class="row ">
                     <div class="col-12 ">
                         <div class="container-fluid ">
                             <div class="data_contain_flex ">
@@ -100,7 +100,9 @@ const published = async(id)=>{
     background: rgb(181, 202, 193);
 }
 .base_review_ad{
-    width: 100%;
+    /* height: 500px; */
+    width: 1500px;
+    /* width: 100%; */
 }
 .img_conf{
     width: 160px; 

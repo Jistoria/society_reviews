@@ -35,7 +35,7 @@ const viewstage = (data)=>{
     <!-- componente de estructura para cada ruta ya sea reseñas, franquicias y tags -->
     <!-- hacer un composable para franquisias y tags con el mismo para reseñas -->
         <div class="container-fluid">
-            <div class="container ">
+            <div class="container-xl ">
                 <ReviewsGET v-if="stageSet == 'reviews'"></ReviewsGET>
                 <FranchiseGET v-if="stageSet == 'franchise'"></FranchiseGET>
                 <TagsGet v-if="stageSet == 'tags'"></TagsGet>
