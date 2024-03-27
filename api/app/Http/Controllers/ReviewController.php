@@ -93,4 +93,9 @@ class ReviewController extends Controller
         return response()->json(['success'=>true,'authors'=>$this->reviewService->getAuthors()]);
     }
 
+    public function pluckTags()
+    {
+        return response()->json(['success'=>true,'tags'=>$this->reviewService->getTags()]);
+    }
+
 }

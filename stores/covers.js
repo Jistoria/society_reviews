@@ -38,6 +38,11 @@ export const coversE = defineStore('CoverE',{
             console.log(page)
             console.log(search)
             console.log(formdata)
+            //FUNCION PARA TRANSFORMAR EL FORMDATA EN PARAMS URL, ESTAN MAL SETEADOS Y SE MUESTRAN COMO OBJECTS
+            //===> tags=%5Bobject+Object%5D%2C%5Bobject+Object%5D&authors=%5Bobject+Object%5D&content_type=&time=&rating=
+            //COMO DEBE SER EJEMPLO
+            // ===> description=Un%20cojudo%20y%20tres%20pendejas&tag_id%5B0%5D=1&tag_id%5B1%5D=2
+            console.log(new URLSearchParams(formdata).toString());
             if(formdata || this.isfilter == true){
                 this.isfilter==true;
                 if(!formdata){
@@ -50,9 +55,9 @@ export const coversE = defineStore('CoverE',{
                         if (this.coverSearch == null  || search !== this.coverSearch) {
                             this.coverSearch=search
                         }
-                        const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
+                        
+                        const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`+new URLSearchParams(formdata).toString(),{
                             method: 'GET',
-                            body: formdata,
                             headers:{
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'Content-Type':'application/json',
@@ -67,15 +72,16 @@ export const coversE = defineStore('CoverE',{
                 }else{
                     if(this.coverSearch == null){
                         try {
-                            const response = await $fetch(`http://127.0.0.1:8000/api/paginate?page=${page}`,{
+                            
+                            const response = await $fetch(`http://127.0.0.1:8000/api/paginate?page=${page}`+new URLSearchParams(formdata).toString(),{
                                 method: 'GET',
-                                body: formdata,
                                 headers:{
                                     'X-Requested-With': 'XMLHttpRequest',
                                     'Content-Type':'application/json',
                                 },
                                 credentials:'include'
                             })
+                            
                             console.log(response);
                             this.franchises = response.paginate;
                         } catch (error) {

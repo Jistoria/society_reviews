@@ -36,7 +36,8 @@ Route::get('pluck/franchise',[FranchiseController::class,'pluckFranchise']);
 Route::get('content_type',[ReviewController::class,'pluckContenType']);
 //Obtener autores de reseñas
 Route::get('pluck/authors',[ReviewController::class,'pluckAuthors']);
-
+//Obtener tags
+Route::get('pluck/tags',[ReviewController::class,'pluckTags']);
 //Rutas que requieren que no estes autenticado
 Route::middleware(['guest:sanctum'])->group(function () {
     //registrarse como civil

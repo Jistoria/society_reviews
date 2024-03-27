@@ -7,6 +7,7 @@ use App\Jobs\UpdateFranchiseRating;
 use App\Models\ContentType;
 use App\Models\Review;
 use App\Models\Franchise;
+use App\Models\Tag;
 use App\Models\User;
 use App\Notifications\ReviewAvailableNotification;
 
@@ -157,4 +158,8 @@ class ReviewService
         return ['authors_admin'=> $authors_admin,'authors_community'=>$authors_community];
     }
 
+    public function getTags()
+    {
+        return Tag::select('name_tag','tag_id')->get();
+    }
 }

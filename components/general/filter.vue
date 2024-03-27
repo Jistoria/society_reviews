@@ -16,7 +16,7 @@ const reviewP = ReviewAd();
 const coverP = coversE();
 
 onMounted(async () => {
-    await tagsP.Tags_get();
+    await tagsP.Tags_pluck();
     await reviewP.Review_content_type();
     await reviewP.filter();
     data_tags.value = tagsP.tags;
@@ -431,7 +431,7 @@ const calculateTotalWidth = () => {
                         <div>
                                 <!-- buscador -->
                                 <div class="container-fluid" v-if="!(filter_show == 'Calificacion')">
-                                    <form class="d-flex" role="search">
+                                    <form class="d-flex" role="search" @submit.prevent>
                                     <input class="form-control me-2" v-model="searchTerm"  type="search" placeholder="Search" aria-label="Search">
                                     <button class="btn btn-success" type="submit">Search</button>
                                     </form>

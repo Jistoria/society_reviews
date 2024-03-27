@@ -42,6 +42,21 @@ export const TagsAd = defineStore('TagsAd',{
                 console.log(error.response);
             }
         },
+        async Tags_pluck(){
+            try {
+                const response = await $fetch('http://127.0.0.1:8000/api/pluck/tags',{
+                    method: 'GET',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                this.tags = response.tags;
+            } catch (error) {
+                console.log(error.response);
+            }
+        },
         async Tags_put(formdata,id){
             try {
                 console.log(formdata)
