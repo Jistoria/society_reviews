@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Franchise;
 use App\Models\Review;
+use Illuminate\Http\Request;
 
 class PaginateService
 {
@@ -21,7 +22,7 @@ class PaginateService
      * @param string|null $search El término de búsqueda opcional para filtrar por título de franquicia.
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($search = null)
+    public function paginate($search = null, Request $request)
     {
         $query = $this->reviewModel::with([
             'franchise:franchise_id,title,slug,image_url',
@@ -34,6 +35,8 @@ class PaginateService
                 $query->where('title','like',"%$search%");
             });
         })
+        // ->when($request->)
+
         ->where('published', true);
 
         return $query->paginate(10);

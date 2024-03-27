@@ -13,11 +13,12 @@ class PaginateController extends Controller
         $this->paginateService = $paginateService;
     }
 
-    public function index($search = null, Request $request = null)
+    public function index(Request $request, $search = null)
     {
-        if($request){
-            return $request->all();
+        if($request)
+        {
+            return $request->collect('tags');
         }
-        return response()->json(['success'=>true,'paginate'=>$this->paginateService->paginate($search)]);
+        return response()->json(['success'=>true,'paginate'=>$this->paginateService->paginate($search, $request)]);
     }
 }

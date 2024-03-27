@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 //Verificar el Email
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verify']);
 //PAGINACIÓN/BUSQUEDA/FILTRO
-Route::get('paginate/{search?}',[PaginateController::class,'index']);
+Route::post('paginate/{search?}',[PaginateController::class,'index']);
 
 
 
