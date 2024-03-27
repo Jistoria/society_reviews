@@ -23,24 +23,47 @@ class PaginateService
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($search = null, Request $request)
-    {
+{
+    try {
         $query = $this->reviewModel::with([
             'franchise:franchise_id,title,slug,image_url',
             'franchise.tags:tag_id,name_tag',
             'contentType:content_type_id,type'
         ])
         ->select('review_id', 'franchise_id', 'content_type_id', 'title_alternative', 'rating_main', 'slug')
-        ->whereHas('franchise', function($query) use($search){
-            $query->when($search, function($query) use ($search){
-                $query->where('title','like',"%$search%");
-            });
-        })
-        // ->when($request->)
-
         ->where('published', true);
 
+        // Búsqueda con el título de franquicia
+        $query->whereHas('franchise', function($query) use($search) {
+            $query->when($search, function($query) use ($search) {
+                $query->where('title','like',"%$search%")
+                ->orWhere('title_alternative','like',"%$search%");
+            });
+        });
+
+        // Filtro con tags
+        $query->when($tags = $request->input('tags'), function ($query) use ($tags) {
+            $query->whereHas('franchise.tags', function ($query) use ($tags) {
+                $query->whereIn('tags.tag_id', $tags)
+                    ->groupBy('review_id')
+                    ->havingRaw('COUNT(*) = ?', [count($tags)]);
+            });
+        });
+
+
+        // ->when($request->input('authors'))
+        // ->when($request->input('content_type'))
+        // ->when($request->input('rating'))
+        // ->when($request->input('time'))
+
         return $query->paginate(10);
+    } catch (\Exception $e) {
+        // Manejar el error aquí
+        // Por ejemplo, puedes registrar el error o devolver un mensaje de error
+        return response()->json(['error' => 'Hubo un error al procesar la solicitud', 'e'=>$e], 500);
     }
+}
+
 
     // $query = $this->franchiseModel::with([
     //     'reviews' => function ($query) {

@@ -95,7 +95,7 @@ export const coversE = defineStore('CoverE',{
                             console.log(search)
                             console.log(page)
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
-                                method: 'GET',
+                                method: 'POST',
                                 body: formdata,
                                 headers:{
                                     'X-Requested-With': 'XMLHttpRequest',
@@ -117,6 +117,7 @@ export const coversE = defineStore('CoverE',{
                         }
                         const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
                             method: 'POST',
+                            body: formdata,
                             headers:{
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'Content-Type':'application/json',
@@ -133,6 +134,7 @@ export const coversE = defineStore('CoverE',{
                         try {
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate?page=${page}`,{
                                 method: 'POST',
+                                body: formdata,
                                 headers:{
                                     'X-Requested-With': 'XMLHttpRequest',
                                     'Content-Type':'application/json',
@@ -151,6 +153,7 @@ export const coversE = defineStore('CoverE',{
                             console.log(page)
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
                                 method: 'POST',
+                                body: formdata,
                                 headers:{
                                     'X-Requested-With': 'XMLHttpRequest',
                                     'Content-Type':'application/json',

@@ -15,10 +15,6 @@ class PaginateController extends Controller
 
     public function index(Request $request, $search = null)
     {
-        if($request)
-        {
-            return $request->collect('tags');
-        }
         return response()->json(['success'=>true,'paginate'=>$this->paginateService->paginate($search, $request)]);
     }
 }
