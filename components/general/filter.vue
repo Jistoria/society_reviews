@@ -153,21 +153,38 @@ const data_send_see = async() =>{
          "time_id_filter": data_send.time,
          "rating_id_filter": data_send.rating,
     };
+    
 
+    // const filteredData = {};
+    // for (const key in data_send) {
+    //     filteredData[key] = data_send[key].map(item => {
+    //         const filteredItem = {};
+    //         for (const prop in item) {
+    //         if (prop.endsWith('_id')) {
+    //             filteredItem[prop] = item[prop];
+    //         }
+    //         }
+    //         return filteredItem;
+    //     });
+    // }
+    // filteredPaginate.value = filteredData;
     const filteredData = {};
     for (const key in data_send) {
-    filteredData[key] = data_send[key].map(item => {
-        const filteredItem = {};
-        for (const prop in item) {
-        if (prop.endsWith('_id')) {
-            filteredItem[prop] = item[prop];
-        }
-        }
-        return filteredItem;
-    });
+        filteredData[key] = data_send[key].flatMap(item => {
+            const filteredItems = [];
+            for (const prop in item) {
+                if (prop.endsWith('_id')) {
+                    filteredItems.push(item[prop]);
+                }
+            }
+            return filteredItems;
+        });
     }
-    filteredPaginate.value = filteredData;
-    console.log(filteredData);
+
+    filteredPaginate.value = filteredData; 
+
+
+
 }
 const show_filter = ()=>{
     if(filter_show.value == null){
