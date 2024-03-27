@@ -1,10 +1,14 @@
 <script setup>
+const rawrf="cover"
 const bg_ver = VerificacionE();
 const coverP = coversE();
 const set_data = async()=>{
     await coverP.get_data();
 }
 set_data()
+const handlePageChange = async (page,search) => {
+  await coverP.cover_paginate(page,search)
+};
 </script>
 <template>
 
@@ -14,6 +18,10 @@ set_data()
         <div class="row">
             <div class="col-md-1"></div>
             <div class="ms-5 col-md-8 offset-md-4 ">
+                <Buscador
+                :rawr="rawrf"
+                :onSearch="handlePageChange"
+                />
                 <Filter></Filter>
             </div>
         </div>
@@ -96,7 +104,12 @@ set_data()
                                     </div>
                                 </div>
                             <div class="col-sm col-0 "></div>
-                      
+                            <Paginacion
+                                :currentPage="coverP.franchises.current_page"
+                                :totalPages="coverP.franchises.last_page"
+                                :onPageChange="handlePageChange"
+                                :items="coverP.franchises.data"
+                            />
                             </div>
                             <div class="col-sm col-0 "></div>
 

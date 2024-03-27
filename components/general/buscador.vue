@@ -14,6 +14,7 @@
 import { ref, watch, defineProps } from 'vue';
 const franquiciaStore= FranchiseAd();
 const reviewStore = ReviewAd();
+const coverStore = coversE();
 const props = defineProps({
   rawr: {
     type: String,
@@ -35,7 +36,10 @@ const clearSearchQuery = () => {
       break;
     case 'review':
       reviewStore.Review_get();
-      break;
+    break;
+    case 'cover':
+      coverStore.get_data();
+    break;
     default:
       console.log('Identificador no reconocido');
   }
@@ -43,7 +47,7 @@ const clearSearchQuery = () => {
 
 const onSearchInput = () => {
   // Verificar si la longitud de la cadena de búsqueda es mayor o igual a 2
-  if (searchQuery.value.length >= 2) {
+  if (searchQuery.value.length >= 1) {
     props.onSearch(1, searchQuery.value);
   }
 };

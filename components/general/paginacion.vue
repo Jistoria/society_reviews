@@ -17,7 +17,8 @@ import { defineProps, ref, watch, onMounted, onUnmounted } from 'vue';
 const props = defineProps({
   currentPage: Number,
   totalPages: Number,
-  onPageChange: Function
+  onPageChange: Function,
+  items : Array,
 });
 const search = null;
 const paginationButtons = ref([]);
@@ -54,6 +55,10 @@ function calculateMaxVisibleButtons() {
 
 function generatePaginationButtons(maxVisibleButtons) {
   const buttons = [];
+  if (props.totalPages <= 1 || (props.currentPage > 1 && props.items.length === 0)) {
+    goToPage(Math.max(1, props.currentPage - 1));
+    return;
+  }
   //console.log(maxVisibleButtons)
   if (props.totalPages <= 1) {
     paginationButtons.value = [];

@@ -60,7 +60,7 @@ const published = async(id)=>{
                                                 </ButtonG>
                                             </div>
                                             <div class="d-flex justify-content-center  mb-2 ">
-                                                <ButtonG class="btn-warning">
+                                                <ButtonG class="btn-warning" @click="delete_review(reviews.review_id)">
                                                     <i class="bi bi-x" style="font-size: 1.3rem;"></i>
                                                 </ButtonG>
                                             </div>
@@ -84,6 +84,7 @@ const published = async(id)=>{
                 :currentPage="reviewP.review.current_page"
                 :totalPages="reviewP.review.last_page"
                 :onPageChange="handlePageChange"
+                :items="reviewP.review.data"
             />
         </div>
     </div>

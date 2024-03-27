@@ -79,6 +79,7 @@ const handlePageChange = async (page,search) => {
             :currentPage="franchiseP.franchise.current_page"
             :totalPages="franchiseP.franchise.last_page"
             :onPageChange="handlePageChange"
+            :items="franchiseP.franchise.data"
             />
         </div>
 </template>

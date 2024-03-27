@@ -29,6 +29,23 @@ export const ReviewAd = defineStore('ReviewAd',{
                 console.log(error.response)
             }
         },
+        async Review_delete(formdata){
+            console.log(formdata);
+            try {
+                const response = await $fetch(`http://127.0.0.1:8000/api/review/${formdata}`,{
+                    method: 'DELETE',
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type':'application/json',
+                    },
+                    credentials:'include'
+                })
+                return true
+            } catch (error) {
+                console.log(error.response);
+                return false
+            }
+        },
         async Review_get(){
             try {
                 const response = await $fetch('http://127.0.0.1:8000/api/review',{

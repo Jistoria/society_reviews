@@ -1,6 +1,9 @@
 <script setup>
 import { ref, reactive } from "vue";
 
+const coverStore = coversE()
+const filteredPaginate = ref(null)
+
 const P_tags = 10;
 const P_author = 3;
 const prueba = 10;
@@ -163,6 +166,7 @@ const data_send_see = async() =>{
         return filteredItem;
     });
     }
+    filteredPaginate.value = filteredData;
     console.log(filteredData);
 }
 const show_filter = ()=>{
@@ -541,7 +545,7 @@ const calculateTotalWidth = () => {
 
                                             </div>
                                             <div class="col-2">
-                                                <ButtonG class="btn-dark ms-0 mt-2" @click="data_send_see()">
+                                                <ButtonG class="btn-dark ms-0 mt-2" @click='data_send_see() ; coverStore.cover_paginate(1,NonNullable,filteredPaginate)'>
                                                         filtrar
                                                 </ButtonG>
                                             </div>
