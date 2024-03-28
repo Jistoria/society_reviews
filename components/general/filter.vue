@@ -457,7 +457,6 @@ const calculateTotalWidth = () => {
 
 </script>
 <template>
-    {{ filteredPaginate }}
     
     <div>
         <div >
