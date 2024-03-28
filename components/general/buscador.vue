@@ -39,16 +39,23 @@ const clearSearchQuery = () => {
     break;
     case 'cover':
       coverStore.get_data();
+      console.log("Entro")
     break;
     default:
       console.log('Identificador no reconocido');
   }
 };
-
+let timerId = null; // Variable para almacenar el identificador del temporizador
+const debounceDelay = 500; // Tiempo de espera antes de ejecutar la búsqueda después de la última entrada del usuario (en milisegundos)
 const onSearchInput = () => {
-  // Verificar si la longitud de la cadena de búsqueda es mayor o igual a 2
   if (searchQuery.value.length >= 1) {
-    props.onSearch(1, searchQuery.value);
+    // Cancela la búsqueda previa si aún no se ha realizado
+    clearTimeout(timerId);
+
+    // Establece un temporizador para retrasar la búsqueda
+    timerId = setTimeout(() => {
+      props.onSearch(1, searchQuery.value);
+    }, debounceDelay);
   }
 };
 

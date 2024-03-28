@@ -29,6 +29,7 @@ export const coversE = defineStore('CoverE',{
                 console.log(response);
                 this.franchises = response.paginate;
                 this.isfilter=false
+                this.coverSearch=null
                 console.log(this.franchises);
             } catch (error) {
                 console.log(error.response);
@@ -37,11 +38,13 @@ export const coversE = defineStore('CoverE',{
         async cover_paginate(page,search,formdata){
             console.log(page)
             console.log(search)
-            console.log(formdata)
+            
             if(formdata || this.isfilter == true){
-                this.isfilter==true;
+                this.isfilter=true;
+                console.log(this.isfilter)
                 if(!formdata){
-                    formdata == this.filters
+                    formdata = this.filters
+                    console.log(formdata)
                 }else{
                     this.filters=formdata
                 }
