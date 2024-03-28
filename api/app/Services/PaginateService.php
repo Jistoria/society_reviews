@@ -26,7 +26,7 @@ class PaginateService
 {
     try {
         $query = $this->reviewModel::with([
-            'franchise:franchise_id,title,slug,image_url',
+            'franchise:franchise_id,title,slug,image_url,franchise_rating',
             'franchise.tags:tag_id,name_tag',
             'contentType:content_type_id,type',
             'user:id,name'
@@ -57,6 +57,13 @@ class PaginateService
                 ->groupBy('review_id');
             });
         });
+        //Filtro solo comunidad
+        $query->when($request->input('comunidad'),function ($query){
+            $query->whereHas('user.roles', function ($query) {
+                $query->where('name','Civil')
+                ->groupBy('review_id');
+            });
+        });
         //Filtrar con tipo de contenido
         $query->when($content = $request->input('content_type'),function ($query) use($content){
             $query->whereHas('user', function ($query) use ($content) {
@@ -64,10 +71,16 @@ class PaginateService
                 ->groupBy('review_id');
             });
         });
+        //Filtrar por el rating principal
+        $query->when($ratingM = $request->input('rating')[0],function ($query) use($ratingM){
+            $query->whereBetween('rating_main', [$ratingM - 1, $ratingM + 1]);
+        });
         //Filtrar por el rating promediado
-
-        // ->when($request->input('time'))
-
+        $query->when($ratingC = $request->input('ratingC'), function ($query) use ($ratingC) {
+            $query->whereHas('franchise', function ($query) use ($ratingC) {
+                $query->whereBetween('franchise_rating', [$ratingC - 1, $ratingC + 1]);
+            });
+        });
         return $query->paginate(10);
     } catch (\Exception $e) {
         // Manejar el error aquí
