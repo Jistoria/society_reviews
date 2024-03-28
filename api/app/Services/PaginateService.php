@@ -72,8 +72,8 @@ class PaginateService
             });
         });
         //Filtrar por el rating principal
-        $query->when($ratingM = $request->input('rating')[0],function ($query) use($ratingM){
-            $query->whereBetween('rating_main', [$ratingM - 1, $ratingM + 1]);
+        $query->when($ratingM = $request->input('rating'),function ($query) use($ratingM){
+            $query->whereBetween('rating_main', [$ratingM[0] - 1, $ratingM[0] + 1]);
         });
         //Filtrar por el rating promediado
         $query->when($ratingC = $request->input('ratingC'), function ($query) use ($ratingC) {
