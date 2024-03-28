@@ -2,7 +2,8 @@
 import { ref, reactive } from "vue";
 
 const coverStore = coversE()
-const filteredPaginate = ref(null)
+const filteredPaginate = ref([])
+const comunidad_autors = ref(0)
 
 const P_tags = 10;
 const P_author = 3;
@@ -14,7 +15,6 @@ const data_tags = ref(null);
 const tagsP = TagsAd();
 const reviewP = ReviewAd();
 const coverP = coversE();
-
 onMounted(async () => {
     await tagsP.Tags_pluck();
     await reviewP.Review_content_type();
@@ -35,6 +35,10 @@ const data_send = reactive({
     content_type:[],
     time: [],
     rating:[],
+})
+const comunity_data = reactive({
+    comunidad: 0,
+    ratingC: 0,
 })
 const objetos = reactive({
     dato_1:{
@@ -137,13 +141,19 @@ const target_filter = async(data)=>{
     return filter_show.value;
 }
 const selectSubobjeto = (subobjeto) => {
-    // console.log(subobjeto);
+    console.log(subobjetoSeleccionado.value);
     if(subobjetoSeleccionado.value == subobjeto){
             subobjetoSeleccionado.value = null;
            return subobjetoSeleccionado.value;
     //     console.log('son iguales')
     }
-     subobjetoSeleccionado.value = subobjeto;
+    subobjetoSeleccionado.value = subobjeto;
+    if(subobjetoSeleccionado.value.nombre == 'creador'){
+        comunity_data.ratingC = 0
+    }
+    if(subobjetoSeleccionado.value.nombre == 'comunidad'){
+        comunity_data.ratingC = 1
+    }
 };
 const data_send_see = async() =>{
     const data_idO = {
@@ -152,22 +162,9 @@ const data_send_see = async() =>{
          "content_type_id": data_send.content_type,
          "time_id_filter": data_send.time,
          "rating_id_filter": data_send.rating,
-    };
-    
 
-    // const filteredData = {};
-    // for (const key in data_send) {
-    //     filteredData[key] = data_send[key].map(item => {
-    //         const filteredItem = {};
-    //         for (const prop in item) {
-    //         if (prop.endsWith('_id')) {
-    //             filteredItem[prop] = item[prop];
-    //         }
-    //         }
-    //         return filteredItem;
-    //     });
-    // }
-    // filteredPaginate.value = filteredData;
+         
+    };
     const filteredData = {};
     for (const key in data_send) {
         if (key === 'authors') {
@@ -187,8 +184,11 @@ const data_send_see = async() =>{
             });
         }
     }
+    filteredData.comunidad = comunity_data.comunidad;
+    filteredData.ratingC = comunity_data.ratingC;
 
     filteredPaginate.value = filteredData;
+
 
 }
 const show_filter = ()=>{
@@ -320,19 +320,12 @@ const toggleCheckedDate = (data)=>{
 //para autores
 const checkedAuthors = ref([]);
 const toggleCheckedAuthor = (author) => {
+    console.log(author)
     const index = checkedAuthors.value.findIndex((item) => item.name === author.name);
 
     if (index === -1) {
         if (checkedAuthors.value.length < 1) {
-            if(autors_var.value == 'Administradores'){
-                checkedAuthors.value.push({ ...author, id: getNextId(), comunidad: 0 });
-
-            }
-            if(autors_var.value == 'Comunidad'){
-                checkedAuthors.value.push({ ...author, id: getNextId(), comunidad: 1 });
-
-            }
-
+            checkedAuthors.value.push({ ...author, id: getNextId()});
 
             restructureIds()
         }
@@ -344,6 +337,19 @@ const toggleCheckedAuthor = (author) => {
     }
     data_send.authors =checkedAuthors.value;
 };
+const data_autors = (data)=>{
+    autors_var.value = data;
+    if(data == 'Administradores' ){
+        console.log('entre a admin')
+        comunity_data.comunidad = 0;
+    }
+    if(data == 'Comunidad'){
+        console.log('entre a comunidad')
+        comunity_data.comunidad= 1;
+    }
+
+} 
+
 
 const isCheckedAuthor = (author) => {
     return checkedAuthors.value.some((item) => item.name === author.name);
@@ -389,18 +395,15 @@ watch([subobjetoSeleccionado, selectedValue], ([newSubobjeto, newValue], [oldSub
     const letra = getLetter(newValue, newSubobjeto.cajas);
     const nombre = newSubobjeto.nombre;
     if(nombre == 'creador'){
-        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue , comunidad: 0  }]; 
+        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue   }]; 
     }
     if(nombre == 'comunidad'){
-        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue , comunidad: 1  }]; 
+        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue  }]; 
 
     }
   }
 });
-const data_autors = (data)=>{
-    autors_var.value = data;
-    // console.log(autors_var.value);
-} 
+
 const autor_see = computed(()=>{
     if(autors_var.value == 'Administradores'){
         const filtered = {};
@@ -455,6 +458,7 @@ const calculateTotalWidth = () => {
 </script>
 <template>
     {{ filteredPaginate }}
+    
     <div>
         <div >
             <div class="container-fluid">
@@ -492,7 +496,7 @@ const calculateTotalWidth = () => {
                                             <div class="row">
                                                 <div class="col-2 ms-2 me-5 mt-2 mb-2"  v-for="data in objetos.datos_2.subobjeto3_segun" v-if="filter_show == 'autor'">
                                                     <div>
-                                                        <ButtonG class="btn-dark " @click="data_autors(data)">
+                                                        <ButtonG class="btn-dark " @click="data_autors(data)"  >
                                                             {{ data }}
                                                         </ButtonG>
                                                     </div> 
@@ -547,7 +551,7 @@ const calculateTotalWidth = () => {
                                                                 <div class="col-12 ">
                                                                     <div v-for="subobjeto in objeto.subobjeto2_segun">
                                                                         <div v-if="subobjeto == subobjetoSeleccionado">
-                                                                            <input class="form-range input_edit" v-model="selectedValue" :id="'data_'+  subobjeto.nombre"  type="range" min="0" max="9" step="1">
+                                                                            <input class="form-range input_edit" v-model="selectedValue" :id="'data_'+  subobjeto.nombre"  type="range" min="1" max="10" step="1">
                                                                             <p>Calificacion: <label :for="'data_'+ subobjeto.nombre" class="btn-dark btn mb-1">{{ getLetter(selectedValue, subobjeto.cajas) }}</label></p>
                                                                         </div>
                                                                     </div>
@@ -572,7 +576,7 @@ const calculateTotalWidth = () => {
                                                                 <div  v-for="(item, index) in group" :key="index"   class="d-inline-block base_button_first">
                                                                         <div class="d-flex justify-content-center">
                                                                             <ButtonG class="btn-dark ms-1 mt-2 mb-2 "  @click="delete_data(groupName, index)">
-                                                                                {{ item.name }} {{ item.name_tag }}
+                                                                                {{ item.name }} {{ item.name_tag }} 
                                                                                 <i class="bi bi-x-circle"></i>
                                                                             </ButtonG>
                                                                         </div>
