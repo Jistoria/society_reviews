@@ -1,22 +1,63 @@
 <script setup>
+const { showErrorAlert, showLoadingAnimation, showSuccessAlertSkinny, showConfirmationAlert,showErrorNormalAlert} = AlertaSesion();
+
 const rawrf="review"
 const n = 10;
 const reviewP = ReviewAd();
 onMounted(async () => {
     await reviewP.Review_get();
 });
-const delete_review =  async(data)=>{
-    console.log(data);
-    await reviewP.Review_delete(data);
-    await reviewP.Review_get_paginate(reviewP.review.current_page);
+const delete_review =  async(data , title)=>{
+
+    const conf = await showConfirmationAlert('¿Quieres eliminar la reseña?', ' ' + title);
+    if(conf== true){
+        try {
+            showLoadingAnimation('Procesando');
+            const review = await reviewP.Review_delete(data);
+            console.log(review);
+            if (review.success === true) {
+                showSuccessAlertSkinny(review.message);
+                await reviewP.Review_get_paginate(reviewP.review.current_page);
+            } else {
+                await showErrorNormalAlert('Error en la eliminacion', review.message);
+            } 
+        } catch (error) {
+            console.log(error);
+            await showErrorNormalAlert('Error', [error.message]); // Capturas el mensaje de error y lo muestras en la alerta
+        }
+    }else{
+        return
+    }
+    // await reviewP.Review_get_paginate(reviewP.review.current_page);
 }
 const handlePageChange = async (page,search) => {
   await reviewP.Review_get_paginate(page,search)
 };
-const published = async(id)=>{
-    console.log(id);
-    await reviewP.published(id);
-    await reviewP.Review_get_paginate(reviewP.review.current_page);
+const published = async(id, titulo, check)=>{
+
+    if(check == false){
+        const cof = await showConfirmationAlert('vas a Publicar '+ titulo);
+        if(cof == true){
+            const review  =  await reviewP.published(id);
+            console.log(review.success)
+            if(review.success == true){
+                showSuccessAlertSkinny('Reseña publicada con Exito')
+                await reviewP.Review_get_paginate(reviewP.review.current_page)
+
+            }
+        }
+    }else{
+        const cof = await showConfirmationAlert('Esta reseña '+ titulo + ' dejara de ser publica');
+        if(cof == true){
+            const review =  await reviewP.published(id);
+            if(review.success == true){
+                showSuccessAlertSkinny('Reseña dejo de ser publica')
+                await reviewP.Review_get_paginate(reviewP.review.current_page)
+
+            }
+        }
+    }
+
 }
 </script>
 <template>
@@ -47,20 +88,20 @@ const published = async(id)=>{
                                         </div>
                                         <div class="flex-grow-1 ">
                                             <div class="d-flex justify-content-center mb-2 mt-2">
-                                                <ButtonG class="btn-dark">
-                                                    <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: reviews.review_id }}">
-                                                        <i class="bi bi-indent" style="font-size: 1.3rem;" ></i>
-                                                    </NuxtLink>
-                                                </ButtonG>
+                                                <NuxtLink :to="{ path:'/place/admin/reviews/reviewPUT', query: { id_review: reviews.review_id }}">
+                                                    <ButtonG class="btn-dark">
+                                                            <i class="bi bi-indent" style="font-size: 1.3rem;" ></i>
+                                                    </ButtonG>
+                                                </NuxtLink>
                                             </div>
                                             <div class="d-flex justify-content-center  mb-2 ">
-                                                <ButtonG :class="reviews.published ? 'btn-success' : 'btn-danger'" @click="published(reviews.review_id)">
+                                                <ButtonG :class="reviews.published ? 'btn-success' : 'btn-danger'" @click="published(reviews.review_id , reviews.title_alternative,reviews.published)">
                                                     <i v-if="reviews.published == false" class="bi bi-calendar-x" style="font-size: 1.3rem; color: white;"></i>
                                                     <i v-else class="bi bi-calendar-check"   style="font-size: 1.3rem; color: white;"></i>
                                                 </ButtonG>
                                             </div>
                                             <div class="d-flex justify-content-center  mb-2 ">
-                                                <ButtonG class="btn-warning" @click="delete_review(reviews.review_id)">
+                                                <ButtonG class="btn-warning" @click="delete_review(reviews.review_id, reviews.title_alternative)">
                                                     <i class="bi bi-x" style="font-size: 1.3rem;"></i>
                                                 </ButtonG>
                                             </div>

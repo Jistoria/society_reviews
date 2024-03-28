@@ -170,20 +170,25 @@ const data_send_see = async() =>{
     // filteredPaginate.value = filteredData;
     const filteredData = {};
     for (const key in data_send) {
-        filteredData[key] = data_send[key].flatMap(item => {
-            const filteredItems = [];
-            for (const prop in item) {
-                if (prop.endsWith('_id')) {
-                    filteredItems.push(item[prop]);
+        if (key === 'authors') {
+            filteredData[key] = data_send[key].map(item => ({
+                user_id: item.user_id,
+                comunidad: item.comunidad
+            }));
+        } else {
+            filteredData[key] = data_send[key].flatMap(item => {
+                const filteredItems = [];
+                for (const prop in item) {
+                    if (prop.endsWith('_id')) {
+                        filteredItems.push(item[prop]);
+                    }
                 }
-            }
-            return filteredItems;
-        });
+                return filteredItems;
+            });
+        }
     }
 
-    filteredPaginate.value = filteredData; 
-
-
+    filteredPaginate.value = filteredData;
 
 }
 const show_filter = ()=>{
@@ -316,9 +321,19 @@ const toggleCheckedDate = (data)=>{
 const checkedAuthors = ref([]);
 const toggleCheckedAuthor = (author) => {
     const index = checkedAuthors.value.findIndex((item) => item.name === author.name);
+
     if (index === -1) {
         if (checkedAuthors.value.length < 1) {
-            checkedAuthors.value.push({ ...author, id: getNextId() });
+            if(autors_var.value == 'Administradores'){
+                checkedAuthors.value.push({ ...author, id: getNextId(), comunidad: 0 });
+
+            }
+            if(autors_var.value == 'Comunidad'){
+                checkedAuthors.value.push({ ...author, id: getNextId(), comunidad: 1 });
+
+            }
+
+
             restructureIds()
         }
 
@@ -343,24 +358,25 @@ const getLetter = (index, cajas) => {
   let letra = cajas[key];
 
   if (index >= 0 && index < 2) {
-    const key_a = keys[0];
-    const letra = cajas[key_a];
+    const key_e = keys[4];
+    const letra = cajas[key_e];
     return letra
   }else if (index >= 2 && index < 4) {
-    const key_b = keys[1];
-    const letra = cajas[key_b];
+    const key_d = keys[3];
+    const letra = cajas[key_d];
+
     return letra
   }else if (index >= 4 && index < 6){
     const key_c = keys[2];
     const letra = cajas[key_c];
     return letra
   }else if(index >= 6 && index < 8){
-    const key_d = keys[3];
-    const letra = cajas[key_d];
+    const key_b = keys[1];
+    const letra = cajas[key_b];
     return letra
   }else{
-    const key_e = keys[4];
-    const letra = cajas[key_e];
+    const key_a = keys[0];
+    const letra = cajas[key_a];
     return letra
 }
 
@@ -372,13 +388,18 @@ watch([subobjetoSeleccionado, selectedValue], ([newSubobjeto, newValue], [oldSub
     selectedLetter.value = getLetter(newValue, newSubobjeto.cajas);
     const letra = getLetter(newValue, newSubobjeto.cajas);
     const nombre = newSubobjeto.nombre;
-    data_send.rating = [{ name: letra, tipo: nombre, rating_main: selectedValue  }]; // Objeto con la letra y el nombre
+    if(nombre == 'creador'){
+        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue , comunidad: 0  }]; 
+    }
+    if(nombre == 'comunidad'){
+        data_send.rating = [{ name: letra, tipo: nombre, rating_main_id: selectedValue , comunidad: 1  }]; 
 
+    }
   }
 });
 const data_autors = (data)=>{
     autors_var.value = data;
-    console.log(autors_var.value);
+    // console.log(autors_var.value);
 } 
 const autor_see = computed(()=>{
     if(autors_var.value == 'Administradores'){
@@ -433,6 +454,7 @@ const calculateTotalWidth = () => {
 
 </script>
 <template>
+    {{ filteredPaginate }}
     <div>
         <div >
             <div class="container-fluid">

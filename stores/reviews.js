@@ -30,7 +30,6 @@ export const ReviewAd = defineStore('ReviewAd',{
             }
         },
         async Review_delete(formdata){
-            console.log(formdata);
             try {
                 const response = await $fetch(`http://127.0.0.1:8000/api/review/${formdata}`,{
                     method: 'DELETE',
@@ -40,7 +39,8 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
-                return true
+                console.log(response)
+                return response
             } catch (error) {
                 console.log(error.response);
                 return false
@@ -163,6 +163,7 @@ export const ReviewAd = defineStore('ReviewAd',{
             }
         },
         async Review_put(formdata,id){
+            console.log(formdata);
             try {
                 const data = await $fetch(`http://127.0.0.1:8000/api/review/${id}`,{
                     method: 'PUT',
@@ -173,6 +174,8 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
+                console.log(data);
+                return data
             } catch (error) {
                 console.log(error);
             }
@@ -187,7 +190,8 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
-                
+                console.log(data);
+                return data
             } catch (error) {
                 console.log(error);
             }

@@ -1,4 +1,6 @@
 <script setup>
+const { showErrorAlert, showLoadingAnimation, showSuccessAlertSkinny, showConfirmationAlert,showErrorNormalAlert} = AlertaSesion();
+const router = useRouter();
 const franchiseP = FranchiseAd();
 const reviewP = ReviewAd();
 const loginP = LoginStore();
@@ -37,7 +39,15 @@ const form_review_put = reactive({
 
 const send_update_data = async ()=>{
     console.log(form_review_put,id);
-    await reviewP.Review_put(form_review_put,id);
+    const cof = await showConfirmationAlert('Vas a actualizar la siguiente reseña, estas seguro?', ' '+ enviar_titulo.value);
+    if(cof == true ){
+        const review = await reviewP.Review_put(form_review_put,id);
+        if(review.success = true){
+            showSuccessAlertSkinny(review.message);
+            await router.push({ path: '/place/dashboard' });
+
+        }
+    } 
 }
 
 //
@@ -50,8 +60,9 @@ const data_Pinia = async ()=>{
     const franchiseData = await franchiseP.Franchiste_get_edit(reviewP.review_edit.franchise_id)
         .then(franchiseData => {
             // Aquí puedes establecer el valor de enviar_titulo
-            enviar_titulo.value = franchiseData.title; // Suponiendo que franchiseData tiene una propiedad llamada "titulo"
-            enviar_id.value = franchiseData.franchise_id
+            enviar_titulo.value = franchiseData.title; 
+            enviar_id.value = franchiseData.franchise_id;
+            form_review_put.franchise_id = franchiseData.franchise_id;
             form_review_put.rating_main = reviewP.review_edit.rating_main 
             getLetter(reviewP.review_edit.rating_main);
             //seteo de los datos
@@ -82,6 +93,8 @@ const data_Pinia = async ()=>{
             form_review_put.quantity_episode = reviewP.review_edit.quantity_episode;
             form_review_put.duration_time = reviewP.review_edit.duration_time;
             array_content_type.value = reviewP.content_type;
+            form_review_put.user_id = loginP.user.id;
+            
         })
         .catch(error => {
             console.error('Error al obtener los datos de la franquicia:', error);
@@ -133,12 +146,12 @@ const select_franchise = (data,id)=>{
     name_content_type.value = data;
 
 }
+
+const disable_button = ref(true);
+
 </script>
 <template>
-        <!-- que me envie bien la fecha y el contet type para poder poner bien esa nota -->
-        <!-- hay que cambiar la logica en base a que franquisia se esta seleccionando creo que lo mejor seria o hacer un modal para que muestre los datos o hacer que te envie a franchise get para que escojas que en base a la paginacion y datos y te regrese de nuevo a revio PUT -->
-        <!-- aqui podria implementar el buscador para franquisias y asi sacarle provecho ala paginacion dada obviamente debe ser un preview de los datos que debos hacer   -->
-        <!-- o puedo hcaer que sea un modal en base a que se abra una ventana grande en la que este el review.Get solo que en ves de editar selecciones que datos puedas traer -->
+    {{disable_button}}
         <div class="container-fluid mb-3">
             <div class="row ">
                 <div class="col-7">
@@ -283,9 +296,8 @@ const select_franchise = (data,id)=>{
                                     <input type="time" class="form-control edit_form " v-model="form_review_put.duration_time">
                                 </div>
                                 <div class="d-flex p-3 justify-content-end">
-                                    <ButtonG class="btn-primary" type="submit">Actualiazar Datos</ButtonG>
+                                    <ButtonG class="btn-primary" :class="disable_button ? 'btn-dark' : 'disabled'" type="submit">Actualiazar Datos</ButtonG>
                                 </div>
-
                             </form>
                         </div>
                     </div>
