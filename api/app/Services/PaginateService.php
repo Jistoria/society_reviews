@@ -28,9 +28,10 @@ class PaginateService
         $query = $this->reviewModel::with([
             'franchise:franchise_id,title,slug,image_url',
             'franchise.tags:tag_id,name_tag',
-            'contentType:content_type_id,type'
+            'contentType:content_type_id,type',
+            'user:id,name'
         ])
-        ->select('review_id', 'franchise_id', 'content_type_id', 'title_alternative', 'rating_main', 'slug')
+        ->select('review_id', 'franchise_id', 'content_type_id','user_id', 'title_alternative', 'rating_main', 'slug')
         ->where('published', true);
 
         // Búsqueda con el título de franquicia
@@ -49,11 +50,22 @@ class PaginateService
                     ->havingRaw('COUNT(*) = ?', [count($tags)]);
             });
         });
+        //Filtro con autor
+        $query->when($author = $request->input('authors'),function ($query) use($author){
+            $query->whereHas('user', function ($query) use ($author) {
+                $query->where('id',$author)
+                ->groupBy('review_id');
+            });
+        });
+        //Filtrar con tipo de contenido
+        $query->when($content = $request->input('content_type'),function ($query) use($content){
+            $query->whereHas('user', function ($query) use ($content) {
+                $query->whereIn('content_type_id',$content)
+                ->groupBy('review_id');
+            });
+        });
+        //Filtrar por el rating promediado
 
-
-        // ->when($request->input('authors'))
-        // ->when($request->input('content_type'))
-        // ->when($request->input('rating'))
         // ->when($request->input('time'))
 
         return $query->paginate(10);

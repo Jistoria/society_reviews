@@ -38,11 +38,6 @@ export const coversE = defineStore('CoverE',{
             console.log(page)
             console.log(search)
             console.log(formdata)
-            //FUNCION PARA TRANSFORMAR EL FORMDATA EN PARAMS URL, ESTAN MAL SETEADOS Y SE MUESTRAN COMO OBJECTS
-            //===> tags=%5Bobject+Object%5D%2C%5Bobject+Object%5D&authors=%5Bobject+Object%5D&content_type=&time=&rating=
-            //COMO DEBE SER EJEMPLO
-            // ===> description=Un%20cojudo%20y%20tres%20pendejas&tag_id%5B0%5D=1&tag_id%5B1%5D=2
-            console.log(new URLSearchParams(formdata).toString());
             if(formdata || this.isfilter == true){
                 this.isfilter==true;
                 if(!formdata){
@@ -169,8 +164,6 @@ export const coversE = defineStore('CoverE',{
             }
             
         }
-
-
     },
 
 })
