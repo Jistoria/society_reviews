@@ -39,7 +39,6 @@ const clearSearchQuery = () => {
     break;
     case 'cover':
       coverStore.get_data();
-      console.log("Entro")
     break;
     default:
       console.log('Identificador no reconocido');
