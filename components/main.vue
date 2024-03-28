@@ -63,6 +63,7 @@ const handlePageChange = async (page,search) => {
                                                         <div class="row mt-5 mb-5" >
                                                         <div class="col mb-0 mt-0 prueba-de-movimiento " >
                                                             <p class="fs-3">  {{ covers.franchise.title }}</p>
+                                                            {{ covers.franchise.franchise_rating }}
                                                             <p class="fs-3">{{ covers.user.name }}</p>
                                                         </div>
                                                         </div>
