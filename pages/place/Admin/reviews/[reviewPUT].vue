@@ -147,11 +147,11 @@ const select_franchise = (data,id)=>{
 
 }
 
-const disable_button = ref(true);
+
 
 </script>
 <template>
-    {{disable_button}}
+
         <div class="container-fluid mb-3">
             <div class="row ">
                 <div class="col-7">
@@ -187,7 +187,6 @@ const disable_button = ref(true);
                                     </div>
                                 </div>
                                 <div class="form">
-                                    <!-- tipo de contenido debe ser un select multiple -->
                                     <div class="d-flex ">
                                         <h2 class="ms-3 pt-2">tipo de contenido</h2>
                                         <div class="align-self-center ms-2">
@@ -296,7 +295,7 @@ const disable_button = ref(true);
                                     <input type="time" class="form-control edit_form " v-model="form_review_put.duration_time">
                                 </div>
                                 <div class="d-flex p-3 justify-content-end">
-                                    <ButtonG class="btn-primary" :class="disable_button ? 'btn-dark' : 'disabled'" type="submit">Actualiazar Datos</ButtonG>
+                                    <ButtonG class="btn-primary"  type="submit">Actualiazar Datos</ButtonG>
                                 </div>
                             </form>
                         </div>

@@ -24,9 +24,11 @@ export const ReviewAd = defineStore('ReviewAd',{
                     },
                     credentials:'include'
                 })
-                // console.log(response);
+                console.log(response);
+                return response;
             } catch (error) {
-                console.log(error.response)
+                console.log(error.response._data.message)
+                return error.response._data
             }
         },
         async Review_delete(formdata){
