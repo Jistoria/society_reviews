@@ -29,7 +29,7 @@ class ReviewController extends Controller
         $review = $this->reviewService->createReview($review_request->validated());
 
         // Retornar una respuesta JSON con la revisión creada
-        return response()->json(['success' => true, 'review' => $review], 201);
+        return response()->json(['success' => true]);
     }
 
     public function publishedReview(Request $request, Review $review)
