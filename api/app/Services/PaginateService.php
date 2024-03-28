@@ -72,13 +72,14 @@ class PaginateService
             });
         });
         //Filtrar por el rating principal
-        $query->when($ratingM = $request->input('rating'),function ($query) use($ratingM){
+        $query->when($ratingM = $request->input('rating') AND !($request->input('ratingC')),function ($query) use($ratingM){
             $query->whereBetween('rating_main', [$ratingM[0] - 1, $ratingM[0] + 1]);
         });
         //Filtrar por el rating promediado
-        $query->when($ratingC = $request->input('ratingC'), function ($query) use ($ratingC) {
-            $query->whereHas('franchise', function ($query) use ($ratingC) {
-                $query->whereBetween('franchise_rating', [$ratingC - 1, $ratingC + 1]);
+        $query->when($request->input('ratingC'), function ($query) use ($request) {
+            $query->whereHas('franchise', function ($query) use ($request) {
+                $ratingC = $request->input('rating');
+                $query->whereBetween('franchise_rating', [$ratingC[0] - 1, $ratingC[0] + 1]);
             });
         });
         return $query->paginate(10);
