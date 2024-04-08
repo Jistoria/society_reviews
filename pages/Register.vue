@@ -11,6 +11,7 @@ const bg_ver = VerificacionE();
 // bg_ver.isChecked
 
 const auth = useState('user', ()=> false);
+
 const form = reactive({
     name:'',
     email:'',

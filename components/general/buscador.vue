@@ -48,7 +48,7 @@ const clearSearchQuery = () => {
 let timerId = null; // Variable para almacenar el identificador del temporizador
 const debounceDelay = 500; // Tiempo de espera antes de ejecutar la búsqueda después de la última entrada del usuario (en milisegundos)
 const onSearchInput = () => {
-  if (searchQuery.value.length >= 1) {
+  if (searchQuery.value.length >= 4) {
     // Cancela la búsqueda previa si aún no se ha realizado
     clearTimeout(timerId);
 

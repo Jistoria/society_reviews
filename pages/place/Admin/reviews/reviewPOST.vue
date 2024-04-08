@@ -243,7 +243,7 @@ const select_franchise = (data,id)=>{
                                             <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
                                         </div>
                                     </div>
-                                    <input class="form-range input_edit edit_form me-3" v-model="form_review.rating_main" id="data_"  type="range" min="0" max="9" step="1">
+                                    <input class="form-range input_edit edit_form me-3" v-model="form_review.rating_main" id="data_"  type="range" min="0" max="9" step="0.1">
                                     <p class="ms-4 fs-4">Calificacion: <label class="btn-dark btn ">{{ getLetter(form_review.rating_main) }} = {{ form_review.rating_main }}</label></p>
                     </div>
                     <div class="form">

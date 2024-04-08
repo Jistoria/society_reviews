@@ -3,6 +3,9 @@ const loginP= LoginStore();
 const detail = async ()=>{
     await loginP.get_session_detail();
 }
+definePageMeta({
+  middleware:'check-filter'
+})
 </script>
 
 <template>
