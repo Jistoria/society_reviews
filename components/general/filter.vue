@@ -361,7 +361,7 @@ const delete_all = () =>{
                                                         <div class="col-6"  >
                                                             <div v-for="objetos in buttons_sett.var_5.calificacion">
                                                                 <div v-if="objetos == rating_base">
-                                                                    <input class="form-range input_edit" v-model="selectedValue"   type="range" min="1" max="10" step="1">
+                                                                    <input class="form-range input_edit" v-model="selectedValue"   type="range" min="1" max="10" step="0.1">
                                                                     <p>Calificacion: <label  class="btn-dark btn mb-1">{{ getLetter(selectedValue, objetos.puntuacion) }}</label></p>
                                                                 </div>
                                                             </div>
