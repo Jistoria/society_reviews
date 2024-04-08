@@ -39,22 +39,20 @@ export const coversE = defineStore('CoverE',{
             }
         },
         async cover_paginate(page,search,formdata){
-            console.log('la pagina actual ' + page);
-            console.log('lo que se busca es ' + search);
-            console.log('los tags actuales ' + formdata);
             if(formdata || this.isfilter == true){
                 this.isfilter=true;
-                console.log(this.isfilter)
-                if(!formdata){
+                // Si no se proporciona formdata pero hay filtros aplicados, usar los filtros existentes
+                if (!formdata) {
                     formdata = this.filters
                     console.log(formdata)
-                }else{
+                } else {
+                    // Si se proporciona formdata, actualizar los filtros
                     this.filters=formdata
                 }
-
                 if(search){
                     try {
-                        if (this.coverSearch == null  || search !== this.coverSearch) {
+                        // Verificar si la búsqueda ha cambiado para evitar llamadas redundantes
+                        if (this.coverSearch == null || search !== this.coverSearch) {
                             this.coverSearch=search
                         }
                         const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
@@ -71,10 +69,10 @@ export const coversE = defineStore('CoverE',{
                     } catch (error) {
                         console.log(error.response._data.errors);
                     }
-                }else{
+                } else {
+                    // Si no hay búsqueda, realizar la llamada con los filtros y sin búsqueda
                     if(this.coverSearch == null){
                         try {
-                            
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate?page=${page}`,{
                                 method: 'POST',
                                 body: formdata,
@@ -90,9 +88,10 @@ export const coversE = defineStore('CoverE',{
                         } catch (error) {
                             console.log(error);
                         }
-                    }else{
+                    } else {
+                        // Si hay una búsqueda anterior, realizar la llamada con la búsqueda y los filtros
                         try {
-                            search =this.coverSearch
+                            search = this.coverSearch
                             console.log(search)
                             console.log(page)
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
@@ -110,12 +109,15 @@ export const coversE = defineStore('CoverE',{
                         }
                     }
                 }
-            }else{
-                if(search){
+            } else {
+                // Si no se proporciona formdata y no hay filtros aplicados
+                if (search) {
                     try {
-                        if (this.coverSearch == null  || search !== this.coverSearch) {
+                        // Verificar si la búsqueda ha cambiado para evitar llamadas redundantes
+                        if (this.coverSearch == null || search !== this.coverSearch) {
                             this.coverSearch=search
                         }
+                        // Realizar la llamada a la API con la búsqueda
                         const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
                             method: 'POST',
                             body: formdata,
@@ -130,8 +132,9 @@ export const coversE = defineStore('CoverE',{
                     } catch (error) {
                         console.log(error.response._data.errors);
                     }
-                }else{
-                    if(this.coverSearch == null){
+                } else {
+                    // Si no hay búsqueda, realizar la llamada sin búsqueda ni filtros
+                    if (this.coverSearch == null) {
                         try {
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate?page=${page}`,{
                                 method: 'POST',
@@ -147,9 +150,10 @@ export const coversE = defineStore('CoverE',{
                         } catch (error) {
                             console.log(error);
                         }
-                    }else{
+                    } else {
+                        // Si hay una búsqueda anterior, realizar la llamada con la búsqueda y sin filtros
                         try {
-                            search =this.coverSearch
+                            search = this.coverSearch
                             console.log(search)
                             console.log(page)
                             const response = await $fetch(`http://127.0.0.1:8000/api/paginate/${search}?page=${page}`,{
@@ -168,8 +172,9 @@ export const coversE = defineStore('CoverE',{
                     }
                 }
             }
-            
+            console.log("acabo")
         }
+        
     },
 
 })
