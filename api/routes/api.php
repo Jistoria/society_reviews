@@ -59,7 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 //Rutas solo para Admin
-Route::middleware(['auth:sanctum','role:Admin,SuperAdmin'])->group(function () {
+Route::middleware(['auth:sanctum','role:Admin|SuperAdmin'])->group(function () {
     //Tags
     Route::resource('tag', TagController::class);
     //Franquicias

@@ -164,8 +164,8 @@ onMounted(async () => {
                                         <button class="btn btn-sm btn-warning me-1" @click="editTagO(tag)">
                                                 <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-danger me-1" @click="deleteTag(index)">
-                                            <i class="bi bi-trash"></i>
+                                        <button class="btn btn-sm btn-danger me-1" @click="deleteTag(tag.tag_id)">
+                                            <i class="bi bi-trash">eliminar</i>
                                         </button>
                                     </div>
                                 </div>
