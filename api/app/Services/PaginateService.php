@@ -22,7 +22,7 @@ class PaginateService
      * @param string|null $search El término de búsqueda opcional para filtrar por título de franquicia.
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($search = null, Request $request)
+    public function paginacion($search = null, Request $request)
 {
     try {
         $query = $this->reviewModel::with([
