@@ -26,20 +26,23 @@ class CreateDefaultsTags extends Command
      */
     public function handle()
     {
-        //
         $tags = [
-            'Isekai',
-            'Comedia',
-            'Gore',
-            'Slice of Life',
-            'Romance',
-            'Acción',
-            'Yuri',
-            'Ecchi'
+            'Isekai' => 'Un género de anime y manga en el que los personajes principales son transportados o reencarnados en un mundo paralelo.',
+            'Comedia' => 'Género que busca entretener y hacer reír al público a través de situaciones divertidas y diálogos humorísticos.',
+            'Gore' => 'Contenido con escenas explícitas de violencia, sangre y mutilación.',
+            'Slice of Life' => 'Se centra en momentos cotidianos de la vida de los personajes, sin tramas complejas o conflictos épicos.',
+            'Romance' => 'Historias centradas en relaciones amorosas entre personajes.',
+            'Acción' => 'Género que se caracteriza por secuencias emocionantes, peleas y confrontaciones.',
+            'Yuri' => 'Relaciones románticas o sexuales entre mujeres en el anime y manga.',
+            'Ecchi' => 'Contenido que sugiere situaciones sexuales de manera subida de tono, pero sin mostrar explícitamente actos sexuales.',
         ];
-        foreach($tags as $tag){
-                Tag::firstOrCreate(['name_tag' => $tag]);
-                $this->info("El tag '$tag' ha sido creado correctamente.");
+
+        foreach ($tags as $name => $description) {
+            Tag::firstOrCreate([
+                'name_tag' => $name,
+                'description' => $description,
+            ]);
+            $this->info("El tag '$name' ha sido creado correctamente.");
         }
     }
 }
