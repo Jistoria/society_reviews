@@ -13,5 +13,7 @@ definePageMeta({
 <NuxtLink to="/place/dashboard">
     voy a dashboard de admin
 </NuxtLink>
-<Main></Main>
+<div>
+  <Main></Main>
+</div>
 </template>
