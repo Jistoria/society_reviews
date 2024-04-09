@@ -76,9 +76,8 @@ class PaginateService
             $query->whereBetween('rating_main', [$ratingM[0] - 1, $ratingM[0] + 1]);
         });
         //Filtrar por el rating promediado
-        $query->when($request->input('ratingC'), function ($query) use ($request) {
-            $query->whereHas('franchise', function ($query) use ($request) {
-                $ratingC = $request->input('rating');
+        $query->when($ratingC = $request->input('rating') AND $request->input('ratingC'), function ($query) use ($ratingC) {
+            $query->whereHas('franchise', function ($query) use ($ratingC) {
                 $query->whereBetween('franchise_rating', [$ratingC[0] - 1, $ratingC[0] + 1]);
             });
         });
@@ -108,6 +107,16 @@ class PaginateService
 
     // // Franquicias con al menos una revisión publicada
     // $query->whereHas('reviews',function($query){ $query->where('published',true);});
+    // $query->when($request->input('comunidad') || $author, function ($query) use ($author) {
+    //     $query->whereHas('user', function ($query) use ($author) {
+    //         if ($request->input('comunidad')) {
+    //             $query->where('roles.name', 'Civil');
+    //         } elseif ($author) {
+    //             $query->where('id', $author);
+    //         }
+    //         $query->groupBy('review_id');
+    //     });
+    // });
 
 
 }
