@@ -4,15 +4,19 @@ export const LoginStore = defineStore('loginP',{
             session:false,
             user:[ ],
             notificaciont_count:null,
+            url:null
         }
     ),
     getters:{
 
     },
     actions:{
+        async set_url(data){
+            this.url = data;
+        },
         async Login(formData){
             try {
-                const data = await $fetch('http://127.0.0.1:8000/api/login',{
+                const data = await $fetch(`${this.url}/api/login`,{
                     method:'POST',
                     body:formData,
                     headers:{
@@ -32,7 +36,7 @@ export const LoginStore = defineStore('loginP',{
         },
         async Logout(){
             try {
-                const data = await $fetch('http://127.0.0.1:8000/api/logout',{
+                const data = await $fetch(`${this.url}/api/logout`,{
                     method:'POST',
                     headers:{
                         'Content-Type': 'application/json', 
@@ -62,7 +66,7 @@ export const LoginStore = defineStore('loginP',{
         },
         async get_session_detail(){
             try {
-                const data = await $fetch('http://127.0.0.1:8000/api/take',{
+                const data = await $fetch(`${this.url}/api/take`,{
                     method:'GET',
                     headers:{
                         'X-Requested-With': 'XMLHttpRequest',

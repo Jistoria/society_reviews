@@ -3,36 +3,40 @@ const rol = LoginStore();
 const { showSuccessAlertSession, showErrorTerms} = AlertaSesion();
 const auth = useState('user', ()=> false);
 
-let iconClass = '';
+let iconClass = ref('');
+let IconU = ref('');
+const setIconClasses = () => {
+
 switch (rol.user.role) {
     case 'Civil':
-        iconClass = 'bi bi-gear-fill user-icon';
+        iconClass.value = 'bi bi-gear-fill user-icon';
+        IconU.value = 'bi bi-person-circle';
+
         break;
     case 'Admin':
-        iconClass = 'bi bi-person-vcard admin-icon';
+        iconClass.value = 'bi bi-person-vcard admin-icon';
+        IconU.value = 'bi bi-person-lines-fill';
+
         break;
     case 'SuperAdmin':
-        iconClass = 'bi bi-buildings-fill super-admin-icon';
+        iconClass.value = 'bi bi-buildings-fill super-admin-icon';
+        IconU.value = 'bi bi-person-vcard-fill';
+
         break;
     default:
-        iconClass = 'bi bi-chevron-down'; 
+        iconClass.value = 'bi bi-chevron-down'; 
+        IconU.value = 'bi bi-person-workspace'; 
+
         break;
-}
-let IconU = '';
-switch (rol.user.role) {
-    case 'Civil':
-        IconU = 'bi bi-person-circle';
-        break;
-    case 'Admin':
-        IconU = 'bi bi-gear-fill user-icon';
-        break;
-    case 'SuperAdmin':
-        IconU = 'bi bi-person-lines-fill';
-        break;
-    default:
-        IconU = 'bi bi-person-workspace'; 
-        break;
-}
+    }
+};
+
+setIconClasses();
+
+// Observa los cambios en el rol de usuario y actualiza las clases de icono en consecuencia
+watch(() => rol.user.role, () => {
+    setIconClasses();
+});
 const Logout = async ()=>{
     try {
         const data = await rol.Logout();
@@ -52,6 +56,7 @@ const Logout = async ()=>{
 </script>
 <template>
     <div>
+        {{ rol.user }}
         <nav class="navbar navbar-expand-lg ">
             <div class="container-fluid">
                 <NuxtLink to="/">

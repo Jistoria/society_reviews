@@ -2,17 +2,20 @@ import { LoginStore } from "./login"
 export const RegisterStore = defineStore('RegisterP',{
     state:()=>(
         {
-
+            url:null,
         }
     ),
     getters:{
 
     },
     actions:{
+        async set_url(data){
+            this.url = data;
+        },
         async Register(Formdata){
             try {
                 const loginP = LoginStore();
-                const response = await $fetch('http://127.0.0.1:8000/api/register',{
+                const response = await $fetch(`${this.url}/api/register`,{
                     method: 'POST',
                     body: Formdata,
                     headers:{
