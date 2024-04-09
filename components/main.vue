@@ -8,6 +8,7 @@ const set_data = async()=>{
 set_data()
 const handlePageChange = async (page,search) => {
   await coverP.cover_paginate(page,search)
+  return
 };
 </script>
 <template>

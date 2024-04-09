@@ -275,7 +275,7 @@ const data_send_see = ()=>{
 }
 const delete_all = () =>{
         data_send.tags = [];
-        data_send.authors = [];
+        data_send.autor = [];
         data_send.content_type = [];
         data_send.rating = [];
         data_send.time = [];

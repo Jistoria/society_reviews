@@ -38,6 +38,7 @@ const clearSearchQuery = () => {
       reviewStore.Review_get();
     break;
     case 'cover':
+      coverStore.coverSearch=null;
       coverStore.get_data();
     break;
     default:
@@ -47,7 +48,7 @@ const clearSearchQuery = () => {
 let timerId = null; // Variable para almacenar el identificador del temporizador
 const debounceDelay = 500; // Tiempo de espera antes de ejecutar la búsqueda después de la última entrada del usuario (en milisegundos)
 const onSearchInput = () => {
-  if (searchQuery.value.length >= 4) {
+  if (searchQuery.value.length >= 1) {
     // Cancela la búsqueda previa si aún no se ha realizado
     clearTimeout(timerId);
 
@@ -64,6 +65,7 @@ watch(searchQuery, (newValue) => {
   if (newValue === '') {
     clearSearchQuery();
   }
+  return
 });
 
 

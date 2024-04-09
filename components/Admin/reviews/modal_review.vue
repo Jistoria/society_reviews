@@ -70,6 +70,7 @@ const send_data_franchise_selected = async (titulo,id) => {
             :currentPage="franchiseP.franchise.current_page"
             :totalPages="franchiseP.franchise.last_page"
             :onPageChange="handlePageChange"
+            :items="franchiseP.franchise.data"
             />
       </div>
       <div class="modal-footer">
