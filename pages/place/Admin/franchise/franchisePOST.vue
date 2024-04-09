@@ -1,10 +1,12 @@
 <script setup>
 //variables
+const { showErrorAlert, showLoadingAnimation, showSuccessAlertSkinny, showConfirmationAlert,showErrorNormalAlert} = AlertaSesion();
 const franchiseP = FranchiseAd();
 const side_form = ref(true);
 const side_view = ref(true);
 const tagsP = TagsAd();
 const tags_selected_emited = ref([]);
+const router = useRouter();
 const form_franchise = reactive({
     title:'',
     description:'',
@@ -31,7 +33,21 @@ onMounted(async () => {
 
 });
 const franchise_form = async() =>{
-    await franchiseP.Franchise_post(form_franchise);
+
+    try {
+        const cof = await showConfirmationAlert('Vas a subir la franquisia, estas seguro?');
+        if(cof == true ){
+            const franchise = await franchiseP.Franchise_post(form_franchise);
+            if(franchise.success == true){
+                showSuccessAlertSkinny('Franquisia subida exitosamente subida exitosamente');
+                await router.push({ path: '/place/dashboard' });
+            }else{
+                await showErrorNormalAlert('Error en la eliminacion', franchise.message);
+            }
+        } 
+    } catch (error) {
+            console.log(error);
+    }
 }
 const pre_data = ()=>{
     form_franchise.title = 'Tri-gun',
@@ -166,7 +182,10 @@ const handleVariable2 = (tags_name, tags_id) => {
                                             </div>
                                         </div>
                                     </div>
-                            </div>
+                    </div>
+                    <div class="d-flex p-3 mb-4 justify-content-end">
+                                    <ButtonG class="btn-primary" type="submit">Subir franquisia</ButtonG>
+                    </div>
                 </form>
                 </div>
             </div>

@@ -55,38 +55,12 @@ const handleOutsideClick = (event) =>{
         log_session.value = false;
     }
 }
-const Logout = async ()=>{
-    try {
-        const data = await loginP.Logout();
-        if(data){
-            loginP.session = false;
-            auth.value = false;
-            showSuccessAlertSession('Sesion cerrada ','');
-            //deberia ser un else if siempre y cuando haya sesion existente
-        }else{
-            loginP.session = true;
 
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-const props = defineProps({
-    IconName:{
-        type:String,
-        requierd: true,
-    },
-})
-const iconMap = {
-    IconUser:'bi bi-person-circle',
-    IconAdmin:'bi bi-person-lines-fill',
-    IconSuperAdmin:'bi bi-person-workspace',
-}
-const IconU = computed(()=> iconMap[props.IconName]);
+
+
+
 
 </script>
-
-
 <template>
     <Button_g v-if="!loginP.session" v-on:click="show_log" class="btn_ligth log">Iniciar sesión</Button_g>
     <div class="login_form" ref="loginForm" v-show="log_session" v-if="!loginP.session"  >
@@ -97,11 +71,7 @@ const IconU = computed(()=> iconMap[props.IconName]);
             <Button_g class="botons" type="submit">Iniciar Sesion</Button_g>
         </form>
     </div>
-    <Button_g v-if="loginP.session"  class="btn-outline-dark log">
-        <i :class="IconU"></i>
-        {{ loginP.user.name }}
-    </Button_g>
-    <Button_g v-if="loginP.session" @click="Logout"   class="btn-outline-dark log ms-2">Cerrar sesion</Button_g>
+
 
 </template>
 <style scoped>

@@ -24,8 +24,11 @@ export const FranchiseAd = defineStore('franchiseAd',{
                     credentials:'include'
                 })
                 console.log(response);
+                return response;
             } catch (error) {
-                console.log(error);
+                console.log(error.response._data);
+                return error.response._data
+
             }
         },
         async Franchise_get(){

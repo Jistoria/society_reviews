@@ -58,9 +58,9 @@ const send_data_franchise_selected = async (titulo,id) => {
                                 {{ franchise.title }}
                            </div>
                             <div class="col-2 " >
-                                <ButtonG  @click="send_data_franchise_selected(franchise.title, franchise.franchise_id)" :class="franchise.franchise_id == enviar_id ? 'btn-success' : 'btn-dark'">
+                                <a class="btn" role="button" @click="send_data_franchise_selected(franchise.title, franchise.franchise_id)" :class="franchise.franchise_id == enviar_id ? 'btn-success' : 'btn-dark'">
                                     selecionar
-                                </ButtonG>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -70,6 +70,7 @@ const send_data_franchise_selected = async (titulo,id) => {
             :currentPage="franchiseP.franchise.current_page"
             :totalPages="franchiseP.franchise.last_page"
             :onPageChange="handlePageChange"
+            :items="franchiseP.franchise.data"
             />
       </div>
       <div class="modal-footer">

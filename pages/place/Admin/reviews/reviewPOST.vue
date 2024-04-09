@@ -1,4 +1,6 @@
 <script setup>
+const { showErrorAlert, showLoadingAnimation, showSuccessAlertSkinny, showConfirmationAlert,showErrorNormalAlert} = AlertaSesion();
+const router = useRouter();
 const franchiseP = FranchiseAd();
 const reviewP = ReviewAd();
 const loginP = LoginStore();
@@ -7,7 +9,6 @@ const side_form = ref(true);
 const side_view = ref(true);
 const array_content_type = ref(null);
 const name_content_type = ref('');
-
 
 const form_review = reactive({
     franchise_id: '',
@@ -29,7 +30,20 @@ const change_side = () =>{
     side_view.value = !side_view.value;
 };
 const send_review = async() =>{
-    await reviewP.Review_post(form_review);
+    try {
+        const cof = await showConfirmationAlert('Vas a subir la reseña, estas seguro?');
+        if(cof == true ){
+            const review = await reviewP.Review_post(form_review);
+            if(review.success == true){
+                showSuccessAlertSkinny('Reseña subida exitosamente');
+                await router.push({ path: '/place/dashboard' });
+            }else{
+                await showErrorNormalAlert('Error en la eliminacion', review.message);
+            }
+        } 
+    } catch (error) {
+            console.log(error);
+    }
 }
 
 onMounted(async () =>{ 
@@ -58,10 +72,7 @@ const pre_data = () =>{
 //dato computados
 const franchise_term = ref('');
 const franchise_show = ref([]);
-const filtered_franchise = computed(()=>{
-    return franchiseP.franchise.filter(franchise => franchise.title.toLowerCase().includes(franchise_term.value.toLowerCase())).slice(0, 5);
 
-})
 const franchise_selected = (data) =>{
     form_review.franchise_id = data.franchise_id;
     // console.log('franquisia seleccionada '+ data);
@@ -138,7 +149,7 @@ const select_franchise = (data,id)=>{
 </script>
 <template>
     
-<div hidden>
+<div >
     <ButtonG class="btn-primary" @click="pre_data"> pre cargar datos </ButtonG>
 </div>
 <!-- formulario -->
@@ -232,7 +243,7 @@ const select_franchise = (data,id)=>{
                                             <i v-else class="bi bi-check-circle-fill"   style="font-size: 2rem; color: green;"></i>
                                         </div>
                                     </div>
-                                    <input class="form-range input_edit edit_form me-3" v-model="form_review.rating_main" id="data_"  type="range" min="0" max="9" step="1">
+                                    <input class="form-range input_edit edit_form me-3" v-model="form_review.rating_main" id="data_"  type="range" min="0" max="9" step="0.1">
                                     <p class="ms-4 fs-4">Calificacion: <label class="btn-dark btn ">{{ getLetter(form_review.rating_main) }} = {{ form_review.rating_main }}</label></p>
                     </div>
                     <div class="form">

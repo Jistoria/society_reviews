@@ -23,6 +23,7 @@ const route_remove = ()=>{
         <HeadCentral  class="main_pc_header" 
         :class="{' header_blue ': bg_ver.isChecked }"
         ></HeadCentral>
+
         <div class="main_pc">
             <slot  />
             <!-- Div sin nombre para colocar tu loader -->

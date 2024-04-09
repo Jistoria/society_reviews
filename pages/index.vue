@@ -1,8 +1,12 @@
 <script setup lang="ts">
 const loginP= LoginStore();
+
 const detail = async ()=>{
     await loginP.get_session_detail();
 }
+definePageMeta({
+  middleware:'check-filter'
+})
 </script>
 
 <template>
@@ -10,5 +14,10 @@ const detail = async ()=>{
 <NuxtLink to="/place/dashboard">
     voy a dashboard de admin
 </NuxtLink>
-<Main></Main>
+<div>
+{{ loginP.url }}
+</div>
+<div>
+  <Main></Main>
+</div>
 </template>

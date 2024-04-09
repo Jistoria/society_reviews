@@ -175,6 +175,9 @@ const handleVariable2 = (tags_name, tags_id) => {
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="d-flex p-3 mb-4 justify-content-end">
+                                        <ButtonG class="btn-primary" type="submit">Subir franquisia</ButtonG>
+                                    </div>
                             </div>
                         </form>
                     </div>
