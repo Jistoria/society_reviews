@@ -4,7 +4,7 @@ export const LoginStore = defineStore('loginP',{
             session:false,
             user:[ ],
             notificaciont_count:null,
-            url:null
+            url: 'http://127.0.0.1:8000',
         }
     ),
     getters:{
@@ -12,7 +12,7 @@ export const LoginStore = defineStore('loginP',{
     },
     actions:{
         async set_url(data){
-            this.url = data;
+            
         },
         async Login(formData){
             try {

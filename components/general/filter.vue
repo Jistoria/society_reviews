@@ -191,6 +191,10 @@ const delete_selected = (data,key)=>{
   if (index !== -1) {
     data_send[key].splice(index, 1);
   }
+  data_send_see();
+  //NonNullable siempre llega null
+  const NonNullable = null;
+  coverStore.cover_paginate(1,NonNullable,filteredPaginate)
 }
 const rating_base = ref('Administrador')
 const select_rating = (data)=>{
@@ -289,23 +293,31 @@ const delete_all = () =>{
         <div class="container-fluid">
            <!-- Button trigger modal -->
             <div class="row">
-                <div class="col-auto">
+                <div class="col-8" v-if="isDataSendNotEmpty">
                     <div v-if="isDataSendNotEmpty" class="filter_present ms-1">
                         <h3>Filtros actuales</h3>
-                        <div class="d-inline" v-for="(data_see,key) in data_send">
-                            <div class="d-inline" v-for="object in data_see">
-                                <button class="btn btn-dark me-2 mb-1 mt-1" @click="delete_selected(object,key)">
-                                    {{ object.name_tag }}
-                                    {{ object.name_autor }}
-                                    {{ object.name_content_type }}
-                                    {{ object.name }}
-                                    <i class="ms-2 bi bi-x-circle"></i>
-                                </button>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-9 ">
+                                    <div class="d-inline " v-for="(data_see,key) in data_send">
+                                        <div class="d-inline" v-for="object in data_see">
+                                            <button class="btn btn-dark me-2 mb-1 mt-1" @click="delete_selected(object,key)">
+                                                {{ object.name_tag }}
+                                                {{ object.name_autor }}
+                                                {{ object.name_content_type }}
+                                                {{ object.name }}
+                                                <i class="ms-2 bi bi-x-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <ButtonG  class="btn-danger ms-3 mt-0" @click='delete_all() ; coverStore.cover_paginate(1,NonNullable,filteredPaginate)'>
+                                            Eliminar filtros
+                                    </ButtonG>
+                                </div>
                             </div>
                         </div>
-                        <ButtonG  class="btn-danger ms-3 mt-0" @click='delete_all() ; coverStore.cover_paginate(1,NonNullable,filteredPaginate)'>
-                                Eliminar filtros
-                        </ButtonG>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -327,7 +339,7 @@ const delete_all = () =>{
                                         </form>
                                 </div>
 
-                                <div class="d-flex ">
+                                <div class="d-flex">
                                     <div v-for="(objeto, key) in buttons_sett" >
                                         <button type="button" class="btn  ms-2" @click="set_computed_data(objeto.slug)" :class="button_selected === objeto.slug ? 'btn-success' : 'btn-dark'">
                                             {{ objeto.nombre }}
@@ -371,8 +383,8 @@ const delete_all = () =>{
                                             </div>
                                             <!-- el de rating -->
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="" v-for="(filter_data, id) in case_filter" >
+                                    <div >
+                                        <div class="d-inline-block" v-for="(filter_data, id) in case_filter" >
                                                     <div v-if="button_selected == buttons_sett.var_1.slug">
                                                         <a  role="button" class="btn btn-info me-2 mt-2 mb-2" @click="select_filter(filter_data)">
                                                             {{ filter_data.name_tag }}
@@ -389,7 +401,7 @@ const delete_all = () =>{
                                         <h3>Datos seleccionados</h3>
                                         <div class="d-inline" v-for="(data_see,key) in data_send">
                                             <div class="d-inline" v-for="object in data_see">
-                                                <button class="btn btn-dark me-2 mt-2 mb-2" @click="delete_selected(object,key)">
+                                                <button class="btn btn-dark me-2 mt-2 mb-2" @click='delete_selected(object,key)'>
                                                     {{ object.name_tag }}
                                                     {{ object.name_autor }}
                                                     {{ object.name_content_type }}
@@ -411,7 +423,6 @@ const delete_all = () =>{
             </div>
         </div>
     </div>
-
 </template>
 <style>
 .base_search_filter{

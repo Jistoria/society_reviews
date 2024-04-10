@@ -3,7 +3,7 @@ export const TagsAd = defineStore('TagsAd',{
         {
             prueba:'tomo',
             tags:[],
-            url: null,
+            url: 'http://127.0.0.1:8000',
         }
     ),
     getters:{
@@ -11,8 +11,8 @@ export const TagsAd = defineStore('TagsAd',{
     },
     actions:{
         async set_url(data){
-            this.url = data;
-            console.log(this.url);
+            console.log(data);
+
         },
         async Tags_post(formdata){
             console.log(formdata);
@@ -34,7 +34,7 @@ export const TagsAd = defineStore('TagsAd',{
         },
         async Tags_get(){
             try {
-                const response = await $fetch(`${this.url}/api/tag`,{
+                const response = await $fetch(`http://127.0.0.1:8000/api/tag`,{
                     method: 'GET',
                     headers:{
                         'X-Requested-With': 'XMLHttpRequest',

@@ -56,7 +56,6 @@ const Logout = async ()=>{
 </script>
 <template>
     <div>
-        {{ rol.user }}
         <nav class="navbar navbar-expand-lg ">
             <div class="container-fluid">
                 <NuxtLink to="/">
@@ -66,15 +65,12 @@ const Logout = async ()=>{
                     <i :class="iconClass" ></i>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end mt-2" id="navbarSupportedContent">
-                    <div class="d-flex justify-content-end mb-2 mt-2">
-                        <ButtonBgChange></ButtonBgChange>
-                    </div>
                     <div>
                         <div class="d-flex justify-content-end">
                             <ul class="navbar-nav d-inline-block">
                                 <Login></Login>
                                 <div>
-                                    <!-- todo lo que tienes dentro de este head sera donde cambies para las notificaciones -->
+                                    <!-- todo lo que tienes dentro de este div sera donde cambies para las notificaciones -->
                                     <Button_g v-if="rol.session"  class="btn-outline-dark log">
                                         <i :class="IconU"></i> 
                                         {{ rol.user.name }}
